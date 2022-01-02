@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,7 @@ using Microsoft.OpenApi.Models;
 using SmartMath.Api.Auth.Configuration;
 using SmartMath.Api.Auth.Data;
 using SmartMath.Api.Auth.Models;
+using SmartMath.Api.Auth.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,36 +37,84 @@ namespace SmartMath.Api.Auth
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<JwtConfig>(Configuration.GetSection("JwtConfig"));
+            services.AddSingleton<JwtConfig>();
+            services.AddTransient<ITokenService, TokenService>();
+
             services.AddDbContext<AuthDbContext>(options =>
             {
                 options.UseNpgsql(Configuration["ConnectionStrings:AuthDbConnection"]);
             });
+
+            var key = Encoding.ASCII.GetBytes(Configuration["JwtConfig:Key"]);
+
+            var jwtValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = true,
+                RequireExpirationTime = false,
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero,
+                ValidAudience = "SMathIOSClient"
+            };
+
+            services.AddSingleton(jwtValidationParameters);
+
             services.AddAuthentication(options => {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(jwt => {
-                var key = Encoding.ASCII.GetBytes(Configuration["JwtConfig:Secret"]);
-
                 jwt.SaveToken = true;
-                jwt.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    RequireExpirationTime = false,
-                    ValidateLifetime = true
-                };
+                jwt.TokenValidationParameters = jwtValidationParameters;
             });
 
-            services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
-                            .AddEntityFrameworkStores<AuthDbContext>();
+            services.AddIdentity<User, AuthRole>(options => 
+            {
+                options.SignIn.RequireConfirmedAccount = true;
+                options.Password = new PasswordOptions
+                {
+                    RequireDigit = true,
+                    RequiredLength = 6,
+                    RequireLowercase = true,
+                    RequireUppercase = true,
+                    RequireNonAlphanumeric = false
+                };
+            }).AddEntityFrameworkStores<AuthDbContext>();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartMath.Api.Auth", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartMath.Api.Auth", Version = "v0.5" });
+                var securityScheme = new OpenApiSecurityScheme()
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT" // Optional
+                };
+
+                var securityRequirement = new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "bearerAuth"
+                            }
+                        },
+                        new string[] {}
+                    }
+                };
+
+                c.AddSecurityDefinition("bearerAuth", securityScheme);
+                c.AddSecurityRequirement(securityRequirement);
             });
         }
 
@@ -75,7 +125,7 @@ namespace SmartMath.Api.Auth
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SmartMath.Api.Auth v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SmartMath.Api.Auth v0.2"));
             }
 
             app.UseHttpsRedirection();

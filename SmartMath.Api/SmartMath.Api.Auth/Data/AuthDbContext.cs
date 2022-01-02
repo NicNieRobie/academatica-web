@@ -14,5 +14,7 @@ namespace SmartMath.Api.Auth.Data
         {
             Database.EnsureCreated();
         }
+
+        public DbSet<RefreshToken> UserRefreshTokens { get; set; }
     }
 }
