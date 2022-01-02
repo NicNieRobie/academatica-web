@@ -57,7 +57,7 @@ namespace SmartMath.Api.Auth.Services
                 IssuedAt = DateTime.UtcNow,
                 Issuer = authHostUrl,
                 Audience = "SMathIOSClient",
-                Expires = DateTime.UtcNow.AddSeconds(_jwtConfig.Lifespan),
+                Expires = DateTime.UtcNow.AddMinutes(_jwtConfig.Lifespan),
                 SigningCredentials = new SigningCredentials(secret, SecurityAlgorithms.HmacSha256Signature)
             });
 
