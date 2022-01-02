@@ -14,6 +14,7 @@ using Microsoft.OpenApi.Models;
 using SmartMath.Api.Auth.Configuration;
 using SmartMath.Api.Auth.Data;
 using SmartMath.Api.Auth.Models;
+using SmartMath.Api.Auth.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,9 @@ namespace SmartMath.Api.Auth
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<JwtConfig>(Configuration.GetSection("JwtConfig"));
+            services.AddSingleton<JwtConfig>();
+            services.AddTransient<ITokenService, TokenService>();
+
             services.AddDbContext<AuthDbContext>(options =>
             {
                 options.UseNpgsql(Configuration["ConnectionStrings:AuthDbConnection"]);
@@ -52,19 +56,31 @@ namespace SmartMath.Api.Auth
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
                     RequireExpirationTime = false,
-                    ValidateLifetime = true
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
                 };
             });
 
-            services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
-                            .AddEntityFrameworkStores<AuthDbContext>();
+            services.AddIdentity<User, AuthRole>(options => 
+            {
+                options.SignIn.RequireConfirmedAccount = true;
+                options.Password = new PasswordOptions
+                {
+                    RequireDigit = true,
+                    RequiredLength = 6,
+                    RequireLowercase = true,
+                    RequireUppercase = true,
+                    RequireNonAlphanumeric = false
+                };
+            }).AddEntityFrameworkStores<AuthDbContext>();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartMath.Api.Auth", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartMath.Api.Auth", Version = "v0.2" });
             });
         }
 
@@ -75,7 +91,7 @@ namespace SmartMath.Api.Auth
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SmartMath.Api.Auth v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SmartMath.Api.Auth v0.2"));
             }
 
             app.UseHttpsRedirection();
