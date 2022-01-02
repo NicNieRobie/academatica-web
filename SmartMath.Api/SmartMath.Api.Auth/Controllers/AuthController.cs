@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using SmartMath.Api.Auth.Configuration;
+using SmartMath.Api.Auth.Data;
 using SmartMath.Api.Auth.DTOs;
 using SmartMath.Api.Auth.Models;
 using SmartMath.Api.Auth.Services;
@@ -19,11 +21,19 @@ namespace SmartMath.Api.Auth.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly ITokenService _tokenService;
+        private readonly TokenValidationParameters _jwtValidationParameters;
+        private readonly AuthDbContext _authDbContext;
 
-        public AuthController(UserManager<User> userManager, ITokenService tokenService)
+        public AuthController(
+            UserManager<User> userManager, 
+            ITokenService tokenService, 
+            TokenValidationParameters jwtValidationParameters, 
+            AuthDbContext authDbContext)
         {
             _userManager = userManager;
             _tokenService = tokenService;
+            _jwtValidationParameters = jwtValidationParameters;
+            _authDbContext = authDbContext;
         }
 
         [HttpPost]
@@ -57,13 +67,13 @@ namespace SmartMath.Api.Auth.Controllers
 
                 if (userCreated.Succeeded)
                 {
-                    var accessToken = _tokenService.GenerateAccessToken(newUser);
+                    var response = await _tokenService.AuthWithToken(newUser);
 
                     return Ok(new RegistrationResponseDto()
                     {
                         Success = true,
-                        Token = accessToken,
-                        RefreshToken = ""
+                        Token = response.Token,
+                        RefreshToken = response.RefreshToken
                     });
                 }
 
@@ -108,13 +118,9 @@ namespace SmartMath.Api.Auth.Controllers
 
                 if (passwordIsCorrect)
                 {
-                    var jwtToken = _tokenService.GenerateAccessToken(registeredUser);
+                    var response = await _tokenService.AuthWithToken(registeredUser);
 
-                    return Ok(new AuthResponseDto
-                    {
-                        Success = true,
-                        Token = jwtToken
-                    });
+                    return Ok(response);
                 } else
                 {
                     return BadRequest(new AuthResponseDto
@@ -157,6 +163,43 @@ namespace SmartMath.Api.Auth.Controllers
             }
 
             return NoContent();
+        }
+
+        [HttpPost]
+        [Route("refresh")]
+        public async Task<IActionResult> Refresh([FromBody] RefreshRequestDto refreshRequestDto)
+        {
+            if (ModelState.IsValid)
+            {
+                var validationResults = await _tokenService.IsValidForRefresh(refreshRequestDto);
+
+                if (!validationResults.IsValid)
+                {
+                    return BadRequest(new AuthResponseDto
+                    {
+                        Success = false,
+                        Errors = new List<string>()
+                        {
+                            validationResults.Error
+                        }
+                    });
+                }
+
+                var user = await _userManager.FindByIdAsync(validationResults.InvalidatedToken.UserId.ToString());
+
+                var response = await _tokenService.AuthWithToken(user);
+
+                return Ok(response);
+            }
+
+            return BadRequest(new AuthResponseDto
+            {
+                Success = false,
+                Errors = new List<string>()
+                {
+                    "Invalid request payload"
+                }
+            });
         }
     }
 }
