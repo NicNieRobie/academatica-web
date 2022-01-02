@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using SmartMath.Api.Auth.Configuration;
 using SmartMath.Api.Auth.DTOs;
@@ -11,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace SmartMath.Api.Auth.Controllers
 {
-    [Route("api/[Controller]")]
+    [Route("api/auth")]
     [ApiController]
     public class AuthController : ControllerBase
     {
@@ -80,6 +82,81 @@ namespace SmartMath.Api.Auth.Controllers
                     "Invalid request payload"
                 }
             });
+        }
+
+        [HttpPost]
+        [Route("login")]
+        public async Task<IActionResult> Login([FromBody] AuthRequestDto authRequestDto)
+        {
+            if (ModelState.IsValid)
+            {
+                var registeredUser = await _userManager.FindByEmailAsync(authRequestDto.Email);
+
+                if (registeredUser == null)
+                {
+                    return BadRequest(new AuthResponseDto
+                    {
+                        Success = false,
+                        Errors = new List<string>
+                        {
+                            "User not found"
+                        }
+                    });
+                }
+
+                var passwordIsCorrect = await _userManager.CheckPasswordAsync(registeredUser, authRequestDto.Password);
+
+                if (passwordIsCorrect)
+                {
+                    var jwtToken = _tokenService.GenerateAccessToken(registeredUser);
+
+                    return Ok(new AuthResponseDto
+                    {
+                        Success = true,
+                        Token = jwtToken
+                    });
+                } else
+                {
+                    return BadRequest(new AuthResponseDto
+                    {
+                        Success = false,
+                        Errors = new List<string>
+                        {
+                            "Invalid password"
+                        }
+                    });
+                }
+            }
+
+            return BadRequest(new AuthResponseDto
+            {
+                Success = false,
+                Errors = new List<string>
+                {
+                    "Invalid request payload"
+                }
+            });
+        }
+
+        [HttpGet("verify")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> VerifyToken()
+        {
+            var userID = User.Claims.FirstOrDefault();
+
+            if (userID == null)
+            {
+                return Unauthorized();
+            }
+
+            var userExists = await _userManager.FindByIdAsync(userID.Value);
+
+            if (userExists == null)
+            {
+                return Unauthorized();
+            }
+
+            return NoContent();
         }
     }
 }

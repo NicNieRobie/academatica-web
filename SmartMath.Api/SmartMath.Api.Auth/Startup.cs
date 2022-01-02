@@ -43,21 +43,24 @@ namespace SmartMath.Api.Auth
             {
                 options.UseNpgsql(Configuration["ConnectionStrings:AuthDbConnection"]);
             });
+
+            var key = Encoding.ASCII.GetBytes(Configuration["JwtConfig:Key"]);
+
             services.AddAuthentication(options => {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(jwt => {
-                var key = Encoding.ASCII.GetBytes(Configuration["JwtConfig:Secret"]);
+                var key = Encoding.ASCII.GetBytes(Configuration["JwtConfig:Key"]);
 
                 jwt.SaveToken = true;
                 jwt.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
                     RequireExpirationTime = false,
                     ValidateLifetime = true,
                     ClockSkew = TimeSpan.Zero
@@ -80,7 +83,34 @@ namespace SmartMath.Api.Auth
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartMath.Api.Auth", Version = "v0.2" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "SmartMath.Api.Auth", Version = "v0.5" });
+                var securityScheme = new OpenApiSecurityScheme()
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT" // Optional
+                };
+
+                var securityRequirement = new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "bearerAuth"
+                            }
+                        },
+                        new string[] {}
+                    }
+                };
+
+                c.AddSecurityDefinition("bearerAuth", securityScheme);
+                c.AddSecurityRequirement(securityRequirement);
             });
         }
 
