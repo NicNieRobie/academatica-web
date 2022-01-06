@@ -1,4 +1,4 @@
-# SmartMath
+# Academatica
 School mathematics learning application for iOS, intended for use by school students of all ages.
 
 ## Main features (in progress)
