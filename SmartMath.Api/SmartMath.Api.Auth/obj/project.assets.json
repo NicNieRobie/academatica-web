@@ -434,6 +434,15 @@
           "build/Microsoft.VisualStudio.Azure.Containers.Tools.Targets.targets": {}
         }
       },
+      "Newtonsoft.Json/13.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        }
+      },
       "Npgsql/5.0.10": {
         "type": "package",
         "dependencies": {
@@ -580,6 +589,20 @@
             "assetType": "runtime",
             "rid": "win"
           }
+        }
+      },
+      "SmartMath.Api.Common/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "5.0.13",
+          "Microsoft.EntityFrameworkCore": "5.0.13"
+        },
+        "compile": {
+          "bin/placeholder/SmartMath.Api.Common.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/SmartMath.Api.Common.dll": {}
         }
       }
     }
@@ -1378,6 +1401,33 @@
         "tools/zh-Hant/Microsoft.VisualStudio.Containers.Tools.Tasks.resources.dll"
       ]
     },
+    "Newtonsoft.Json/13.0.1": {
+      "sha512": "ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A==",
+      "type": "package",
+      "path": "newtonsoft.json/13.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "lib/net20/Newtonsoft.Json.dll",
+        "lib/net20/Newtonsoft.Json.xml",
+        "lib/net35/Newtonsoft.Json.dll",
+        "lib/net35/Newtonsoft.Json.xml",
+        "lib/net40/Newtonsoft.Json.dll",
+        "lib/net40/Newtonsoft.Json.xml",
+        "lib/net45/Newtonsoft.Json.dll",
+        "lib/net45/Newtonsoft.Json.xml",
+        "lib/netstandard1.0/Newtonsoft.Json.dll",
+        "lib/netstandard1.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.3/Newtonsoft.Json.dll",
+        "lib/netstandard1.3/Newtonsoft.Json.xml",
+        "lib/netstandard2.0/Newtonsoft.Json.dll",
+        "lib/netstandard2.0/Newtonsoft.Json.xml",
+        "newtonsoft.json.13.0.1.nupkg.sha512",
+        "newtonsoft.json.nuspec",
+        "packageIcon.png"
+      ]
+    },
     "Npgsql/5.0.10": {
       "sha512": "3TB9le3lfu5Hc+LSHqMCVLcA+qUPg1enyM4+u0pMUBmNNGwc0sVPrnfnys2TVZIdkF8Aww/AZlnJHDsnEGqD0g==",
       "type": "package",
@@ -1722,6 +1772,11 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
+    },
+    "SmartMath.Api.Common/1.0.0": {
+      "type": "project",
+      "path": "../SmartMath.Api.DbContextLib/SmartMath.Api.Common.csproj",
+      "msbuildProject": "../SmartMath.Api.DbContextLib/SmartMath.Api.Common.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -1733,7 +1788,9 @@
       "Microsoft.EntityFrameworkCore.Tools >= 5.0.13",
       "Microsoft.Extensions.DependencyInjection >= 6.0.0",
       "Microsoft.VisualStudio.Azure.Containers.Tools.Targets >= 1.11.1",
+      "Newtonsoft.Json >= 13.0.1",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 5.0.10",
+      "SmartMath.Api.Common >= 1.0.0",
       "Swashbuckle.AspNetCore >= 5.6.3"
     ]
   },
@@ -1771,7 +1828,11 @@
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Vlad\\Desktop\\SmartMath repo\\SmartMath\\SmartMath.Api\\SmartMath.Api.DbContextLib\\SmartMath.Api.Common.csproj": {
+              "projectPath": "C:\\Users\\Vlad\\Desktop\\SmartMath repo\\SmartMath\\SmartMath.Api\\SmartMath.Api.DbContextLib\\SmartMath.Api.Common.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
@@ -1813,6 +1874,10 @@
           "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
             "target": "Package",
             "version": "[1.11.1, )"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[13.0.1, )"
           },
           "Npgsql.EntityFrameworkCore.PostgreSQL": {
             "target": "Package",

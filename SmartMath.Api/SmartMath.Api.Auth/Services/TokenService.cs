@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using SmartMath.Api.Auth.Configuration;
-using SmartMath.Api.Auth.Data;
 using SmartMath.Api.Auth.DTOs;
-using SmartMath.Api.Auth.Models;
+using SmartMath.Api.Auth.Services.Interfaces;
+using SmartMath.Api.Common.Data;
+using SmartMath.Api.Common.Models;
+using SmartMath.Api.Common.Models.Tokens;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -21,18 +21,15 @@ namespace SmartMath.Api.Auth.Services
     public class TokenService : ITokenService
     {
         private readonly JwtConfig _jwtConfig;
-        private readonly IHttpContextAccessor _httpContextAccessor;
-        private readonly AuthDbContext _authDbContext;
+        private readonly SmartMathDbContext _authDbContext;
         private readonly TokenValidationParameters _jwtValidationParameters;
 
         public TokenService(
-            IOptions<JwtConfig> options, 
-            IHttpContextAccessor httpContextAccessor, 
-            AuthDbContext authDbContext,
+            IOptions<JwtConfig> options,
+            SmartMathDbContext authDbContext,
             TokenValidationParameters jwtValidationParameters)
         {
             _jwtConfig = options.Value;
-            _httpContextAccessor = httpContextAccessor;
             _authDbContext = authDbContext;
             _jwtValidationParameters = jwtValidationParameters;
         }
@@ -41,8 +38,6 @@ namespace SmartMath.Api.Auth.Services
         {
             var jwtTokenHandler = new JwtSecurityTokenHandler();
             var secret = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtConfig.Key));
-
-            string authHostUrl = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host}";
 
             var token = jwtTokenHandler.CreateToken(new SecurityTokenDescriptor
             {
@@ -55,8 +50,8 @@ namespace SmartMath.Api.Auth.Services
                     new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString())
                 }),
                 IssuedAt = DateTime.UtcNow,
-                Issuer = authHostUrl,
-                Audience = "SMathIOSClient",
+                Issuer = "SmartMath.Api.Auth",
+                Audience = "SmartMath.Api",
                 Expires = DateTime.UtcNow.AddMinutes(_jwtConfig.Lifespan),
                 SigningCredentials = new SigningCredentials(secret, SecurityAlgorithms.HmacSha256Signature)
             });
@@ -72,7 +67,8 @@ namespace SmartMath.Api.Auth.Services
             {
                 Success = true,
                 Token = accessToken,
-                RefreshToken = refreshToken.Token
+                RefreshToken = refreshToken.Token,
+                UserId = user.Id
             };
         }
 
@@ -110,12 +106,13 @@ namespace SmartMath.Api.Auth.Services
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = _jwtValidationParameters.IssuerSigningKey,
-                    ValidateIssuer = false,
+                    ValidateIssuer = true,
                     ValidateAudience = true,
                     RequireExpirationTime = false,
                     ValidateLifetime = false,
                     ClockSkew = TimeSpan.Zero,
-                    ValidAudience = "SMathIOSClient"
+                    ValidAudience = "SmartMath.Api",
+                    ValidIssuer = "SmartMath.Api.Auth"
                 };
 
                 var jwt = jwtTokenHandler.ValidateToken(tokenRequestDto.AccessToken, jwtFormatValidationParameters, out var validatedJwt);

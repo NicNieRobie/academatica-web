@@ -2,12 +2,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using SmartMath.Api.Auth.Configuration;
-using SmartMath.Api.Auth.Data;
 using SmartMath.Api.Auth.DTOs;
-using SmartMath.Api.Auth.Models;
 using SmartMath.Api.Auth.Services;
+using SmartMath.Api.Auth.Services.Interfaces;
+using SmartMath.Api.Common.Data;
+using SmartMath.Api.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,19 +20,13 @@ namespace SmartMath.Api.Auth.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly ITokenService _tokenService;
-        private readonly TokenValidationParameters _jwtValidationParameters;
-        private readonly AuthDbContext _authDbContext;
+        private readonly SmartMathDbContext _smartMathDbContext;
 
-        public AuthController(
-            UserManager<User> userManager, 
-            ITokenService tokenService, 
-            TokenValidationParameters jwtValidationParameters, 
-            AuthDbContext authDbContext)
+        public AuthController(UserManager<User> userManager, ITokenService tokenService, SmartMathDbContext smartMathDbContext)
         {
             _userManager = userManager;
             _tokenService = tokenService;
-            _jwtValidationParameters = jwtValidationParameters;
-            _authDbContext = authDbContext;
+            _smartMathDbContext = smartMathDbContext;
         }
 
         [HttpPost]
@@ -67,13 +60,24 @@ namespace SmartMath.Api.Auth.Controllers
 
                 if (userCreated.Succeeded)
                 {
+                    _smartMathDbContext.UserStats.Add(new StatsEntry
+                    {
+                        UserId = newUser.Id,
+                        DaysStreak = 0,
+                        BuoysLeft = 5,
+                        LastClassFinishedAt = null,
+                        User = newUser,
+                        UserExp = 0
+                    });
+                    await _smartMathDbContext.SaveChangesAsync();
                     var response = await _tokenService.AuthWithToken(newUser);
 
                     return Ok(new RegistrationResponseDto()
                     {
                         Success = true,
                         Token = response.Token,
-                        RefreshToken = response.RefreshToken
+                        RefreshToken = response.RefreshToken,
+                        UserId = newUser.Id
                     });
                 }
 

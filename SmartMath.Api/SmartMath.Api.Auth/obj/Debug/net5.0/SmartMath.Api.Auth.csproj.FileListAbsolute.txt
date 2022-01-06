@@ -106,3 +106,7 @@ C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Auth\
 C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Auth\obj\Debug\net5.0\SmartMath.Api.Auth.genruntimeconfig.cache
 C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Auth\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Auth\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Auth\bin\Debug\net5.0\Newtonsoft.Json.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Auth\bin\Debug\net5.0\SmartMath.Api.Common.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Auth\bin\Debug\net5.0\SmartMath.Api.Common.pdb
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Auth\obj\Debug\net5.0\SmartMath.Api.Auth.csproj.CopyComplete

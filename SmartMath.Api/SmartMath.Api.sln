@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartMath.Api.Auth", "SmartMath.Api.Auth\SmartMath.Api.Auth.csproj", "{50C32789-0C4B-4D3A-94A1-0BD7682EF278}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartMath.Api.Auth", "SmartMath.Api.Auth\SmartMath.Api.Auth.csproj", "{50C32789-0C4B-4D3A-94A1-0BD7682EF278}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartMath.Api.Common", "SmartMath.Api.DbContextLib\SmartMath.Api.Common.csproj", "{2813C589-E429-47A2-815C-9A869CAA72E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmartMath.Api.Users", "SmartMath.Api.Users\SmartMath.Api.Users.csproj", "{AC1FFA5A-5C4F-4E4F-AC43-1B5CEA31B0B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{50C32789-0C4B-4D3A-94A1-0BD7682EF278}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{50C32789-0C4B-4D3A-94A1-0BD7682EF278}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{50C32789-0C4B-4D3A-94A1-0BD7682EF278}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2813C589-E429-47A2-815C-9A869CAA72E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2813C589-E429-47A2-815C-9A869CAA72E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2813C589-E429-47A2-815C-9A869CAA72E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2813C589-E429-47A2-815C-9A869CAA72E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC1FFA5A-5C4F-4E4F-AC43-1B5CEA31B0B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC1FFA5A-5C4F-4E4F-AC43-1B5CEA31B0B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC1FFA5A-5C4F-4E4F-AC43-1B5CEA31B0B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC1FFA5A-5C4F-4E4F-AC43-1B5CEA31B0B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
