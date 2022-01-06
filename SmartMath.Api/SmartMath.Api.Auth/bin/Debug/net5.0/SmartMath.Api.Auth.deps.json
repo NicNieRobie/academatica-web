@@ -40,7 +40,9 @@
           "Microsoft.EntityFrameworkCore.Tools": "5.0.13",
           "Microsoft.Extensions.DependencyInjection": "6.0.0",
           "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": "1.11.1",
+          "Newtonsoft.Json": "13.0.1",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "5.0.10",
+          "SmartMath.Api.Common": "1.0.0",
           "Swashbuckle.AspNetCore": "5.6.3",
           "Microsoft.AspNetCore.Antiforgery": "5.0.0.0",
           "Microsoft.AspNetCore.Authentication.Abstractions": "5.0.0.0",
@@ -669,6 +671,17 @@
         }
       },
       "Microsoft.VisualStudio.Azure.Containers.Tools.Targets/1.11.1": {},
+      "Newtonsoft.Json/13.0.1": {
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "13.0.0.0",
+            "fileVersion": "13.0.1.25517"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        }
+      },
       "Npgsql/5.0.10": {
         "dependencies": {
           "System.Runtime.CompilerServices.Unsafe": "6.0.0"
@@ -787,6 +800,18 @@
         }
       },
       "System.Security.Cryptography.Cng/4.5.0": {},
+      "SmartMath.Api.Common/1.0.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "5.0.13",
+          "Microsoft.EntityFrameworkCore": "5.0.13"
+        },
+        "runtime": {
+          "SmartMath.Api.Common.dll": {}
+        },
+        "compile": {
+          "SmartMath.Api.Common.dll": {}
+        }
+      },
       "Microsoft.AspNetCore.Antiforgery/5.0.0.0": {
         "compile": {
           "Microsoft.AspNetCore.Antiforgery.dll": {}
@@ -2677,6 +2702,13 @@
       "path": "microsoft.visualstudio.azure.containers.tools.targets/1.11.1",
       "hashPath": "microsoft.visualstudio.azure.containers.tools.targets.1.11.1.nupkg.sha512"
     },
+    "Newtonsoft.Json/13.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A==",
+      "path": "newtonsoft.json/13.0.1",
+      "hashPath": "newtonsoft.json.13.0.1.nupkg.sha512"
+    },
     "Npgsql/5.0.10": {
       "type": "package",
       "serviceable": true,
@@ -2760,6 +2792,11 @@
       "sha512": "sha512-WG3r7EyjUe9CMPFSs6bty5doUqT+q9pbI80hlNzo2SkPkZ4VTuZkGWjpp77JB8+uaL4DFPRdBsAY+DX3dBK92A==",
       "path": "system.security.cryptography.cng/4.5.0",
       "hashPath": "system.security.cryptography.cng.4.5.0.nupkg.sha512"
+    },
+    "SmartMath.Api.Common/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "Microsoft.AspNetCore.Antiforgery/5.0.0.0": {
       "type": "referenceassembly",

@@ -9,18 +9,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SmartMath.Api.Auth.Configuration;
-using SmartMath.Api.Auth.Data;
-using SmartMath.Api.Auth.Models;
 using SmartMath.Api.Auth.Services;
+using SmartMath.Api.Auth.Services.Interfaces;
+using SmartMath.Api.Common.Data;
+using SmartMath.Api.Common.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SmartMath.Api.Auth
 {
@@ -37,12 +34,13 @@ namespace SmartMath.Api.Auth
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<JwtConfig>(Configuration.GetSection("JwtConfig"));
+            services.Configure<FacebookAuthConfig>(Configuration.GetSection("FacebookAuthConfig"));
             services.AddSingleton<JwtConfig>();
             services.AddTransient<ITokenService, TokenService>();
 
-            services.AddDbContext<AuthDbContext>(options =>
+            services.AddDbContext<SmartMathDbContext>(options =>
             {
-                options.UseNpgsql(Configuration["ConnectionStrings:AuthDbConnection"]);
+                options.UseNpgsql(Configuration["ConnectionStrings:AuthDbConnection"], b => b.MigrationsAssembly("SmartMath.Api.Auth"));
             });
 
             var key = Encoding.ASCII.GetBytes(Configuration["JwtConfig:Key"]);
@@ -51,12 +49,12 @@ namespace SmartMath.Api.Auth
             {
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(key),
-                ValidateIssuer = false,
-                ValidateAudience = true,
+                ValidateIssuer = true,
+                ValidateAudience = false,
                 RequireExpirationTime = false,
                 ValidateLifetime = true,
-                ClockSkew = TimeSpan.Zero,
-                ValidAudience = "SMathIOSClient"
+                ValidIssuer = Configuration["JwtConfig:ValidIssuer"],
+                ClockSkew = TimeSpan.Zero
             };
 
             services.AddSingleton(jwtValidationParameters);
@@ -71,7 +69,7 @@ namespace SmartMath.Api.Auth
                 jwt.TokenValidationParameters = jwtValidationParameters;
             });
 
-            services.AddIdentity<User, AuthRole>(options => 
+            services.AddIdentity<User, SmartMathRole>(options => 
             {
                 options.SignIn.RequireConfirmedAccount = true;
                 options.Password = new PasswordOptions
@@ -82,7 +80,7 @@ namespace SmartMath.Api.Auth
                     RequireUppercase = true,
                     RequireNonAlphanumeric = false
                 };
-            }).AddEntityFrameworkStores<AuthDbContext>();
+            }).AddEntityFrameworkStores<SmartMathDbContext>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
