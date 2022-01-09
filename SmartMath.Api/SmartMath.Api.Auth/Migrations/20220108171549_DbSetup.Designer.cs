@@ -10,7 +10,7 @@ using SmartMath.Api.Common.Data;
 namespace SmartMath.Api.Auth.Migrations
 {
     [DbContext(typeof(SmartMathDbContext))]
-    [Migration("20220105170704_DbSetup")]
+    [Migration("20220108171549_DbSetup")]
     partial class DbSetup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -165,6 +165,9 @@ namespace SmartMath.Api.Auth.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("PrecedingTierId")
+                        .HasColumnType("uuid");
+
                     b.Property<long>("ProblemNum")
                         .HasColumnType("bigint");
 
@@ -179,6 +182,8 @@ namespace SmartMath.Api.Auth.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PrecedingTierId");
 
                     b.HasIndex("TierId");
 
@@ -271,7 +276,12 @@ namespace SmartMath.Api.Auth.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("PrecedingTierId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("PrecedingTierId");
 
                     b.ToTable("Tiers");
                 });
@@ -323,14 +333,22 @@ namespace SmartMath.Api.Auth.Migrations
                     b.Property<string>("ImageUrl")
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsAlgebraTopic")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<Guid?>("PrecedingTopicId")
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("TierId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PrecedingTopicId");
 
                     b.HasIndex("TierId");
 
@@ -454,6 +472,42 @@ namespace SmartMath.Api.Auth.Migrations
                     b.ToTable("UserClasses");
                 });
 
+            modelBuilder.Entity("SmartMath.Api.Common.Models.UserTier", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TierId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CompletedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("UserId", "TierId");
+
+                    b.HasIndex("TierId");
+
+                    b.ToTable("UserTier");
+                });
+
+            modelBuilder.Entity("SmartMath.Api.Common.Models.UserTopic", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("TopicId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CompletedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.HasKey("UserId", "TopicId");
+
+                    b.HasIndex("TopicId");
+
+                    b.ToTable("UserTopic");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
                     b.HasOne("SmartMath.Api.Common.Models.SmartMathRole", null)
@@ -507,6 +561,10 @@ namespace SmartMath.Api.Auth.Migrations
 
             modelBuilder.Entity("SmartMath.Api.Common.Models.Class", b =>
                 {
+                    b.HasOne("SmartMath.Api.Common.Models.Tier", "PrecedingTier")
+                        .WithMany()
+                        .HasForeignKey("PrecedingTierId");
+
                     b.HasOne("SmartMath.Api.Common.Models.Tier", "Tier")
                         .WithMany()
                         .HasForeignKey("TierId")
@@ -518,6 +576,8 @@ namespace SmartMath.Api.Auth.Migrations
                         .HasForeignKey("TopicId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("PrecedingTier");
 
                     b.Navigation("Tier");
 
@@ -535,6 +595,15 @@ namespace SmartMath.Api.Auth.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("SmartMath.Api.Common.Models.Tier", b =>
+                {
+                    b.HasOne("SmartMath.Api.Common.Models.Tier", "PrecedingTier")
+                        .WithMany()
+                        .HasForeignKey("PrecedingTierId");
+
+                    b.Navigation("PrecedingTier");
+                });
+
             modelBuilder.Entity("SmartMath.Api.Common.Models.Tokens.RefreshToken", b =>
                 {
                     b.HasOne("SmartMath.Api.Common.Models.User", "User")
@@ -548,11 +617,17 @@ namespace SmartMath.Api.Auth.Migrations
 
             modelBuilder.Entity("SmartMath.Api.Common.Models.Topic", b =>
                 {
+                    b.HasOne("SmartMath.Api.Common.Models.Tier", "PrecedingTopic")
+                        .WithMany()
+                        .HasForeignKey("PrecedingTopicId");
+
                     b.HasOne("SmartMath.Api.Common.Models.Tier", "Tier")
-                        .WithMany("Topics")
+                        .WithMany()
                         .HasForeignKey("TierId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("PrecedingTopic");
 
                     b.Navigation("Tier");
                 });
@@ -595,9 +670,42 @@ namespace SmartMath.Api.Auth.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SmartMath.Api.Common.Models.Tier", b =>
+            modelBuilder.Entity("SmartMath.Api.Common.Models.UserTier", b =>
                 {
-                    b.Navigation("Topics");
+                    b.HasOne("SmartMath.Api.Common.Models.Tier", "Tier")
+                        .WithMany()
+                        .HasForeignKey("TierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SmartMath.Api.Common.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tier");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("SmartMath.Api.Common.Models.UserTopic", b =>
+                {
+                    b.HasOne("SmartMath.Api.Common.Models.Topic", "Topic")
+                        .WithMany()
+                        .HasForeignKey("TopicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SmartMath.Api.Common.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Topic");
+
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }

@@ -19,6 +19,9 @@ namespace SmartMath.Api.Common.Models
         [Required]
         public uint ProblemNum { get; set; }
 
+        public Guid? PrecedingTierId { get; set; }
+        public Tier PrecedingTier { get; set; }
+
         [Required]
         public Guid TierId { get; set; }
         public Tier Tier { get; set; }

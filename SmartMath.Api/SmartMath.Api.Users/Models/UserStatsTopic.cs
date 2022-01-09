@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SmartMath.Api.Common.Models
+namespace SmartMath.Api.Users.Models
 {
-    public class Topic
+    public class UserStatsTierTopic
     {
         [Required]
         public Guid Id { get; set; }
@@ -14,11 +14,6 @@ namespace SmartMath.Api.Common.Models
         [Required]
         public bool IsAlgebraTopic { get; set; }
         public string ImageUrl { get; set; }
-        public Guid? PrecedingTopicId { get; set; }
-        [Required]
-        public Guid TierId { get; set; }
-
-        public Tier PrecedingTopic { get; set; }
-        public Tier Tier { get; set; }
+        public bool IsFinished { get; set; }
     }
 }

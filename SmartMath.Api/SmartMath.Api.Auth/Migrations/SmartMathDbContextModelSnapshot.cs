@@ -163,6 +163,9 @@ namespace SmartMath.Api.Auth.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("PrecedingTierId")
+                        .HasColumnType("uuid");
+
                     b.Property<long>("ProblemNum")
                         .HasColumnType("bigint");
 
@@ -177,6 +180,8 @@ namespace SmartMath.Api.Auth.Migrations
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PrecedingTierId");
 
                     b.HasIndex("TierId");
 
@@ -269,7 +274,12 @@ namespace SmartMath.Api.Auth.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("PrecedingTierId")
+                        .HasColumnType("uuid");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("PrecedingTierId");
 
                     b.ToTable("Tiers");
                 });
@@ -328,10 +338,15 @@ namespace SmartMath.Api.Auth.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("PrecedingTopicId")
+                        .HasColumnType("uuid");
+
                     b.Property<Guid>("TierId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PrecedingTopicId");
 
                     b.HasIndex("TierId");
 
@@ -544,6 +559,10 @@ namespace SmartMath.Api.Auth.Migrations
 
             modelBuilder.Entity("SmartMath.Api.Common.Models.Class", b =>
                 {
+                    b.HasOne("SmartMath.Api.Common.Models.Tier", "PrecedingTier")
+                        .WithMany()
+                        .HasForeignKey("PrecedingTierId");
+
                     b.HasOne("SmartMath.Api.Common.Models.Tier", "Tier")
                         .WithMany()
                         .HasForeignKey("TierId")
@@ -555,6 +574,8 @@ namespace SmartMath.Api.Auth.Migrations
                         .HasForeignKey("TopicId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("PrecedingTier");
 
                     b.Navigation("Tier");
 
@@ -572,6 +593,15 @@ namespace SmartMath.Api.Auth.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("SmartMath.Api.Common.Models.Tier", b =>
+                {
+                    b.HasOne("SmartMath.Api.Common.Models.Tier", "PrecedingTier")
+                        .WithMany()
+                        .HasForeignKey("PrecedingTierId");
+
+                    b.Navigation("PrecedingTier");
+                });
+
             modelBuilder.Entity("SmartMath.Api.Common.Models.Tokens.RefreshToken", b =>
                 {
                     b.HasOne("SmartMath.Api.Common.Models.User", "User")
@@ -585,11 +615,17 @@ namespace SmartMath.Api.Auth.Migrations
 
             modelBuilder.Entity("SmartMath.Api.Common.Models.Topic", b =>
                 {
+                    b.HasOne("SmartMath.Api.Common.Models.Tier", "PrecedingTopic")
+                        .WithMany()
+                        .HasForeignKey("PrecedingTopicId");
+
                     b.HasOne("SmartMath.Api.Common.Models.Tier", "Tier")
-                        .WithMany("Topics")
+                        .WithMany()
                         .HasForeignKey("TierId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("PrecedingTopic");
 
                     b.Navigation("Tier");
                 });
@@ -668,11 +704,6 @@ namespace SmartMath.Api.Auth.Migrations
                     b.Navigation("Topic");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("SmartMath.Api.Common.Models.Tier", b =>
-                {
-                    b.Navigation("Topics");
                 });
 #pragma warning restore 612, 618
         }
