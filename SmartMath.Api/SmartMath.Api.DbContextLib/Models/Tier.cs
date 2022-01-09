@@ -13,7 +13,8 @@ namespace SmartMath.Api.Common.Models
         [Required]
         public string Description { get; set; }
         public string ImageUrl { get; set; }
+        public Guid? PrecedingTierId { get; set; }
 
-        public List<Topic> Topics { get; set; } = new List<Topic>();
+        public Tier PrecedingTier { get; set; }
     }
 }

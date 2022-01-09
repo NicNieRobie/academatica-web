@@ -21,8 +21,8 @@ namespace SmartMath.Api.Common.Data
 
         public DbSet<UserAchievement> UserAchievements { get; set; }
         public DbSet<UserClass> UserClasses { get; set; }
-        public DbSet<UserTopic> UserTopics { get; set; }
-        public DbSet<UserTier> UserTiers { get; set; }
+        public DbSet<UserTopic> UserTopic { get; set; }
+        public DbSet<UserTier> UserTier { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

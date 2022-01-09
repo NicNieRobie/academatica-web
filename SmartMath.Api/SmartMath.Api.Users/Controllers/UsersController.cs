@@ -103,6 +103,7 @@ namespace SmartMath.Api.Users.Controllers
 
         [HttpGet]
         [Route("course/tiers")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetUserTierStats([FromQuery(Name = "userId")] Guid userId)
         {
             var foundUser = await _smartMathDbContext.Users.FindAsync(userId);
@@ -116,12 +117,28 @@ namespace SmartMath.Api.Users.Controllers
                 });
             }
 
-            var userTiersIds = _smartMathDbContext.UserTiers.Where(x => x.UserId == foundUser.Id).Select(x => x.TierId).ToList();
+            var userTiersIds = _smartMathDbContext.UserTier.Where(x => x.UserId == userId).Select(x => x.TierId).ToList();
 
             List<UserStatsTier> userTiers = new List<UserStatsTier>();
 
-            foreach (var entry in _smartMathDbContext.Tiers)
+            var tiers = _smartMathDbContext.Tiers.ToList();
+
+            foreach (var entry in tiers)
             {
+                var tierTopics = _smartMathDbContext.UserTopic.Join(
+                    _smartMathDbContext.Topics,
+                    ut => ut.TopicId,
+                    t => t.Id,
+                    (ut, t) => new
+                    {
+                        Id = t.Id,
+                        TierId = t.TierId,
+                        UserId = ut.UserId
+                    }).ToList();
+
+                double finishedTopicsCount = tierTopics.Where(x => x.UserId == userId && x.TierId == entry.Id).Count();
+                var topicsCount = _smartMathDbContext.Topics.Where(x => x.TierId == entry.Id).Count();
+
                 userTiers.Add(new UserStatsTier
                 {
                     Id = entry.Id,
@@ -129,7 +146,7 @@ namespace SmartMath.Api.Users.Controllers
                     Description = entry.Description,
                     ImageUrl = entry.ImageUrl,
                     IsFinished = userTiersIds.Contains(entry.Id),
-                    Topics = entry.Topics
+                    FinishedPercentage = Convert.ToInt32(finishedTopicsCount / topicsCount * 100)
                 });
             }
 
@@ -137,6 +154,51 @@ namespace SmartMath.Api.Users.Controllers
             {
                 Success = true,
                 TierStats = userTiers
+            };
+
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [Route("course/topics")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> GetUserTierTopicsStats(
+            [FromQuery(Name = "userId")] Guid userId, 
+            [FromQuery(Name = "tierId")] Guid tierId, 
+            [FromQuery(Name = "isAlgebra")] bool isAlgebra)
+        {
+            var foundUser = await _smartMathDbContext.Users.FindAsync(userId);
+
+            if (foundUser == null)
+            {
+                return BadRequest(new GetUserTierTopicsResponseDbo()
+                {
+                    Success = false,
+                    Error = "Invalid user ID"
+                });
+            }
+
+            var userTopicIds = _smartMathDbContext.UserTopic.Where(x => x.UserId == foundUser.Id).Select(x => x.TopicId).ToList();
+
+            List<UserStatsTierTopic> userTopics = new List<UserStatsTierTopic>();
+
+            foreach (var entry in _smartMathDbContext.Topics.Where(x => x.TierId == tierId && x.IsAlgebraTopic == isAlgebra).ToList())
+            {
+                userTopics.Add(new UserStatsTierTopic
+                {
+                    Id = entry.Id,
+                    Description = entry.Description,
+                    Name = entry.Name,
+                    ImageUrl = entry.ImageUrl,
+                    IsAlgebraTopic = entry.IsAlgebraTopic,
+                    IsFinished = userTopicIds.Contains(entry.Id)
+                });
+            }
+
+            var response = new GetUserTierTopicsResponseDbo()
+            {
+                Success = true,
+                TopicStats = userTopics
             };
 
             return Ok(response);

@@ -85,11 +85,18 @@ namespace SmartMath.Api.Auth.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
-                    ImageUrl = table.Column<string>(type: "text", nullable: true)
+                    ImageUrl = table.Column<string>(type: "text", nullable: true),
+                    PrecedingTierId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tiers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tiers_Tiers_PrecedingTierId",
+                        column: x => x.PrecedingTierId,
+                        principalTable: "Tiers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -275,14 +282,47 @@ namespace SmartMath.Api.Auth.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
+                    IsAlgebraTopic = table.Column<bool>(type: "boolean", nullable: false),
                     ImageUrl = table.Column<string>(type: "text", nullable: true),
+                    PrecedingTopicId = table.Column<Guid>(type: "uuid", nullable: true),
                     TierId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Topics", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Topics_Tiers_PrecedingTopicId",
+                        column: x => x.PrecedingTopicId,
+                        principalTable: "Tiers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Topics_Tiers_TierId",
+                        column: x => x.TierId,
+                        principalTable: "Tiers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserTier",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TierId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CompletedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserTier", x => new { x.UserId, x.TierId });
+                    table.ForeignKey(
+                        name: "FK_UserTier_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserTier_Tiers_TierId",
                         column: x => x.TierId,
                         principalTable: "Tiers",
                         principalColumn: "Id",
@@ -300,12 +340,19 @@ namespace SmartMath.Api.Auth.Migrations
                     ImageUrl = table.Column<string>(type: "text", nullable: true),
                     TheoryUrl = table.Column<string>(type: "text", nullable: false),
                     ProblemNum = table.Column<long>(type: "bigint", nullable: false),
+                    PrecedingTierId = table.Column<Guid>(type: "uuid", nullable: true),
                     TierId = table.Column<Guid>(type: "uuid", nullable: false),
                     TopicId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Classes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Classes_Tiers_PrecedingTierId",
+                        column: x => x.PrecedingTierId,
+                        principalTable: "Tiers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Classes_Tiers_TierId",
                         column: x => x.TierId,
@@ -314,6 +361,31 @@ namespace SmartMath.Api.Auth.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Classes_Topics_TopicId",
+                        column: x => x.TopicId,
+                        principalTable: "Topics",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserTopic",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    TopicId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CompletedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserTopic", x => new { x.UserId, x.TopicId });
+                    table.ForeignKey(
+                        name: "FK_UserTopic_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserTopic_Topics_TopicId",
                         column: x => x.TopicId,
                         principalTable: "Topics",
                         principalColumn: "Id",
@@ -383,6 +455,11 @@ namespace SmartMath.Api.Auth.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Classes_PrecedingTierId",
+                table: "Classes",
+                column: "PrecedingTierId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Classes_TierId",
                 table: "Classes",
                 column: "TierId");
@@ -391,6 +468,16 @@ namespace SmartMath.Api.Auth.Migrations
                 name: "IX_Classes_TopicId",
                 table: "Classes",
                 column: "TopicId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tiers_PrecedingTierId",
+                table: "Tiers",
+                column: "PrecedingTierId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Topics_PrecedingTopicId",
+                table: "Topics",
+                column: "PrecedingTopicId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Topics_TierId",
@@ -411,6 +498,16 @@ namespace SmartMath.Api.Auth.Migrations
                 name: "IX_UserRefreshTokens_UserId",
                 table: "UserRefreshTokens",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserTier_TierId",
+                table: "UserTier",
+                column: "TierId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserTopic_TopicId",
+                table: "UserTopic",
+                column: "TopicId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -444,6 +541,12 @@ namespace SmartMath.Api.Auth.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserStats");
+
+            migrationBuilder.DropTable(
+                name: "UserTier");
+
+            migrationBuilder.DropTable(
+                name: "UserTopic");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
