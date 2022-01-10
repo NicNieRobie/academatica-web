@@ -1,0 +1,12 @@
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.DbContextLib\bin\Debug\net5.0\Academatica.Api.Common.deps.json
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.DbContextLib\bin\Debug\net5.0\Academatica.Api.Common.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.DbContextLib\bin\Debug\net5.0\ref\Academatica.Api.Common.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.DbContextLib\bin\Debug\net5.0\Academatica.Api.Common.pdb
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.DbContextLib\obj\Debug\net5.0\Academatica.Api.Common.csprojAssemblyReference.cache
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.DbContextLib\obj\Debug\net5.0\Academatica.Api.Common.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.DbContextLib\obj\Debug\net5.0\Academatica.Api.Common.AssemblyInfoInputs.cache
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.DbContextLib\obj\Debug\net5.0\Academatica.Api.Common.AssemblyInfo.cs
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.DbContextLib\obj\Debug\net5.0\Academatica.Api.Common.csproj.CoreCompileInputs.cache
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.DbContextLib\obj\Debug\net5.0\Academatica.Api.Common.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.DbContextLib\obj\Debug\net5.0\ref\Academatica.Api.Common.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.DbContextLib\obj\Debug\net5.0\Academatica.Api.Common.pdb

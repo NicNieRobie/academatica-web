@@ -1,0 +1,99 @@
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\appsettings.Development.json
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\appsettings.json
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\SmartMath.Api.Users.exe
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\SmartMath.Api.Users.deps.json
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\SmartMath.Api.Users.runtimeconfig.json
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\SmartMath.Api.Users.runtimeconfig.dev.json
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\SmartMath.Api.Users.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\ref\SmartMath.Api.Users.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\SmartMath.Api.Users.pdb
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.OpenApi.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Npgsql.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\System.Diagnostics.DiagnosticSource.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\SmartMath.Api.Users.csproj.AssemblyReference.cache
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\SmartMath.Api.Users.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\SmartMath.Api.Users.AssemblyInfoInputs.cache
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\SmartMath.Api.Users.AssemblyInfo.cs
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\SmartMath.Api.Users.csproj.CoreCompileInputs.cache
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\SmartMath.Api.Users.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\SmartMath.Api.Users.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\scopedcss\bundle\SmartMath.Api.Users.styles.css
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\staticwebassets\SmartMath.Api.Users.StaticWebAssets.Manifest.cache
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\SmartMath.Api.Users.RazorTargetAssemblyInfo.cache
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\SmartMath.Api.Users.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\ref\SmartMath.Api.Users.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\SmartMath.Api.Users.pdb
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\SmartMath.Api.Users.genruntimeconfig.cache
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\SmartMath.Api.Common.dll
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\SmartMath.Api.Common.pdb
+C:\Users\Vlad\Desktop\SmartMath repo\SmartMath\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\SmartMath.Api.Users.csproj.CopyComplete
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\appsettings.Development.json
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\appsettings.json
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\SmartMath.Api.Users.exe
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\SmartMath.Api.Users.deps.json
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\SmartMath.Api.Users.runtimeconfig.json
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\SmartMath.Api.Users.runtimeconfig.dev.json
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\SmartMath.Api.Users.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\ref\SmartMath.Api.Users.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\SmartMath.Api.Users.pdb
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Microsoft.OpenApi.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Npgsql.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\System.Diagnostics.DiagnosticSource.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\System.IdentityModel.Tokens.Jwt.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\SmartMath.Api.Common.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\bin\Debug\net5.0\SmartMath.Api.Common.pdb
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\SmartMath.Api.Users.csprojAssemblyReference.cache
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\SmartMath.Api.Users.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\SmartMath.Api.Users.AssemblyInfoInputs.cache
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\SmartMath.Api.Users.AssemblyInfo.cs
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\SmartMath.Api.Users.csproj.CoreCompileInputs.cache
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\SmartMath.Api.Users.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\SmartMath.Api.Users.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\staticwebassets\SmartMath.Api.Users.StaticWebAssets.Manifest.cache
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\staticwebassets\SmartMath.Api.Users.StaticWebAssets.xml
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\scopedcss\bundle\SmartMath.Api.Users.styles.css
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\SmartMath.Api.Users.RazorTargetAssemblyInfo.cache
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\SmartMath.Api.Users.csproj.CopyComplete
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\SmartMath.Api.Users.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\ref\SmartMath.Api.Users.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\SmartMath.Api.Users.pdb
+C:\Users\Vlad\Desktop\Academatica\Academatica\SmartMath.Api\SmartMath.Api.Users\obj\Debug\net5.0\SmartMath.Api.Users.genruntimeconfig.cache
