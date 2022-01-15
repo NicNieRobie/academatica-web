@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SmartMath.Api.Common.Models
+namespace Academatica.Api.Common.Models
 {
     public class UserTier
     {

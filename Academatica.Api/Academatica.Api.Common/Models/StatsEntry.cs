@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SmartMath.Api.Common.Models
+namespace Academatica.Api.Common.Models
 {
     public class StatsEntry
     {
