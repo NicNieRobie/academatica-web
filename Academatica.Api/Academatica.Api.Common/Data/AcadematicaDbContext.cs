@@ -21,6 +21,7 @@ namespace Academatica.Api.Common.Data
         public DbSet<UserClass> UserClasses { get; set; }
         public DbSet<UserTopic> UserTopic { get; set; }
         public DbSet<UserTier> UserTier { get; set; }
+        public DbSet<UserTopicMistake> UserTopicMistakes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -40,6 +41,9 @@ namespace Academatica.Api.Common.Data
 
             modelBuilder
                 .Entity<UserTier>().HasKey(u => new { u.UserId, u.TierId });
+
+            modelBuilder
+                .Entity<UserTopicMistake>().HasKey(u => new { u.UserId, u.TopicId });
         }
     }
 }

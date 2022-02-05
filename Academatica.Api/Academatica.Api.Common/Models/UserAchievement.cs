@@ -11,6 +11,8 @@ namespace Academatica.Api.Common.Models
         public Guid AchievementId { get; set; }
         [Required]
         public DateTime AchievedAt { get; set; }
+        [Required]
+        public ulong AchievedAmount { get; set; }
 
         public User User { get; set; }
         public Achievement Achievement { get; set; }

@@ -39,6 +39,10 @@ namespace Academatica.Api.Auth
                         JwtClaimTypes.Subject,
                         JwtClaimTypes.Name,
                         JwtClaimTypes.Role
+                    },
+                    Scopes =
+                    {
+                        _configurationManager.ApiName
                     }
                 }
             };

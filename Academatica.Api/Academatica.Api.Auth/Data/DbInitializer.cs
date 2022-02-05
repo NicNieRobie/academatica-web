@@ -46,8 +46,6 @@ namespace Academatica.Api.Auth.Data
 
         public void InitializeDb()
         {
-            _dbContext.Database.EnsureDeleted();
-
             _dbContext.Database.Migrate();
             _configurationDbContext.Database.Migrate();
             _grantDbContext.Database.Migrate();

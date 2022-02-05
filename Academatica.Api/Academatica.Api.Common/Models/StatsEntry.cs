@@ -17,7 +17,6 @@ namespace Academatica.Api.Common.Models
         public uint BuoysLeft { get; set; }
         [Required]
         public ulong DaysStreak { get; set; }
-        public DateTime? LastClassFinishedAt { get; set; }
 
         public User User { get; set; }
     }

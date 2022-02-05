@@ -12,6 +12,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Principal;
+using AspNetCore.Yandex.ObjectStorage;
+using AspNetCore.Yandex.ObjectStorage.Models;
+using System.Security.Claims;
+using IdentityModel;
+using Academatica.Api.Auth.AuthManagement;
+using System.Text.Encodings.Web;
 
 namespace Academatica.Api.Auth.Controllers
 {
@@ -22,17 +29,20 @@ namespace Academatica.Api.Auth.Controllers
         private readonly AcadematicaDbContext _academaticaDbContext;
         private readonly IEmailSender _emailSender;
         private readonly IWebHostEnvironment _env;
+        private readonly RoleManager<AcadematicaRole> _roleManager;
 
         public ConnectController(
             UserManager<User> userManager,
-            AcadematicaDbContext academaticDbContext,
+            AcadematicaDbContext academaticaDbContext,
+            RoleManager<AcadematicaRole> roleManager,
             IEmailSender emailSender,
             IWebHostEnvironment env)
         {
             _userManager = userManager;
-            _academaticaDbContext = academaticDbContext;
+            _academaticaDbContext = academaticaDbContext;
             _emailSender = emailSender;
             _env = env;
+            _roleManager = roleManager;
         }
 
         [HttpPost]
@@ -45,14 +55,14 @@ namespace Academatica.Api.Auth.Controllers
 
                 if (registeredUser != null)
                 {
-                    return BadRequest(new RegistrationResponseDto()
-                    {
-                        Success = false,
-                        Errors = new List<string>
-                        {
-                            "Email address is already taken"
-                        }
-                    });
+                    return BadRequest("Email address is already taken");
+                }
+
+                registeredUser = await _userManager.FindByNameAsync(registrationRequestDto.Username);
+
+                if (registeredUser != null)
+                {
+                    return BadRequest("Username is already taken");
                 }
 
                 var newUser = new User
@@ -72,11 +82,22 @@ namespace Academatica.Api.Auth.Controllers
                         UserId = newUser.Id,
                         DaysStreak = 0,
                         BuoysLeft = 5,
-                        LastClassFinishedAt = null,
                         User = newUser,
                         UserExp = 0
                     });
                     await _academaticaDbContext.SaveChangesAsync();
+
+                    await _userManager.AddClaimsAsync(newUser, new Claim[]
+                    {
+                        new Claim(JwtClaimTypes.Name, newUser.FirstName + " " + newUser.LastName),
+                        new Claim(JwtClaimTypes.GivenName, newUser.FirstName),
+                        new Claim(JwtClaimTypes.FamilyName, newUser.LastName),
+                        new Claim(JwtClaimTypes.Email, newUser.Email)
+                    });
+
+                    await _roleManager.CreateAsync(new AcadematicaRole { Name = ServerRoles.User });
+
+                    await _userManager.AddToRoleAsync(newUser, ServerRoles.User);
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
                     var callbackUrl = Url.Action(nameof(ConfirmEmail), "Connect", new { userId = newUser.Id, code = code }, protocol: HttpContext.Request.Scheme);
@@ -91,37 +112,23 @@ namespace Academatica.Api.Auth.Controllers
                             + "EmailTemplates"
                             + Path.DirectorySeparatorChar.ToString()
                             + "EMailConfirmTemplate.html";
+
                     var builder = new BodyBuilder();
                     using (StreamReader SourceReader = System.IO.File.OpenText(pathToFile))
                     {
                         builder.HtmlBody = SourceReader.ReadToEnd();
                     }
-                    string messageBody = string.Format(builder.HtmlBody, newUser.UserName, callbackUrl);
+                    string messageBody = string.Format(builder.HtmlBody, newUser.UserName, HtmlEncoder.Default.Encode(callbackUrl));
 
                     await _emailSender.SendEmailAsync(newUser.Email, "Подтверждение адреса от учётной записи Academatica", messageBody);
 
-                    return Ok(new RegistrationResponseDto()
-                    {
-                        Success = true
-                    });
+                    return Ok();
                 }
 
-                return new JsonResult(new RegistrationResponseDto()
-                {
-                    Success = false,
-                    Errors = userCreated.Errors.Select(x => x.Description).ToList()
-                })
-                { StatusCode = 500 };
+                return BadRequest(string.Join(", ", userCreated.Errors.Select(x => x.Description).ToList()));
             }
 
-            return BadRequest(new RegistrationResponseDto()
-            {
-                Success = false,
-                Errors = new List<string>()
-                {
-                    "Invalid request payload"
-                }
-            });
+            return BadRequest("Invalid request payload");
         }
 
         [HttpGet]
@@ -130,21 +137,21 @@ namespace Academatica.Api.Auth.Controllers
         {
             if (userId == null || code == null)
             {
-                return View("EmailNotConfirmed");
+                return Redirect("https://localhost:5011/email-not-confirmed");
             }
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return View("EmailNotConfirmed");
+                return Redirect("https://localhost:5011/email-not-confirmed");
             }
             var result = await _userManager.ConfirmEmailAsync(user, code);
 
             if (result.Succeeded)
             {
-                return View("EmailConfirmed");
+                return Redirect("https://localhost:5011/email-confirmed");
             }
 
-            return View("EmailNotConfirmed");
+            return Redirect("https://localhost:5011/email-not-confirmed");
         }
     }
 }

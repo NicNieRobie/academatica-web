@@ -1,28 +1,20 @@
 using Academatica.Api.Auth.AuthManagement;
-using Academatica.Api.Auth.Configuration;
 using Academatica.Api.Auth.Data;
-using Academatica.Api.Auth.Services;
+using Academatica.Api.Common.Configuration;
 using Academatica.Api.Common.Data;
 using Academatica.Api.Common.Models;
-using Microsoft.AspNet.Identity.EntityFramework;
+using Academatica.Api.Common.Services;
+using AspNetCore.Yandex.ObjectStorage.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 
 namespace Academatica.Api.Auth
 {
@@ -38,22 +30,25 @@ namespace Academatica.Api.Auth
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddControllers();
 
             var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
             services.AddTransient<DbInitializer>();
             services.AddTransient<Config>();
             services.AddTransient<IEmailSender, EmailService>();
+            services.AddCors();
 
             string connectionString = Configuration.GetConnectionString("AuthDbConnection");
 
             services.AddOptions();
-            services.Configure<ConfigurationManager>(Configuration.GetSection("ConfigurationManager"));
+            services.Configure<Configuration.ConfigurationManager>(Configuration.GetSection("ConfigurationManager"));
             services.Configure<MailConfig>(Configuration.GetSection("MailConfig"));
 
             services.AddDbContext<AcadematicaDbContext>(options =>
             {
-                options.UseNpgsql(connectionString, psql => psql.MigrationsAssembly(migrationsAssembly));
+                options.UseNpgsql(connectionString, psql => {
+                    psql.MigrationsAssembly(migrationsAssembly);
+                });
             });
 
             services.AddIdentity<User, AcadematicaRole>(options =>
