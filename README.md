@@ -10,8 +10,8 @@ School mathematics learning application for iOS, intended for use by school stud
 ## Architecture and technology stack
 The front-end is built in Swift according to the Clean Architecture & MVVM guidelines.
 
-The back-end is build on ASP.NET Core for request handling endpoints implementation and utilizes PostgreSQL-managed database for data storage and management.
-The microservice architecture is used to separate independent implementation modules.
+The back-end is build on ASP.NET Core for request handling endpoints implementation and utilizes PostgreSQL and Redis databases for data storage and management.
+The microservice architecture is used to separate independent implementation modules, with communication between services implemented via gRPC and RabbitMQ.
 
 ## Developers
 - **RomKhan** - front-end iOS client development
