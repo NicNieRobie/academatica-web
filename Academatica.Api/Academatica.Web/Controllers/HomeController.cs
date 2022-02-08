@@ -28,5 +28,17 @@ namespace Academatica.Web.Controllers
         {
             return View();
         }
+
+        [Route("email-reverted")]
+        public IActionResult EmailReverted()
+        {
+            return View();
+        }
+
+        [Route("error")]
+        public IActionResult Error()
+        {
+            return View();
+        }
     }
 }

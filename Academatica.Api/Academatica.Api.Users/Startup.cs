@@ -4,7 +4,6 @@ using Academatica.Api.Common.Models;
 using Academatica.Api.Common.Services;
 using Academatica.Api.Users.Configuration;
 using Academatica.Api.Users.Services;
-using Academatica.Api.Users.Services.SyncDataServices.Http;
 using AspNetCore.Yandex.ObjectStorage.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -92,8 +91,7 @@ namespace Academatica.Api.Users
             });
 
             services.AddTransient<IConfirmationCodeManager, ConfirmationCodeManager>();
-            services.AddTransient<IEmailSender, EmailService>();
-            services.AddHttpClient<IAuthDataClient, HttpAuthDataClient>();
+            services.AddTransient<IUserEmailService, UserEmailService>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Academatica.Api.Users", Version = "v1" });

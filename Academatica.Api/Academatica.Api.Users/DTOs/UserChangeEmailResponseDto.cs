@@ -9,7 +9,6 @@ namespace Academatica.Api.Users.DTOs
     public class UserChangeEmailResponseDto
     {
         public bool ConfirmationPending { get; set; }
-        public bool Confirmed { get; set; }
         public bool Success { get; set; }
     }
 }

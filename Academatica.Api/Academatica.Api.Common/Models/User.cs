@@ -15,7 +15,5 @@ namespace Academatica.Api.Common.Models
         [Required]
         public DateTimeOffset RegisteredAt { get; set; }
         public string ProfilePicUrl { get; set; }
-
-        public string PreviousEmail { get; set; }
     }
 }

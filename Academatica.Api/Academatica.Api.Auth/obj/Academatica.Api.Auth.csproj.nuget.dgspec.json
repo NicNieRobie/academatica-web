@@ -70,10 +70,6 @@
               "target": "Package",
               "version": "[4.1.2, )"
             },
-            "MailKit": {
-              "target": "Package",
-              "version": "[3.0.0, )"
-            },
             "Microsoft.AspNet.Identity.EntityFramework": {
               "target": "Package",
               "version": "[2.2.3, )"

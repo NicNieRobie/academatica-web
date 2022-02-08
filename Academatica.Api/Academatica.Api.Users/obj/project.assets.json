@@ -798,6 +798,19 @@
           "lib/net5.0/MimeKit.dll": {}
         }
       },
+      "NETCore.MailKit/2.0.3": {
+        "type": "package",
+        "dependencies": {
+          "MailKit": "2.6.0",
+          "Microsoft.Extensions.DependencyInjection": "3.1.4"
+        },
+        "compile": {
+          "lib/netstandard2.1/NETCore.MailKit.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/NETCore.MailKit.dll": {}
+        }
+      },
       "Newtonsoft.Json/11.0.2": {
         "type": "package",
         "compile": {
@@ -2397,6 +2410,18 @@
         "mimekit.nuspec"
       ]
     },
+    "NETCore.MailKit/2.0.3": {
+      "sha512": "5V4N3S9soQLBemj2+u4TvIbSfJP1Hs/iV7TCJuBc913lD9OoZ+7Lne4eA90F292OLZ2iBQJzXttAvfYgIYWnFg==",
+      "type": "package",
+      "path": "netcore.mailkit/2.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netstandard2.1/NETCore.MailKit.dll",
+        "netcore.mailkit.2.0.3.nupkg.sha512",
+        "netcore.mailkit.nuspec"
+      ]
+    },
     "Newtonsoft.Json/11.0.2": {
       "sha512": "IvJe1pj7JHEsP8B8J8DwlMEx8UInrs/x+9oVY+oCD13jpLu4JbJU2WCIsMRn5C4yW9+DgkaO8uiVE5VHKjpmdQ==",
       "type": "package",
@@ -3341,6 +3366,7 @@
       "Microsoft.Extensions.Caching.StackExchangeRedis >= 5.0.1",
       "Microsoft.VisualStudio.Azure.Containers.Tools.Targets >= 1.11.1",
       "MimeKit >= 3.1.1",
+      "NETCore.MailKit >= 2.0.3",
       "Npgsql >= 5.0.11",
       "Npgsql.EntityFrameworkCore.PostgreSQL >= 5.0.10",
       "StackExchange.Redis >= 2.2.88",
@@ -3429,6 +3455,10 @@
           "MimeKit": {
             "target": "Package",
             "version": "[3.1.1, )"
+          },
+          "NETCore.MailKit": {
+            "target": "Package",
+            "version": "[2.0.3, )"
           },
           "Npgsql": {
             "target": "Package",

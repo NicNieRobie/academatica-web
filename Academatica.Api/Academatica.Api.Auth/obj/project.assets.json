@@ -168,10 +168,10 @@
           "lib/netstandard2.0/IdentityServer4.Storage.dll": {}
         }
       },
-      "MailKit/3.0.0": {
+      "MailKit/3.1.1": {
         "type": "package",
         "dependencies": {
-          "MimeKit": "3.0.0"
+          "MimeKit": "3.1.1"
         },
         "compile": {
           "lib/net5.0/MailKit.dll": {}
@@ -1471,10 +1471,10 @@
         "lib/netstandard2.0/IdentityServer4.Storage.xml"
       ]
     },
-    "MailKit/3.0.0": {
-      "sha512": "/az267eMAng48hSeIliTZeCJM3YTuG1MtSDuZ2JpidMhG+PME0oEKBBxRx1fykpyOAAsw23UyUvHgHXoOlU7wA==",
+    "MailKit/3.1.1": {
+      "sha512": "NprdMF0ABNWOqQUuqz45X5YkJK6f3vtYwwvqR6nGVdmrZ7HkahNbSATpOZ5Rj3W1cgDGf/iD8vs/oCyZ4wUO7g==",
       "type": "package",
-      "path": "mailkit/3.0.0",
+      "path": "mailkit/3.1.1",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
@@ -1494,13 +1494,16 @@
         "lib/net5.0/MailKit.dll",
         "lib/net5.0/MailKit.pdb",
         "lib/net5.0/MailKit.xml",
+        "lib/net6.0/MailKit.dll",
+        "lib/net6.0/MailKit.pdb",
+        "lib/net6.0/MailKit.xml",
         "lib/netstandard2.0/MailKit.dll",
         "lib/netstandard2.0/MailKit.pdb",
         "lib/netstandard2.0/MailKit.xml",
         "lib/netstandard2.1/MailKit.dll",
         "lib/netstandard2.1/MailKit.pdb",
         "lib/netstandard2.1/MailKit.xml",
-        "mailkit.3.0.0.nupkg.sha512",
+        "mailkit.3.1.1.nupkg.sha512",
         "mailkit.nuspec"
       ]
     },
@@ -3422,7 +3425,6 @@
       "IdentityServer4.AccessTokenValidation >= 3.0.1",
       "IdentityServer4.AspNetIdentity >= 4.1.2",
       "IdentityServer4.EntityFramework >= 4.1.2",
-      "MailKit >= 3.0.0",
       "Microsoft.AspNet.Identity.EntityFramework >= 2.2.3",
       "Microsoft.AspNetCore.Identity >= 2.2.0",
       "Microsoft.AspNetCore.Identity.EntityFrameworkCore >= 5.0.13",
@@ -3507,10 +3509,6 @@
           "IdentityServer4.EntityFramework": {
             "target": "Package",
             "version": "[4.1.2, )"
-          },
-          "MailKit": {
-            "target": "Package",
-            "version": "[3.0.0, )"
           },
           "Microsoft.AspNet.Identity.EntityFramework": {
             "target": "Package",
@@ -3620,15 +3618,6 @@
       "warningLevel": 1,
       "message": "Пакет \"Microsoft.AspNet.Identity.EntityFramework 2.2.3\" был восстановлен с помощью \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8\", а не целевой платформы проекта \"net5.0\". Этот пакет может быть не полностью совместим с вашим проектом.",
       "libraryId": "Microsoft.AspNet.Identity.EntityFramework",
-      "targetGraphs": [
-        "net5.0"
-      ]
-    },
-    {
-      "code": "NU1605",
-      "level": "Error",
-      "message": "Обнаружено понижение версии пакета MailKit с 3.1.1 на 3.0.0. Чтобы выбрать другую версию, создайте ссылку на пакет напрямую из проекта. \r\n Academatica.Api.Auth -> Academatica.Api.Common -> MailKit (>= 3.1.1) \r\n Academatica.Api.Auth -> MailKit (>= 3.0.0)",
-      "libraryId": "MailKit",
       "targetGraphs": [
         "net5.0"
       ]

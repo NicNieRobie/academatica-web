@@ -98,7 +98,6 @@ C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.A
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\bin\Debug\net5.0\ref\Academatica.Api.Auth.dll
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\bin\Debug\net5.0\Academatica.Api.Auth.pdb
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\bin\Debug\net5.0\Academatica.Api.Auth.Views.dll
-C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\bin\Debug\net5.0\Academatica.Api.Auth.Views.pdb
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\bin\Debug\net5.0\AutoMapper.dll
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\bin\Debug\net5.0\EntityFramework.SqlServer.dll
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\bin\Debug\net5.0\EntityFramework.dll
@@ -154,21 +153,10 @@ C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.A
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\obj\Debug\net5.0\Academatica.Api.Auth.csproj.CoreCompileInputs.cache
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\obj\Debug\net5.0\Academatica.Api.Auth.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\obj\Debug\net5.0\Academatica.Api.Auth.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\obj\Debug\net5.0\Academatica.Api.Auth.RazorAssemblyInfo.cache
-C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\obj\Debug\net5.0\Academatica.Api.Auth.RazorAssemblyInfo.cs
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\obj\Debug\net5.0\scopedcss\bundle\Academatica.Api.Auth.styles.css
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\obj\Debug\net5.0\staticwebassets\Academatica.Api.Auth.StaticWebAssets.Manifest.cache
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\obj\Debug\net5.0\staticwebassets\Academatica.Api.Auth.StaticWebAssets.xml
-C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\obj\Debug\net5.0\Academatica.Api.Auth.TagHelpers.input.cache
-C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\obj\Debug\net5.0\Academatica.Api.Auth.TagHelpers.output.cache
-C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\obj\Debug\net5.0\Academatica.Api.Auth.RazorCoreGenerate.cache
-C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\obj\Debug\net5.0\Razor\Views\Connect\EmailConfirmed.cshtml.g.cs
-C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\obj\Debug\net5.0\Razor\Views\Connect\EmailNotConfirmed.cshtml.g.cs
-C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\obj\Debug\net5.0\Razor\Views\Shared\_Layout.cshtml.g.cs
-C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\obj\Debug\net5.0\Razor\Views\_ViewStart.cshtml.g.cs
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\obj\Debug\net5.0\Academatica.Api.Auth.RazorTargetAssemblyInfo.cache
-C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\obj\Debug\net5.0\Academatica.Api.Auth.RazorTargetAssemblyInfo.cs
-C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\obj\Debug\net5.0\Academatica.Api.Auth.Views.pdb
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\obj\Debug\net5.0\Academatica.Api.Auth.csproj.CopyComplete
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\obj\Debug\net5.0\Academatica.Api.Auth.dll
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\obj\Debug\net5.0\ref\Academatica.Api.Auth.dll
@@ -181,3 +169,4 @@ C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.A
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\bin\Debug\net5.0\Microsoft.Extensions.Options.dll
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\bin\Debug\net5.0\keys.json

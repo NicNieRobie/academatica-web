@@ -35,3 +35,5 @@ C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.W
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Web\obj\Debug\net5.0\Razor\Views\Home\EmailChanged.cshtml.g.cs
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Web\obj\Debug\net5.0\Razor\Views\Home\EmailConfirmed.cshtml.g.cs
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Web\obj\Debug\net5.0\Razor\Views\Home\EmailNotConfirmed.cshtml.g.cs
+C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Web\obj\Debug\net5.0\Razor\Views\Home\EmailReverted.cshtml.g.cs
+C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Web\obj\Debug\net5.0\Razor\Views\Home\Error.cshtml.g.cs

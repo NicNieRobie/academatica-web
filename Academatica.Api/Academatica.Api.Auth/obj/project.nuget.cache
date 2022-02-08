@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "dgSpecHash": "wM8otZTH5kz2gHJM3QnnFQ79DQU4P/xCbaSKNUYYILrLgLAIfxqu4o9C4VmskgS7B88LgdiVetrvwSeYt2FpEA==",
-  "success": false,
+  "dgSpecHash": "MUgLFutQqQLBMelVYunWYcFcQB0Zwq3lim4lKQEuINFc50TzUfaufBbo83H6g+eANCRUludJjJ6a14rLXLl7uA==",
+  "success": true,
   "projectFilePath": "C:\\Users\\Vlad\\Desktop\\Academatica\\Academatica repo\\Academatica.Api\\Academatica.Api.Auth\\Academatica.Api.Auth.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Vlad\\.nuget\\packages\\aspnetcore.yandex.objectstorage\\0.1.8.4\\aspnetcore.yandex.objectstorage.0.1.8.4.nupkg.sha512",
@@ -16,7 +16,7 @@
     "C:\\Users\\Vlad\\.nuget\\packages\\identityserver4.entityframework\\4.1.2\\identityserver4.entityframework.4.1.2.nupkg.sha512",
     "C:\\Users\\Vlad\\.nuget\\packages\\identityserver4.entityframework.storage\\4.1.2\\identityserver4.entityframework.storage.4.1.2.nupkg.sha512",
     "C:\\Users\\Vlad\\.nuget\\packages\\identityserver4.storage\\4.1.2\\identityserver4.storage.4.1.2.nupkg.sha512",
-    "C:\\Users\\Vlad\\.nuget\\packages\\mailkit\\3.0.0\\mailkit.3.0.0.nupkg.sha512",
+    "C:\\Users\\Vlad\\.nuget\\packages\\mailkit\\3.1.1\\mailkit.3.1.1.nupkg.sha512",
     "C:\\Users\\Vlad\\.nuget\\packages\\microsoft.aspnet.identity.core\\2.2.3\\microsoft.aspnet.identity.core.2.2.3.nupkg.sha512",
     "C:\\Users\\Vlad\\.nuget\\packages\\microsoft.aspnet.identity.entityframework\\2.2.3\\microsoft.aspnet.identity.entityframework.2.2.3.nupkg.sha512",
     "C:\\Users\\Vlad\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.2.0\\microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",
@@ -128,15 +128,6 @@
       "warningLevel": 1,
       "message": "Пакет \"Microsoft.AspNet.Identity.EntityFramework 2.2.3\" был восстановлен с помощью \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8\", а не целевой платформы проекта \"net5.0\". Этот пакет может быть не полностью совместим с вашим проектом.",
       "libraryId": "Microsoft.AspNet.Identity.EntityFramework",
-      "targetGraphs": [
-        "net5.0"
-      ]
-    },
-    {
-      "code": "NU1605",
-      "level": "Error",
-      "message": "Обнаружено понижение версии пакета MailKit с 3.1.1 на 3.0.0. Чтобы выбрать другую версию, создайте ссылку на пакет напрямую из проекта. \r\n Academatica.Api.Auth -> Academatica.Api.Common -> MailKit (>= 3.1.1) \r\n Academatica.Api.Auth -> MailKit (>= 3.0.0)",
-      "libraryId": "MailKit",
       "targetGraphs": [
         "net5.0"
       ]

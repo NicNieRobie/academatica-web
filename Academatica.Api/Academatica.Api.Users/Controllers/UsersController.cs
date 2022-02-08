@@ -4,13 +4,13 @@ using Academatica.Api.Users.Configuration;
 using Academatica.Api.Users.DTOs;
 using Academatica.Api.Users.Extensions;
 using Academatica.Api.Users.Services;
-using Academatica.Api.Users.Services.SyncDataServices.Http;
 using AspNetCore.Yandex.ObjectStorage;
 using AspNetCore.Yandex.ObjectStorage.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Academatica.Api.Users.Controllers
@@ -31,20 +32,20 @@ namespace Academatica.Api.Users.Controllers
         private readonly AcadematicaDbContext _academaticaDbContext;
         private readonly UserManager<User> _userManager;
         private readonly IConfirmationCodeManager _confirmationCodeManager;
-        private readonly IAuthDataClient _authDataClient;
+        private readonly IUserEmailService _userEmailService;
 
         public UsersController(
             YandexStorageService yandexStorageService,
             AcadematicaDbContext academaticaDbContext,
             UserManager<User> userManager,
             IConfirmationCodeManager confirmationCodeManager,
-            IAuthDataClient authDataClient)
+            IUserEmailService userEmailService)
         {
             _yandexStorageService = yandexStorageService;
             _academaticaDbContext = academaticaDbContext;
             _userManager = userManager;
             _confirmationCodeManager = confirmationCodeManager;
-            _authDataClient = authDataClient;
+            _userEmailService = userEmailService;
         }
 
         [HttpPatch]
@@ -165,23 +166,19 @@ namespace Academatica.Api.Users.Controllers
                     return BadRequest("Invalid user ID.");
                 }
 
+                if (string.IsNullOrEmpty(changeEmailRequestDTO.EMail))
+                {
+                    return BadRequest("E-Mail not specified.");
+                }
+
+                var registeredUser = await _userManager.FindByEmailAsync(changeEmailRequestDTO.EMail);
+                if (registeredUser != null)
+                {
+                    return BadRequest("E-Mail already taken.");
+                }
+
                 if (string.IsNullOrEmpty(changeEmailRequestDTO.ConfirmationCode))
                 {
-                    await _confirmationCodeManager.CreateConfirmationCode(user.Id);
-
-                    try
-                    {
-                        await _authDataClient.SendEmailConfirmation(new SendConfirmationEmailRequestDto
-                        {
-                            Email = user.Email,
-                            User = user
-                        });
-                    } catch (Exception ex)
-                    {
-                        Console.WriteLine("HTTP POST failed.");
-                        Console.WriteLine(ex.Message);
-                    }
-
                     return Ok(new UserChangeEmailResponseDto 
                     {
                         ConfirmationPending = true,
@@ -195,7 +192,6 @@ namespace Academatica.Api.Users.Controllers
                         return Ok(new UserChangeEmailResponseDto 
                         {
                             ConfirmationPending = true,
-                            Confirmed = false,
                             Success = false
                         });
                     } else {
@@ -204,17 +200,28 @@ namespace Academatica.Api.Users.Controllers
                             return Ok(new UserChangeEmailResponseDto 
                             {
                                 ConfirmationPending = false,
-                                Confirmed = false,
                                 Success = false
                             });
                         }
 
+                        var oldEmail = user.Email;
+
                         await _userManager.SetEmailAsync(user, changeEmailRequestDTO.EMail);
+
+                        var rollbackCode = await _userManager.GenerateChangeEmailTokenAsync(user, oldEmail);
+                        var rollbackUrl = Url.Action(nameof(RollbackUserEmailChange), "Users", new { id = user.Id, code = rollbackCode, oldEmail = oldEmail },
+                            protocol: HttpContext.Request.Scheme);
+                        await _userEmailService.SendEmailChangeNotification(user, oldEmail, changeEmailRequestDTO.EMail, rollbackUrl);
+
+                        var confirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var callbackUrl = Url.Action(nameof(ConfirmUserEmailChange), "Users", new { id = user.Id, code = confirmationCode }, protocol: HttpContext.Request.Scheme);
+                        await _userEmailService.SendNewEmailConfirmation(user, changeEmailRequestDTO.EMail, callbackUrl);
+
+                        await _confirmationCodeManager.RemoveConfirmationCode(user.Id);
 
                         return Ok(new UserChangeEmailResponseDto 
                         {
                             ConfirmationPending = false,
-                            Confirmed = false,
                             Success = true
                         });
                     }
@@ -226,6 +233,122 @@ namespace Academatica.Api.Users.Controllers
                                     .Select(e => e.ErrorMessage));
                 return BadRequest(message);
             }
+        }
+
+        [HttpPost]
+        [Route("{id}/email/confirmation-code")]
+        public async Task<IActionResult> SendUserEmailConfirmationCode(Guid id)
+        {
+            var userId = User.FindFirst("sub")?.Value;
+
+            if (userId != id.ToString())
+            {
+                return Forbid("Access denied - token subject invalid.");
+            }
+
+            var user = _academaticaDbContext.Users.Where(x => x.Id == id).First();
+
+            if (user == null)
+            {
+                return BadRequest("Invalid user ID.");
+            }
+
+            var code = await _confirmationCodeManager.CreateConfirmationCode(user.Id);
+            await _userEmailService.SendConfirmationCode(user, code);
+
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("{id}/email/confirmation-code")]
+        public async Task<IActionResult> CheckUserEmailConfirmationCode(Guid id, [FromQuery] string code)
+        {
+            var userId = User.FindFirst("sub")?.Value;
+
+            if (userId != id.ToString())
+            {
+                return Forbid("Access denied - token subject invalid.");
+            }
+
+            var user = _academaticaDbContext.Users.Where(x => x.Id == id).First();
+
+            if (user == null)
+            {
+                return BadRequest("Invalid user ID.");
+            }
+
+            if (code == null)
+            {
+                return BadRequest("No confirmation code specified.");
+            }
+
+            var cachedCode = await _confirmationCodeManager.GetConfirmationCode(user.Id);
+
+            if (cachedCode == code)
+            {
+                return Ok(new CheckUserEmailConfirmationCodeResponseDto
+                {
+                    Success = true
+                });
+            } else
+            {
+                return Ok(new CheckUserEmailConfirmationCodeResponseDto
+                {
+                    Success = false
+                });
+            }
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("{id}/email/confirm")]
+        public async Task<IActionResult> ConfirmUserEmailChange(Guid id, string code)
+        {
+            if (code == null)
+            {
+                return Redirect("https://localhost:5011/email-not-confirmed");
+            }
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if (user == null)
+            {
+                return Redirect("https://localhost:5011/email-not-confirmed");
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+
+            if (result.Succeeded)
+            {
+                return Redirect("https://localhost:5011/email-confirmed");
+            }
+
+            return Redirect("https://localhost:5011/email-not-confirmed");
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("{id}/email/rollback")]
+        public async Task<IActionResult> RollbackUserEmailChange(Guid id, string code, string oldEmail)
+        {
+            if (code == null)
+            {
+                return Redirect("https://localhost:5011/error");
+            }
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if (user == null)
+            {
+                return Redirect("https://localhost:5011/error");
+            }
+
+            Console.WriteLine(" -> CODE ON CHECK: " + code);
+
+            var result = await _userManager.ChangeEmailAsync(user, oldEmail, code);
+
+            if (result.Succeeded)
+            {
+                return Redirect("https://localhost:5011/email-reverted");
+            }
+
+            return Redirect("https://localhost:5011/error");
         }
     }
 }

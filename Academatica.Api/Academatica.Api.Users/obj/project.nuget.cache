@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "+mTOxFC49pUbiX9IdW5I/4ih3RMnimD9xYs32NV+8PuzZecWeR4wBBe13W3Kr6D2BJByqoM4cQtIRrdG3nYFJA==",
+  "dgSpecHash": "HdmvzVBbFR7bxXC5XmEOuCGo0kKvj8F542psuuimePeH2mWMGvGHHFtD7nTJD19FTQgUunLEVei2Qn1jNgM3QA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Vlad\\Desktop\\Academatica\\Academatica repo\\Academatica.Api\\Academatica.Api.Users\\Academatica.Api.Users.csproj",
   "expectedPackageFiles": [
@@ -63,6 +63,7 @@
     "C:\\Users\\Vlad\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
     "C:\\Users\\Vlad\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
     "C:\\Users\\Vlad\\.nuget\\packages\\mimekit\\3.1.1\\mimekit.3.1.1.nupkg.sha512",
+    "C:\\Users\\Vlad\\.nuget\\packages\\netcore.mailkit\\2.0.3\\netcore.mailkit.2.0.3.nupkg.sha512",
     "C:\\Users\\Vlad\\.nuget\\packages\\newtonsoft.json\\11.0.2\\newtonsoft.json.11.0.2.nupkg.sha512",
     "C:\\Users\\Vlad\\.nuget\\packages\\npgsql\\5.0.11\\npgsql.5.0.11.nupkg.sha512",
     "C:\\Users\\Vlad\\.nuget\\packages\\npgsql.entityframeworkcore.postgresql\\5.0.10\\npgsql.entityframeworkcore.postgresql.5.0.10.nupkg.sha512",
