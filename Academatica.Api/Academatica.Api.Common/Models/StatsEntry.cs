@@ -14,6 +14,8 @@ namespace Academatica.Api.Common.Models
         [Required]
         public ulong UserExp { get; set; }
         [Required]
+        public ulong UserExpThisWeek { get; set; }
+        [Required]
         public uint BuoysLeft { get; set; }
         [Required]
         public ulong DaysStreak { get; set; }

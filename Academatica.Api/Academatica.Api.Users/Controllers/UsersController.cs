@@ -350,5 +350,32 @@ namespace Academatica.Api.Users.Controllers
 
             return Redirect("https://localhost:5011/error");
         }
+
+        [HttpGet]
+        [Route("{id}")]
+        public async Task<IActionResult> GetUserProfile(Guid id)
+        {
+            var user = await _userManager.FindByIdAsync(id.ToString());
+            if (user == null)
+            {
+                return BadRequest("Invalid user ID.");
+            }
+
+            var userStats = _academaticaDbContext.UserStats.Where(x => x.UserId == id).First();
+            if (userStats == null)
+            {
+                return BadRequest("Stats entry could not be found.");
+            }
+
+            return Ok(new GetUserProfileResponseDto()
+            {
+                Username = user.UserName,
+                ProfilePicUrl = user.ProfilePicUrl,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Exp = userStats.UserExp,
+                ExpThisWeek = userStats.UserExpThisWeek
+            });
+        }
     }
 }

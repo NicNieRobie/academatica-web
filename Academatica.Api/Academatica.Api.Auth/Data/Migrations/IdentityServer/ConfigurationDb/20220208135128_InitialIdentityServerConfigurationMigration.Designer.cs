@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Academatica.Api.Auth.Data.Migrations.IdentityServer.ConfigurationDb
 {
     [DbContext(typeof(ConfigurationDbContext))]
-    [Migration("20220204235452_InitialIdentityServerConfigurationDbMigration")]
-    partial class InitialIdentityServerConfigurationDbMigration
+    [Migration("20220208135128_InitialIdentityServerConfigurationMigration")]
+    partial class InitialIdentityServerConfigurationMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

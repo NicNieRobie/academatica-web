@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace Academatica.Api.Auth.Data.Migrations.AcadematicaDb
+namespace Academatica.Api.Auth.Data.Migrations.Academatica
 {
     [DbContext(typeof(AcadematicaDbContext))]
-    [Migration("20220204235428_InitialAcadematicaDbMigration")]
-    partial class InitialAcadematicaDbMigration
+    [Migration("20220208135324_InitialAcadematicaMigration")]
+    partial class InitialAcadematicaMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -132,6 +132,9 @@ namespace Academatica.Api.Auth.Data.Migrations.AcadematicaDb
                         .HasColumnType("numeric(20,0)");
 
                     b.Property<decimal>("UserExp")
+                        .HasColumnType("numeric(20,0)");
+
+                    b.Property<decimal>("UserExpThisWeek")
                         .HasColumnType("numeric(20,0)");
 
                     b.HasKey("UserId");

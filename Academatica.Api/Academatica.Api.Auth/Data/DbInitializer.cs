@@ -27,7 +27,8 @@ namespace Academatica.Api.Auth.Data
 
         private readonly Config _config;
 
-        public DbInitializer(IOptions<ConfigurationManager> options,
+        public DbInitializer(
+            IOptions<ConfigurationManager> options,
             UserManager<User> userManager,
             RoleManager<AcadematicaRole> roleManager,
             AcadematicaDbContext dbContext,

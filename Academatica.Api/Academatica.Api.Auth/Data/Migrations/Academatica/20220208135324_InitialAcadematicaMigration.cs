@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace Academatica.Api.Auth.Data.Migrations.AcadematicaDb
+namespace Academatica.Api.Auth.Data.Migrations.Academatica
 {
-    public partial class InitialAcadematicaDbMigration : Migration
+    public partial class InitialAcadematicaMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -260,6 +260,7 @@ namespace Academatica.Api.Auth.Data.Migrations.AcadematicaDb
                 {
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
                     UserExp = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
+                    UserExpThisWeek = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
                     BuoysLeft = table.Column<long>(type: "bigint", nullable: false),
                     DaysStreak = table.Column<decimal>(type: "numeric(20,0)", nullable: false)
                 },

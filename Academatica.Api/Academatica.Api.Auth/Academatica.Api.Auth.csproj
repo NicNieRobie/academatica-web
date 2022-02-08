@@ -37,7 +37,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Migrations\IdentityServer\AcadematicaDb\" />
     <Folder Include="Data\Migrations\IdentityServer\ConfigurationDb\" />
     <Folder Include="Data\Migrations\IdentityServer\PersistedGrantDb\" />
   </ItemGroup>
