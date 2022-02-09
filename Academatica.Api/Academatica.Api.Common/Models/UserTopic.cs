@@ -12,7 +12,7 @@ namespace Academatica.Api.Common.Models
         [Required]
         public Guid UserId { get; set; }
         [Required]
-        public string TopicId { get; set; }
+        public Guid TopicId { get; set; }
         [Required]
         public DateTime CompletedAt { get; set; }
 

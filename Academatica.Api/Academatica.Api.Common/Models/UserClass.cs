@@ -8,7 +8,7 @@ namespace Academatica.Api.Common.Models
         [Required]
         public Guid UserId { get; set; }
         [Required]
-        public string ClassId { get; set; }
+        public Guid ClassId { get; set; }
         [Required]
         public DateTime CompletedAt { get; set; }
 

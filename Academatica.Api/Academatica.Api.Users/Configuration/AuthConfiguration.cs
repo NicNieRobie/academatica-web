@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Academatica.Api.Common.Configuration
+namespace Academatica.Api.Users.Configuration
 {
     public class AuthConfiguration
     {

@@ -1,5 +1,6 @@
 ﻿using Academatica.Api.Common.Data;
 using Academatica.Api.Common.Models;
+using Academatica.Api.Users.Configuration;
 using Academatica.Api.Users.DTOs;
 using Academatica.Api.Users.Extensions;
 using Academatica.Api.Users.Services;
@@ -55,10 +56,10 @@ namespace Academatica.Api.Users.Controllers
 
             if (userId != id.ToString())
             {
-                return Forbid();
+                return Forbid("Access denied - token subject invalid.");
             }
 
-            var user = _academaticaDbContext.Users.Where(x => x.Id == id).FirstOrDefault();
+            var user = _academaticaDbContext.Users.Where(x => x.Id == id).First();
 
             if (user == null)
             {
@@ -93,7 +94,7 @@ namespace Academatica.Api.Users.Controllers
         [Route("{id}")]
         public async Task<IActionResult> DeleteUser(Guid id)
         {
-            var user = _academaticaDbContext.Users.Where(x => x.Id == id).FirstOrDefault();
+            var user = _academaticaDbContext.Users.Where(x => x.Id == id).First();
 
             if (user == null)
             {
@@ -119,7 +120,7 @@ namespace Academatica.Api.Users.Controllers
                     return Forbid();
                 }
 
-                var user = _academaticaDbContext.Users.Where(x => x.Id == id).FirstOrDefault();
+                var user = _academaticaDbContext.Users.Where(x => x.Id == id).First();
 
                 if (user == null)
                 {
@@ -158,7 +159,7 @@ namespace Academatica.Api.Users.Controllers
                     return Forbid();
                 }
 
-                var user = _academaticaDbContext.Users.Where(x => x.Id == id).FirstOrDefault();
+                var user = _academaticaDbContext.Users.Where(x => x.Id == id).First();
 
                 if (user == null)
                 {
@@ -253,7 +254,7 @@ namespace Academatica.Api.Users.Controllers
                 return Forbid();
             }
 
-            var user = _academaticaDbContext.Users.Where(x => x.Id == id).FirstOrDefault();
+            var user = _academaticaDbContext.Users.Where(x => x.Id == id).First();
 
             if (user == null)
             {
@@ -277,7 +278,7 @@ namespace Academatica.Api.Users.Controllers
                 return Forbid();
             }
 
-            var user = _academaticaDbContext.Users.Where(x => x.Id == id).FirstOrDefault();
+            var user = _academaticaDbContext.Users.Where(x => x.Id == id).First();
 
             if (user == null)
             {
@@ -366,7 +367,7 @@ namespace Academatica.Api.Users.Controllers
                 return NotFound("Invalid user ID.");
             }
 
-            var userStats = _academaticaDbContext.UserStats.Where(x => x.UserId == id).FirstOrDefault();
+            var userStats = _academaticaDbContext.UserStats.Where(x => x.UserId == id).First();
             if (userStats == null)
             {
                 return NotFound("Stats entry could not be found.");
@@ -387,7 +388,7 @@ namespace Academatica.Api.Users.Controllers
         [Route("{id}/state")]
         public IActionResult GetUserState(Guid id)
         {
-            var userStats = _academaticaDbContext.UserStats.Where(x => x.UserId == id).FirstOrDefault();
+            var userStats = _academaticaDbContext.UserStats.Where(x => x.UserId == id).First();
             if (userStats == null)
             {
                 return NotFound("Stats entry could not be found.");
@@ -404,7 +405,7 @@ namespace Academatica.Api.Users.Controllers
         [Route("{id}/buoys")]
         public IActionResult GetUserBuoys(Guid id)
         {
-            var userStats = _academaticaDbContext.UserStats.Where(x => x.UserId == id).FirstOrDefault();
+            var userStats = _academaticaDbContext.UserStats.Where(x => x.UserId == id).First();
             if (userStats == null)
             {
                 return NotFound("Stats entry could not be found.");
@@ -418,16 +419,15 @@ namespace Academatica.Api.Users.Controllers
 
         [HttpPatch]
         [Route("{id}/buoys")]
-        public async Task<IActionResult> DecreaseUserBuoys(Guid id)
+        public IActionResult DecreaseUserBuoys(Guid id)
         {
-            var userStats = _academaticaDbContext.UserStats.Where(x => x.UserId == id).FirstOrDefault();
+            var userStats = _academaticaDbContext.UserStats.Where(x => x.UserId == id).First();
             if (userStats == null)
             {
                 return NotFound("Stats entry could not be found.");
             }
 
             userStats.BuoysLeft -= userStats.BuoysLeft == 0 ? 0u : 1u;
-            await _academaticaDbContext.SaveChangesAsync();
 
             return Ok();
         }
@@ -470,7 +470,7 @@ namespace Academatica.Api.Users.Controllers
                 return Forbid();
             }
 
-            var user = _academaticaDbContext.Users.Where(x => x.Id == id).FirstOrDefault();
+            var user = _academaticaDbContext.Users.Where(x => x.Id == id).First();
 
             if (user == null)
             {
@@ -494,7 +494,7 @@ namespace Academatica.Api.Users.Controllers
                 return Forbid();
             }
 
-            var user = _academaticaDbContext.Users.Where(x => x.Id == id).FirstOrDefault();
+            var user = _academaticaDbContext.Users.Where(x => x.Id == id).First();
 
             if (user == null)
             {
@@ -537,7 +537,7 @@ namespace Academatica.Api.Users.Controllers
                     return Forbid();
                 }
 
-                var user = _academaticaDbContext.Users.Where(x => x.Id == id).FirstOrDefault();
+                var user = _academaticaDbContext.Users.Where(x => x.Id == id).First();
 
                 if (user == null)
                 {
@@ -626,7 +626,7 @@ namespace Academatica.Api.Users.Controllers
                     return Forbid();
                 }
 
-                var user = _academaticaDbContext.Users.Where(x => x.Id == id).FirstOrDefault();
+                var user = _academaticaDbContext.Users.Where(x => x.Id == id).First();
 
                 if (user == null)
                 {

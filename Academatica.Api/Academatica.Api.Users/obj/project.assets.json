@@ -3374,32 +3374,42 @@
     ]
   },
   "packageFolders": {
-    "/Users/vladislav/.nuget/packages/": {}
+    "C:\\Users\\Vlad\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {},
+    "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/vladislav/Desktop/Academatica repo/Academatica/Academatica.Api/Academatica.Api.Users/Academatica.Api.Users.csproj",
+      "projectUniqueName": "C:\\Users\\Vlad\\Desktop\\Academatica\\Academatica repo\\Academatica.Api\\Academatica.Api.Users\\Academatica.Api.Users.csproj",
       "projectName": "Academatica.Api.Users",
-      "projectPath": "/Users/vladislav/Desktop/Academatica repo/Academatica/Academatica.Api/Academatica.Api.Users/Academatica.Api.Users.csproj",
-      "packagesPath": "/Users/vladislav/.nuget/packages/",
-      "outputPath": "/Users/vladislav/Desktop/Academatica repo/Academatica/Academatica.Api/Academatica.Api.Users/obj/",
+      "projectPath": "C:\\Users\\Vlad\\Desktop\\Academatica\\Academatica repo\\Academatica.Api\\Academatica.Api.Users\\Academatica.Api.Users.csproj",
+      "packagesPath": "C:\\Users\\Vlad\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Vlad\\Desktop\\Academatica\\Academatica repo\\Academatica.Api\\Academatica.Api.Users\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
+        "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+      ],
       "configFilePaths": [
-        "/Users/vladislav/.config/NuGet/NuGet.Config"
+        "C:\\Users\\Vlad\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net5.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "/Users/vladislav/Desktop/Academatica repo/Academatica/Academatica.Api/Academatica.Api.Common/Academatica.Api.Common.csproj": {
-              "projectPath": "/Users/vladislav/Desktop/Academatica repo/Academatica/Academatica.Api/Academatica.Api.Common/Academatica.Api.Common.csproj"
+            "C:\\Users\\Vlad\\Desktop\\Academatica\\Academatica repo\\Academatica.Api\\Academatica.Api.Common\\Academatica.Api.Common.csproj": {
+              "projectPath": "C:\\Users\\Vlad\\Desktop\\Academatica\\Academatica repo\\Academatica.Api\\Academatica.Api.Common\\Academatica.Api.Common.csproj"
             }
           }
         }
@@ -3477,6 +3487,12 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.NETCore.App.Host.win-x64",
+            "version": "[5.0.13, 5.0.13]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -3485,7 +3501,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.405/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "c:\\program files\\dotnet\\sdk\\6.0.101\\RuntimeIdentifierGraph.json"
       }
     }
   }

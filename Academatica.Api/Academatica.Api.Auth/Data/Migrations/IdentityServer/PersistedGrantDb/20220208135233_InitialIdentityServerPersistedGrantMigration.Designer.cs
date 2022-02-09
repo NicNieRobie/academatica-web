@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Academatica.Api.Auth.Data.Migrations.IdentityServer.PersistedGrantDb
 {
     [DbContext(typeof(PersistedGrantDbContext))]
-    [Migration("20220209164027_InitialIdentityServerPersistedGrantMigration")]
+    [Migration("20220208135233_InitialIdentityServerPersistedGrantMigration")]
     partial class InitialIdentityServerPersistedGrantMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -75,8 +75,7 @@ namespace Academatica.Api.Auth.Data.Migrations.Academatica
                     ExpReward = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
                     ImageUrl = table.Column<string>(type: "text", nullable: true),
                     TheoryUrl = table.Column<string>(type: "text", nullable: false),
-                    ProblemNum = table.Column<long>(type: "bigint", nullable: false),
-                    IsAlgebraClass = table.Column<bool>(type: "boolean", nullable: false)
+                    ProblemNum = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -116,8 +115,7 @@ namespace Academatica.Api.Auth.Data.Migrations.Academatica
                     Id = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
-                    ImageUrl = table.Column<string>(type: "text", nullable: true),
-                    IsAlgebraTopic = table.Column<bool>(type: "boolean", nullable: false)
+                    ImageUrl = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -282,8 +280,9 @@ namespace Academatica.Api.Auth.Data.Migrations.Academatica
                 columns: table => new
                 {
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ClassId = table.Column<string>(type: "text", nullable: false),
-                    CompletedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    ClassId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CompletedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    ClassId1 = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -295,11 +294,11 @@ namespace Academatica.Api.Auth.Data.Migrations.Academatica
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserClasses_Classes_ClassId",
-                        column: x => x.ClassId,
+                        name: "FK_UserClasses_Classes_ClassId1",
+                        column: x => x.ClassId1,
                         principalTable: "Classes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -307,8 +306,9 @@ namespace Academatica.Api.Auth.Data.Migrations.Academatica
                 columns: table => new
                 {
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    TierId = table.Column<string>(type: "text", nullable: false),
-                    CompletedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    TierId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CompletedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    TierId1 = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -320,11 +320,11 @@ namespace Academatica.Api.Auth.Data.Migrations.Academatica
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserTier_Tiers_TierId",
-                        column: x => x.TierId,
+                        name: "FK_UserTier_Tiers_TierId1",
+                        column: x => x.TierId1,
                         principalTable: "Tiers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -332,8 +332,9 @@ namespace Academatica.Api.Auth.Data.Migrations.Academatica
                 columns: table => new
                 {
                     UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    TopicId = table.Column<string>(type: "text", nullable: false),
-                    CompletedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    TopicId = table.Column<Guid>(type: "uuid", nullable: false),
+                    CompletedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    TopicId1 = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -345,11 +346,11 @@ namespace Academatica.Api.Auth.Data.Migrations.Academatica
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserTopic_Topics_TopicId",
-                        column: x => x.TopicId,
+                        name: "FK_UserTopic_Topics_TopicId1",
+                        column: x => x.TopicId1,
                         principalTable: "Topics",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -420,19 +421,19 @@ namespace Academatica.Api.Auth.Data.Migrations.Academatica
                 column: "AchievementId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserClasses_ClassId",
+                name: "IX_UserClasses_ClassId1",
                 table: "UserClasses",
-                column: "ClassId");
+                column: "ClassId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserTier_TierId",
+                name: "IX_UserTier_TierId1",
                 table: "UserTier",
-                column: "TierId");
+                column: "TierId1");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserTopic_TopicId",
+                name: "IX_UserTopic_TopicId1",
                 table: "UserTopic",
-                column: "TopicId");
+                column: "TopicId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserTopicMistakes_TopicId",

@@ -2,6 +2,7 @@ using Academatica.Api.Common.Configuration;
 using Academatica.Api.Common.Data;
 using Academatica.Api.Common.Models;
 using Academatica.Api.Common.Services;
+using Academatica.Api.Users.Configuration;
 using Academatica.Api.Users.Services;
 using AspNetCore.Yandex.ObjectStorage.Extensions;
 using Microsoft.AspNetCore.Builder;
