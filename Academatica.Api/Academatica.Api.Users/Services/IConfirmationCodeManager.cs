@@ -4,8 +4,11 @@ using System.Threading.Tasks;
 
 namespace Academatica.Api.Users.Services {
     public interface IConfirmationCodeManager {
-        Task<string> CreateConfirmationCode(Guid userId);
-        Task<string> GetConfirmationCode(Guid userId);
-        Task RemoveConfirmationCode(Guid userId);
+        Task<string> CreateEmailConfirmationCode(Guid userId);
+        Task<string> GetEmailConfirmationCode(Guid userId);
+        Task<string> CreatePasswordConfirmationCode(Guid userId);
+        Task<string> GetPasswordConfirmationCode(Guid userId);
+        Task RemoveEmailConfirmationCode(Guid userId);
+        Task RemovePasswordConfirmationCode(Guid userId);
     }
 }

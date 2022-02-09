@@ -14,6 +14,9 @@ namespace Academatica.Api.Auth.DTOs
         [DataType(DataType.Password, ErrorMessage = "Password does not match requirements")]
         public string Password { get; set; }
         [Required]
+        [Compare("Password", ErrorMessage = "Confirm password does not match password")]
+        public string ConfirmPassword { get; set; }
+        [Required]
         [MaxLength(50)]
         public string FirstName { get; set; }
         [Required]

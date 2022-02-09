@@ -20,21 +20,39 @@ namespace Academatica.Api.Users.Services {
             _codeCache = codeCache;
         }
 
-        public async Task<string> GetConfirmationCode(Guid userId) {
-            return await _codeCache.GetRecordAsync<string>($"code_{userId}");
+        public async Task<string> GetEmailConfirmationCode(Guid userId) {
+            return await _codeCache.GetRecordAsync<string>($"code_{userId}_email");
         }
 
-        public async Task<string> CreateConfirmationCode(Guid userId)
+        public async Task<string> CreateEmailConfirmationCode(Guid userId)
         {
             Random r = new Random();
             var code = r.Next(100000, 1000000);
-            await _codeCache.SetRecordAsync($"code_{userId}", code.ToString());
+            await _codeCache.SetRecordAsync($"code_{userId}_email", code.ToString());
             return code.ToString();
         }
 
-        public async Task RemoveConfirmationCode(Guid userId)
+        public async Task RemoveEmailConfirmationCode(Guid userId)
         {
-            await _codeCache.RemoveAsync($"code_{userId}");
+            await _codeCache.RemoveAsync($"code_{userId}_email");
+        }
+
+        public async Task<string> CreatePasswordConfirmationCode(Guid userId)
+        {
+            Random r = new Random();
+            var code = r.Next(100000, 1000000);
+            await _codeCache.SetRecordAsync($"code_{userId}_pass", code.ToString());
+            return code.ToString();
+        }
+
+        public async Task<string> GetPasswordConfirmationCode(Guid userId)
+        {
+            return await _codeCache.GetRecordAsync<string>($"code_{userId}_pass");
+        }
+
+        public async Task RemovePasswordConfirmationCode(Guid userId)
+        {
+            await _codeCache.RemoveAsync($"code_{userId}_pass");
         }
     }
 }

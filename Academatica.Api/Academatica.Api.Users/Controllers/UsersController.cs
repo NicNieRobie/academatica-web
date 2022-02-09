@@ -117,14 +117,14 @@ namespace Academatica.Api.Users.Controllers
 
                 if (userId != id.ToString())
                 {
-                    return Forbid("Access denied - token subject invalid.");
+                    return Forbid();
                 }
 
                 var user = _academaticaDbContext.Users.Where(x => x.Id == id).First();
 
                 if (user == null)
                 {
-                    return BadRequest("Invalid user ID.");
+                    return NotFound("Invalid user ID.");
                 }
 
                 var username = changeUsernameRequestDTO.Username;
@@ -156,51 +156,59 @@ namespace Academatica.Api.Users.Controllers
 
                 if (userId != id.ToString())
                 {
-                    return Forbid("Access denied - token subject invalid.");
+                    return Forbid();
                 }
 
                 var user = _academaticaDbContext.Users.Where(x => x.Id == id).First();
 
                 if (user == null)
                 {
-                    return BadRequest("Invalid user ID.");
+                    return NotFound("Invalid user ID.");
                 }
 
                 if (string.IsNullOrEmpty(changeEmailRequestDTO.EMail))
                 {
-                    return BadRequest("E-Mail not specified.");
+                    return Ok(new UserChangeEmailResponseDto()
+                    {
+                        Success = false,
+                        ConfirmationPending = false,
+                        Error = "Email was null."
+                    });
                 }
 
                 var registeredUser = await _userManager.FindByEmailAsync(changeEmailRequestDTO.EMail);
                 if (registeredUser != null)
                 {
-                    return BadRequest("E-Mail already taken.");
+                    return Ok(new UserChangeEmailResponseDto()
+                    {
+                        Success = false,
+                        ConfirmationPending = false,
+                        Error = "Email already taken."
+                    });
                 }
 
                 if (string.IsNullOrEmpty(changeEmailRequestDTO.ConfirmationCode))
                 {
-                    return Ok(new UserChangeEmailResponseDto 
+                    return Ok(new UserChangeEmailResponseDto()
                     {
-                        ConfirmationPending = true,
-                        Success = true
+                        Success = false,
+                        ConfirmationPending = false,
+                        Error = "Confirmation code was null."
                     });
                 } else 
                 {
-                    var cachedCode = await _confirmationCodeManager.GetConfirmationCode(user.Id);
+                    var cachedCode = await _confirmationCodeManager.GetEmailConfirmationCode(user.Id);
                     if (string.IsNullOrEmpty(cachedCode)) 
                     {
-                        return Ok(new UserChangeEmailResponseDto 
-                        {
-                            ConfirmationPending = true,
-                            Success = false
-                        });
+                        return StatusCode(500, "Code cache was null.");
                     } else {
                         if (cachedCode != changeEmailRequestDTO.ConfirmationCode) 
                         {
                             return Ok(new UserChangeEmailResponseDto 
                             {
                                 ConfirmationPending = false,
-                                Success = false
+                                Success = false,
+                                Error = "Invalid confirmation code."
                             });
                         }
 
@@ -217,7 +225,7 @@ namespace Academatica.Api.Users.Controllers
                         var callbackUrl = Url.Action(nameof(ConfirmUserEmailChange), "Users", new { id = user.Id, code = confirmationCode }, protocol: HttpContext.Request.Scheme);
                         await _userEmailService.SendNewEmailConfirmation(user, changeEmailRequestDTO.EMail, callbackUrl);
 
-                        await _confirmationCodeManager.RemoveConfirmationCode(user.Id);
+                        await _confirmationCodeManager.RemoveEmailConfirmationCode(user.Id);
 
                         return Ok(new UserChangeEmailResponseDto 
                         {
@@ -243,18 +251,18 @@ namespace Academatica.Api.Users.Controllers
 
             if (userId != id.ToString())
             {
-                return Forbid("Access denied - token subject invalid.");
+                return Forbid();
             }
 
             var user = _academaticaDbContext.Users.Where(x => x.Id == id).First();
 
             if (user == null)
             {
-                return BadRequest("Invalid user ID.");
+                return NotFound("Invalid user ID.");
             }
 
-            var code = await _confirmationCodeManager.CreateConfirmationCode(user.Id);
-            await _userEmailService.SendConfirmationCode(user, code);
+            var code = await _confirmationCodeManager.CreateEmailConfirmationCode(user.Id);
+            await _userEmailService.SendConfirmationCode(user, code, NotificationType.EmailChangeNotification);
 
             return Ok();
         }
@@ -267,14 +275,14 @@ namespace Academatica.Api.Users.Controllers
 
             if (userId != id.ToString())
             {
-                return Forbid("Access denied - token subject invalid.");
+                return Forbid();
             }
 
             var user = _academaticaDbContext.Users.Where(x => x.Id == id).First();
 
             if (user == null)
             {
-                return BadRequest("Invalid user ID.");
+                return NotFound("Invalid user ID.");
             }
 
             if (code == null)
@@ -282,7 +290,7 @@ namespace Academatica.Api.Users.Controllers
                 return BadRequest("No confirmation code specified.");
             }
 
-            var cachedCode = await _confirmationCodeManager.GetConfirmationCode(user.Id);
+            var cachedCode = await _confirmationCodeManager.GetEmailConfirmationCode(user.Id);
 
             if (cachedCode == code)
             {
@@ -339,8 +347,6 @@ namespace Academatica.Api.Users.Controllers
                 return Redirect("https://localhost:5011/error");
             }
 
-            Console.WriteLine(" -> CODE ON CHECK: " + code);
-
             var result = await _userManager.ChangeEmailAsync(user, oldEmail, code);
 
             if (result.Succeeded)
@@ -358,13 +364,13 @@ namespace Academatica.Api.Users.Controllers
             var user = await _userManager.FindByIdAsync(id.ToString());
             if (user == null)
             {
-                return BadRequest("Invalid user ID.");
+                return NotFound("Invalid user ID.");
             }
 
             var userStats = _academaticaDbContext.UserStats.Where(x => x.UserId == id).First();
             if (userStats == null)
             {
-                return BadRequest("Stats entry could not be found.");
+                return NotFound("Stats entry could not be found.");
             }
 
             return Ok(new GetUserProfileResponseDto()
@@ -376,6 +382,307 @@ namespace Academatica.Api.Users.Controllers
                 Exp = userStats.UserExp,
                 ExpThisWeek = userStats.UserExpThisWeek
             });
+        }
+
+        [HttpGet]
+        [Route("{id}/state")]
+        public IActionResult GetUserState(Guid id)
+        {
+            var userStats = _academaticaDbContext.UserStats.Where(x => x.UserId == id).First();
+            if (userStats == null)
+            {
+                return NotFound("Stats entry could not be found.");
+            }
+
+            return Ok(new GetUserStatsResponseDto()
+            {
+                BuoysLeft = userStats.BuoysLeft,
+                DaysStreak = userStats.DaysStreak
+            });
+        }
+
+        [HttpGet]
+        [Route("{id}/buoys")]
+        public IActionResult GetUserBuoys(Guid id)
+        {
+            var userStats = _academaticaDbContext.UserStats.Where(x => x.UserId == id).First();
+            if (userStats == null)
+            {
+                return NotFound("Stats entry could not be found.");
+            }
+
+            return Ok(new GetUserBuoysResponseDto()
+            {
+                BuoysLeft = userStats.BuoysLeft
+            });
+        }
+
+        [HttpPatch]
+        [Route("{id}/buoys")]
+        public IActionResult DecreaseUserBuoys(Guid id)
+        {
+            var userStats = _academaticaDbContext.UserStats.Where(x => x.UserId == id).First();
+            if (userStats == null)
+            {
+                return NotFound("Stats entry could not be found.");
+            }
+
+            userStats.BuoysLeft -= userStats.BuoysLeft == 0 ? 0u : 1u;
+
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("{email}")]
+        public async Task<IActionResult> FindUserByEmail(string email)
+        {
+            if (email == null)
+            {
+                return BadRequest("Email was null.");
+            }
+
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                return Ok(new FindUserByEmailResponseDto()
+                {
+                    Success = false,
+                    UserId = null
+                });
+            }
+
+            return Ok(new FindUserByEmailResponseDto()
+            {
+                Success = true,
+                UserId = user.Id
+            });
+        }
+
+        [HttpPost]
+        [Route("{id}/password/confirmation-code")]
+        public async Task<IActionResult> SendUserPasswordConfirmationCode(Guid id)
+        {
+            var userId = User.FindFirst("sub")?.Value;
+
+            if (userId != id.ToString())
+            {
+                return Forbid();
+            }
+
+            var user = _academaticaDbContext.Users.Where(x => x.Id == id).First();
+
+            if (user == null)
+            {
+                return NotFound("Invalid user ID.");
+            }
+
+            var code = await _confirmationCodeManager.CreatePasswordConfirmationCode(user.Id);
+            await _userEmailService.SendConfirmationCode(user, code, NotificationType.PasswordChangeNotification);
+
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("{id}/password/confirmation-code")]
+        public async Task<IActionResult> CheckUserPasswordConfirmationCode(Guid id, [FromQuery] string code)
+        {
+            var userId = User.FindFirst("sub")?.Value;
+
+            if (userId != id.ToString())
+            {
+                return Forbid();
+            }
+
+            var user = _academaticaDbContext.Users.Where(x => x.Id == id).First();
+
+            if (user == null)
+            {
+                return NotFound("Invalid user ID.");
+            }
+
+            if (code == null)
+            {
+                return BadRequest("No confirmation code specified.");
+            }
+
+            var cachedCode = await _confirmationCodeManager.GetPasswordConfirmationCode(user.Id);
+
+            if (cachedCode == code)
+            {
+                return Ok(new CheckUserPasswordConfirmationCodeResponseDto
+                {
+                    Success = true
+                });
+            }
+            else
+            {
+                return Ok(new CheckUserPasswordConfirmationCodeResponseDto
+                {
+                    Success = false
+                });
+            }
+        }
+
+        [HttpPatch]
+        [Route("{id}/password/restore")]
+        public async Task<IActionResult> RestoreUserPassword(Guid id, [FromBody] UserRestorePasswordRequestDto restorePasswordRequestDto)
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = User.FindFirst("sub")?.Value;
+
+                if (userId != id.ToString())
+                {
+                    return Forbid();
+                }
+
+                var user = _academaticaDbContext.Users.Where(x => x.Id == id).First();
+
+                if (user == null)
+                {
+                    return NotFound("Invalid user ID.");
+                }
+
+                List<string> passwordValidationErrors = new List<string>();
+
+                var validators = _userManager.PasswordValidators;
+
+                foreach (var validator in validators)
+                {
+                    var result = await validator.ValidateAsync(_userManager, null, restorePasswordRequestDto.NewPassword);
+
+                    if (!result.Succeeded)
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            passwordValidationErrors.Add(error.Description);
+                        }
+                    }
+                }
+
+                if (passwordValidationErrors.Count != 0)
+                {
+                    return BadRequest(string.Join("; ", passwordValidationErrors));
+                }
+
+                if (string.IsNullOrEmpty(restorePasswordRequestDto.ConfirmationCode))
+                {
+                    return BadRequest("Confirmation code was null.");
+                }
+                else
+                {
+                    var cachedCode = await _confirmationCodeManager.GetPasswordConfirmationCode(user.Id);
+                    if (string.IsNullOrEmpty(cachedCode))
+                    {
+                        return StatusCode(500, "Code cache was null.");
+                    }
+                    else
+                    {
+                        if (cachedCode != restorePasswordRequestDto.ConfirmationCode)
+                        {
+                            return Ok(new UserChangeEmailResponseDto
+                            {
+                                ConfirmationPending = false,
+                                Success = false,
+                                Error = "Invalid confirmation code."
+                            });
+                        }
+
+                        var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                        await _userManager.ResetPasswordAsync(user, code, restorePasswordRequestDto.NewPassword);
+
+                        await _userEmailService.SendPasswordChangeNotification(user);
+
+                        await _confirmationCodeManager.RemovePasswordConfirmationCode(user.Id);
+
+                        return Ok(new UserRestorePasswordResponseDto
+                        {
+                            ConfirmationPending = false,
+                            Success = true
+                        });
+                    }
+                }
+            }
+            else
+            {
+                var message = string.Join(" | ", ModelState.Values
+                                    .SelectMany(v => v.Errors)
+                                    .Select(e => e.ErrorMessage));
+                return BadRequest(message);
+            }
+        }
+
+        [HttpPatch]
+        [Route("{id}/password/")]
+        public async Task<IActionResult> SetUserPassword(Guid id, [FromBody] UserChangePasswordRequestDto changePasswordRequestDto)
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = User.FindFirst("sub")?.Value;
+
+                if (userId != id.ToString())
+                {
+                    return Forbid();
+                }
+
+                var user = _academaticaDbContext.Users.Where(x => x.Id == id).First();
+
+                if (user == null)
+                {
+                    return NotFound("Invalid user ID.");
+                }
+
+                List<string> passwordValidationErrors = new List<string>();
+
+                var validators = _userManager.PasswordValidators;
+
+                foreach (var validator in validators)
+                {
+                    var result = await validator.ValidateAsync(_userManager, null, changePasswordRequestDto.NewPassword);
+
+                    if (!result.Succeeded)
+                    {
+                        foreach (var error in result.Errors)
+                        {
+                            passwordValidationErrors.Add(error.Description);
+                        }
+                    }
+                }
+
+                if (passwordValidationErrors.Count != 0)
+                {
+                    return BadRequest(string.Join("; ", passwordValidationErrors));
+                }
+
+                var oldPasswordValid = await _userManager.CheckPasswordAsync(user, changePasswordRequestDto.OldPassword);
+
+                if (oldPasswordValid)
+                {
+                    var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    await _userManager.ResetPasswordAsync(user, code, changePasswordRequestDto.NewPassword);
+
+                    await _userEmailService.SendPasswordChangeNotification(user);
+
+                    return Ok(new UserChangePasswordResponseDto()
+                    {
+                        Success = true
+                    });
+                }
+
+                return Ok(new UserChangePasswordResponseDto()
+                {
+                    Success = false,
+                    Error = "Invalid password"
+                });
+            }
+            else
+            {
+                var message = string.Join(" | ", ModelState.Values
+                                    .SelectMany(v => v.Errors)
+                                    .Select(e => e.ErrorMessage));
+                return BadRequest(message);
+            }
         }
     }
 }

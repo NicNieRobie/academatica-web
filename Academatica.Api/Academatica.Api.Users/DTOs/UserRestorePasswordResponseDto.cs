@@ -1,12 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Academatica.Api.Users.DTOs
 {
-    public class UserChangeEmailResponseDto
+    public class UserRestorePasswordResponseDto
     {
         public bool ConfirmationPending { get; set; }
         public bool Success { get; set; }

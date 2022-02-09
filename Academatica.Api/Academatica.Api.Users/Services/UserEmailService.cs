@@ -21,8 +21,20 @@ namespace Academatica.Api.Users.Services
             _env = env;
         }
 
-        public async Task SendConfirmationCode(User user, string code)
+        public async Task SendConfirmationCode(User user, string code, NotificationType notifType)
         {
+            var fileName = "";
+
+            switch (notifType)
+            {
+                case NotificationType.EmailChangeNotification:
+                    fileName = "EMailChangeCodeTemplate.html";
+                    break;
+                case NotificationType.PasswordChangeNotification:
+                    fileName = "PasswordChangeCodeTemplate.html";
+                    break;
+            }
+
             var pathToFile = _env.WebRootPath
                     + Path.DirectorySeparatorChar.ToString()
                     + "resources"
@@ -31,7 +43,7 @@ namespace Academatica.Api.Users.Services
                     + Path.DirectorySeparatorChar.ToString()
                     + "EmailTemplates"
                     + Path.DirectorySeparatorChar.ToString()
-                    + "EMailChangeCodeTemplate.html";
+                    + fileName;
 
             var builder = new BodyBuilder();
             using (StreamReader sourceReader = File.OpenText(pathToFile))
@@ -63,6 +75,28 @@ namespace Academatica.Api.Users.Services
             var messageBody = string.Format(builder.HtmlBody, user.UserName, newEmail, rollbackUrl);
 
             await SendEmailAsync(oldEmail, $"Ваша учётная запись Academatica изменена", messageBody);
+        }
+
+        public async Task SendPasswordChangeNotification(User user)
+        {
+            var pathToFile = _env.WebRootPath
+                    + Path.DirectorySeparatorChar.ToString()
+                    + "resources"
+                    + Path.DirectorySeparatorChar.ToString()
+                    + "templates"
+                    + Path.DirectorySeparatorChar.ToString()
+                    + "EmailTemplates"
+                    + Path.DirectorySeparatorChar.ToString()
+                    + "PasswordChangeNotificationTemplate.html";
+
+            var builder = new BodyBuilder();
+            using (StreamReader sourceReader = File.OpenText(pathToFile))
+            {
+                builder.HtmlBody = sourceReader.ReadToEnd();
+            }
+            var messageBody = string.Format(builder.HtmlBody, user.UserName);
+
+            await SendEmailAsync(user.Email, $"Ваша учётная запись Academatica изменена", messageBody);
         }
 
         public async Task SendNewEmailConfirmation(User user, string newEmail, string callbackUrl)

@@ -6,10 +6,17 @@ using System.Threading.Tasks;
 
 namespace Academatica.Api.Users.Services
 {
+    public enum NotificationType
+    {
+        EmailChangeNotification,
+        PasswordChangeNotification
+    }
+
     public interface IUserEmailService
     {
-        Task SendConfirmationCode(User user, string code);
+        Task SendConfirmationCode(User user, string code, NotificationType notifType);
         Task SendEmailChangeNotification(User user, string oldEmail, string newEmail, string rollbackUrl);
+        Task SendPasswordChangeNotification(User user);
         Task SendNewEmailConfirmation(User user, string newEmail, string callbackUrl);
     }
 }
