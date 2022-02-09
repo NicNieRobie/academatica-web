@@ -19,7 +19,5 @@ namespace Academatica.Api.Common.Models
         public string TheoryUrl { get; set; }
         [Required]
         public uint ProblemNum { get; set; }
-        [Required]
-        public bool IsAlgebraClass { get; set; }
     }
 }

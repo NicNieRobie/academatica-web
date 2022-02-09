@@ -1,5 +1,6 @@
 ﻿using Academatica.Api.Common.Data;
 using Academatica.Api.Common.Models;
+using Academatica.Api.Users.Configuration;
 using Academatica.Api.Users.DTOs;
 using Academatica.Api.Users.Extensions;
 using Academatica.Api.Users.Services;

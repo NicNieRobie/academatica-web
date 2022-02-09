@@ -3,15 +3,17 @@ using System;
 using Academatica.Api.Common.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Academatica.Api.Auth.Data.Migrations.Academatica
 {
     [DbContext(typeof(AcadematicaDbContext))]
-    partial class AcadematicaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220208135324_InitialAcadematicaMigration")]
+    partial class InitialAcadematicaMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
