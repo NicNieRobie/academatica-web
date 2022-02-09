@@ -13,5 +13,7 @@ namespace Academatica.Api.Common.Models
         [Required]
         public string Description { get; set; }
         public string ImageUrl { get; set; }
+        [Required]
+        public bool IsAlgebraTopic { get; set; }
     }
 }
