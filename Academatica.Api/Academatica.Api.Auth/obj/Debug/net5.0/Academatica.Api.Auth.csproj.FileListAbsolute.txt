@@ -97,7 +97,6 @@ C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.A
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\bin\Debug\net5.0\Academatica.Api.Auth.dll
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\bin\Debug\net5.0\ref\Academatica.Api.Auth.dll
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\bin\Debug\net5.0\Academatica.Api.Auth.pdb
-C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\bin\Debug\net5.0\Academatica.Api.Auth.Views.dll
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\bin\Debug\net5.0\AutoMapper.dll
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\bin\Debug\net5.0\EntityFramework.SqlServer.dll
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\bin\Debug\net5.0\EntityFramework.dll

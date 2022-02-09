@@ -84,6 +84,9 @@ namespace Academatica.Api.Auth.Data.Migrations.Academatica
                     b.Property<string>("ImageUrl")
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsAlgebraClass")
+                        .HasColumnType("boolean");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -169,6 +172,9 @@ namespace Academatica.Api.Auth.Data.Migrations.Academatica
 
                     b.Property<string>("ImageUrl")
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsAlgebraTopic")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -286,10 +292,7 @@ namespace Academatica.Api.Auth.Data.Migrations.Academatica
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("ClassId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("ClassId1")
+                    b.Property<string>("ClassId")
                         .HasColumnType("text");
 
                     b.Property<DateTime>("CompletedAt")
@@ -297,7 +300,7 @@ namespace Academatica.Api.Auth.Data.Migrations.Academatica
 
                     b.HasKey("UserId", "ClassId");
 
-                    b.HasIndex("ClassId1");
+                    b.HasIndex("ClassId");
 
                     b.ToTable("UserClasses");
                 });
@@ -307,18 +310,15 @@ namespace Academatica.Api.Auth.Data.Migrations.Academatica
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("TierId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("TierId")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("CompletedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("TierId1")
-                        .HasColumnType("text");
-
                     b.HasKey("UserId", "TierId");
 
-                    b.HasIndex("TierId1");
+                    b.HasIndex("TierId");
 
                     b.ToTable("UserTier");
                 });
@@ -328,18 +328,15 @@ namespace Academatica.Api.Auth.Data.Migrations.Academatica
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("TopicId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("TopicId")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("CompletedAt")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<string>("TopicId1")
-                        .HasColumnType("text");
-
                     b.HasKey("UserId", "TopicId");
 
-                    b.HasIndex("TopicId1");
+                    b.HasIndex("TopicId");
 
                     b.ToTable("UserTopic");
                 });
@@ -497,7 +494,9 @@ namespace Academatica.Api.Auth.Data.Migrations.Academatica
                 {
                     b.HasOne("Academatica.Api.Common.Models.Class", "Class")
                         .WithMany()
-                        .HasForeignKey("ClassId1");
+                        .HasForeignKey("ClassId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Academatica.Api.Common.Models.User", "User")
                         .WithMany()
@@ -514,7 +513,9 @@ namespace Academatica.Api.Auth.Data.Migrations.Academatica
                 {
                     b.HasOne("Academatica.Api.Common.Models.Tier", "Tier")
                         .WithMany()
-                        .HasForeignKey("TierId1");
+                        .HasForeignKey("TierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Academatica.Api.Common.Models.User", "User")
                         .WithMany()
@@ -531,7 +532,9 @@ namespace Academatica.Api.Auth.Data.Migrations.Academatica
                 {
                     b.HasOne("Academatica.Api.Common.Models.Topic", "Topic")
                         .WithMany()
-                        .HasForeignKey("TopicId1");
+                        .HasForeignKey("TopicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Academatica.Api.Common.Models.User", "User")
                         .WithMany()

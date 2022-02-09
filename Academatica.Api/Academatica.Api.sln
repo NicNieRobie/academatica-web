@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Academatica.Api.Common", "A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Academatica.Api.Users", "Academatica.Api.Users\Academatica.Api.Users.csproj", "{0723812E-3F46-4D32-A013-49E8F5CB756A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Academatica.Web", "Academatica.Web\Academatica.Web.csproj", "{5941A6B4-AEC5-4E2C-A785-C02155530914}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Academatica.Web", "Academatica.Web\Academatica.Web.csproj", "{5941A6B4-AEC5-4E2C-A785-C02155530914}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Academatica.Api.Course", "Academatica.Api.Course\Academatica.Api.Course.csproj", "{59EB0A96-4810-4F90-B472-5EB81748F93C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{5941A6B4-AEC5-4E2C-A785-C02155530914}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5941A6B4-AEC5-4E2C-A785-C02155530914}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5941A6B4-AEC5-4E2C-A785-C02155530914}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59EB0A96-4810-4F90-B472-5EB81748F93C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59EB0A96-4810-4F90-B472-5EB81748F93C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59EB0A96-4810-4F90-B472-5EB81748F93C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59EB0A96-4810-4F90-B472-5EB81748F93C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
