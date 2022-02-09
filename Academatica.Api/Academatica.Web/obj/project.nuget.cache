@@ -1,11 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "sU92R5ROo4mqRh2tTFeWuARWRmBRR5y6JCGFSfh65sXbVb6IoEuuiyTuJEd1R2ZJc6BB7nzgRjDBU9sefyPlww==",
+  "dgSpecHash": "YkONlnPaBWDUoDGmOZWwU7Jxzetv78oJ/BcJn3rttYqZgVb71IQV/SQzJwE0uuv96tsOtnPbbhQtLhnDjjAglw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Vlad\\Desktop\\Academatica\\Academatica repo\\Academatica.Api\\Academatica.Web\\Academatica.Web.csproj",
+  "projectFilePath": "/Users/vladislav/Desktop/Academatica repo/Academatica/Academatica.Api/Academatica.Web/Academatica.Web.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\Vlad\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.11.1\\microsoft.visualstudio.azure.containers.tools.targets.1.11.1.nupkg.sha512",
-    "C:\\Users\\Vlad\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.13\\microsoft.netcore.app.host.win-x64.5.0.13.nupkg.sha512"
+    "/Users/vladislav/.nuget/packages/microsoft.visualstudio.azure.containers.tools.targets/1.11.1/microsoft.visualstudio.azure.containers.tools.targets.1.11.1.nupkg.sha512"
   ],
   "logs": []
 }

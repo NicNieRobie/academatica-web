@@ -13,8 +13,6 @@ namespace Academatica.Api.Users.Services {
 
     public class ConfirmationCodeManager: IConfirmationCodeManager {
         private readonly IDistributedCache _codeCache;
-        private readonly IEmailSender _emailService;
-        private readonly IWebHostEnvironment _env;
 
         public ConfirmationCodeManager(IDistributedCache codeCache) {
             _codeCache = codeCache;
