@@ -1,0 +1,17 @@
+﻿{
+  "ConnectionStrings": {
+    "UsersDbConnection": "Host=rc1a-7xp1skf9z0pgg43g.mdb.yandexcloud.net;Port=6432;Database=academatica-post;Username=academatica-admin;Password=n@r*8Y%KcQAYZtmd;Ssl Mode=Require;Trust Server Certificate=true;"
+  },
+  "ObjStorageConfig": {
+    "BucketName": "academatica-obj",
+    "AccessKey": "6ljtMxWrDO2x6AlagLf1",
+    "SecretKey": "bKmsF7vlDBpJ-DZZN5EeV_4JNenxYu-Ijt2XVOW9"
+  },
+  "AuthConfiguration": {
+    "Authority": "https://localhost:5001",
+    "ApiResourceName": "Academatica.Api"
+  },
+  "MailConfig": {
+    "Passcode": "jwazzawswzqlfuuk"
+  }
+}
