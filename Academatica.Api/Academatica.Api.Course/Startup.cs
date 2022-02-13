@@ -1,5 +1,6 @@
 using Academatica.Api.Common.Configuration;
 using Academatica.Api.Common.Data;
+using Academatica.Api.Course.Services.Grpc;
 using AspNetCore.Yandex.ObjectStorage.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -61,9 +62,10 @@ namespace Academatica.Api.Course
                     options.ApiName = settings.ApiResourceName;
                 });
 
+            services.AddScoped<IPracticeAchievementsDataClient, PracticeAchievementsDataClient>();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Academatica.Api.Users", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Academatica.Api.Course", Version = "v1" });
             });
         }
 

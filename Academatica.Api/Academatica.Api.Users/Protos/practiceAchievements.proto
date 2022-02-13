@@ -1,0 +1,26 @@
+﻿syntax = "proto3";
+
+import "google/protobuf/wrappers.proto";
+
+option csharp_namespace = "Academatica.Api";
+
+service GrpcAchievements {
+    rpc GetPracticeAchievements (GetPracticeAchievementsRequest) returns (PracticeAchievementsResponse);
+}
+
+message GetPracticeAchievementsRequest {
+    string userId = 1;
+    google.protobuf.StringValue classId = 2;
+    int32 mistakesMade = 3;
+}
+
+message GrpcAchievementModel {
+	string id = 1;
+    string name = 2;
+    string description = 3;
+    string imageUrl = 4;
+}
+
+message PracticeAchievementsResponse {
+    repeated GrpcAchievementModel achievements = 1;
+}

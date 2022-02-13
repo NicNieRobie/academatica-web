@@ -26,6 +26,8 @@ namespace Academatica.Api.Users.Services {
 
         public async Task<string> CreateEmailConfirmationCode(Guid userId)
         {
+            await _codeCache.RemoveAsync($"code_{userId}_email");
+
             Random r = new Random();
             var code = r.Next(100000, 1000000);
             await _codeCache.SetRecordAsync($"code_{userId}_email", code.ToString());
@@ -39,6 +41,8 @@ namespace Academatica.Api.Users.Services {
 
         public async Task<string> CreatePasswordConfirmationCode(Guid userId)
         {
+            await _codeCache.RemoveAsync($"code_{userId}_pass");
+
             Random r = new Random();
             var code = r.Next(100000, 1000000);
             await _codeCache.SetRecordAsync($"code_{userId}_pass", code.ToString());

@@ -35,6 +35,10 @@
         "dependencies": {
           "Academatica.Api.Common": "1.0.0",
           "AspNetCore.Yandex.ObjectStorage": "0.1.8.4",
+          "Google.Protobuf": "3.19.4",
+          "Grpc.AspNetCore": "2.42.0",
+          "Grpc.Net.Client": "2.42.0",
+          "Grpc.Tools": "2.43.0",
           "IdentityServer4.AccessTokenValidation": "3.0.1",
           "Microsoft.AspNetCore.Identity.UI": "5.0.14",
           "Microsoft.EntityFrameworkCore": "5.0.14",
@@ -137,7 +141,7 @@
           "Microsoft.Extensions.FileSystemGlobbing": "5.0.0.0",
           "Microsoft.Extensions.Hosting.Abstractions.Reference": "5.0.0.0",
           "Microsoft.Extensions.Hosting": "5.0.0.0",
-          "Microsoft.Extensions.Http": "5.0.0.0",
+          "Microsoft.Extensions.Http.Reference": "5.0.0.0",
           "Microsoft.Extensions.Localization.Abstractions": "5.0.0.0",
           "Microsoft.Extensions.Localization": "5.0.0.0",
           "Microsoft.Extensions.Logging.Abstractions.Reference": "5.0.0.0",
@@ -215,7 +219,7 @@
           "System.Linq.Expressions": "5.0.0.0",
           "System.Linq.Parallel": "5.0.0.0",
           "System.Linq.Queryable": "5.0.0.0",
-          "System.Memory": "5.0.0.0",
+          "System.Memory.Reference": "5.0.0.0",
           "System.Net": "4.0.0.0",
           "System.Net.Http": "5.0.0.0",
           "System.Net.Http.Json": "5.0.0.0",
@@ -338,6 +342,112 @@
           "lib/netstandard2.1/AspNetCore.Yandex.ObjectStorage.dll": {}
         }
       },
+      "Google.Protobuf/3.19.4": {
+        "runtime": {
+          "lib/net5.0/Google.Protobuf.dll": {
+            "assemblyVersion": "3.19.4.0",
+            "fileVersion": "3.19.4.0"
+          }
+        },
+        "compile": {
+          "lib/net5.0/Google.Protobuf.dll": {}
+        }
+      },
+      "Grpc.AspNetCore/2.42.0": {
+        "dependencies": {
+          "Google.Protobuf": "3.19.4",
+          "Grpc.AspNetCore.Server.ClientFactory": "2.42.0",
+          "Grpc.Tools": "2.43.0"
+        }
+      },
+      "Grpc.AspNetCore.Server/2.42.0": {
+        "dependencies": {
+          "Grpc.Net.Common": "2.42.0"
+        },
+        "runtime": {
+          "lib/net5.0/Grpc.AspNetCore.Server.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.42.0.0"
+          }
+        },
+        "compile": {
+          "lib/net5.0/Grpc.AspNetCore.Server.dll": {}
+        }
+      },
+      "Grpc.AspNetCore.Server.ClientFactory/2.42.0": {
+        "dependencies": {
+          "Grpc.AspNetCore.Server": "2.42.0",
+          "Grpc.Net.ClientFactory": "2.42.0"
+        },
+        "runtime": {
+          "lib/net5.0/Grpc.AspNetCore.Server.ClientFactory.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.42.0.0"
+          }
+        },
+        "compile": {
+          "lib/net5.0/Grpc.AspNetCore.Server.ClientFactory.dll": {}
+        }
+      },
+      "Grpc.Core.Api/2.42.0": {
+        "dependencies": {
+          "System.Memory": "4.5.3"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Grpc.Core.Api.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.42.0.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.0/Grpc.Core.Api.dll": {}
+        }
+      },
+      "Grpc.Net.Client/2.42.0": {
+        "dependencies": {
+          "Grpc.Net.Common": "2.42.0",
+          "Microsoft.Extensions.Logging.Abstractions": "5.0.0"
+        },
+        "runtime": {
+          "lib/net5.0/Grpc.Net.Client.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.42.0.0"
+          }
+        },
+        "compile": {
+          "lib/net5.0/Grpc.Net.Client.dll": {}
+        }
+      },
+      "Grpc.Net.ClientFactory/2.42.0": {
+        "dependencies": {
+          "Grpc.Net.Client": "2.42.0",
+          "Microsoft.Extensions.Http": "3.0.3"
+        },
+        "runtime": {
+          "lib/net5.0/Grpc.Net.ClientFactory.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.42.0.0"
+          }
+        },
+        "compile": {
+          "lib/net5.0/Grpc.Net.ClientFactory.dll": {}
+        }
+      },
+      "Grpc.Net.Common/2.42.0": {
+        "dependencies": {
+          "Grpc.Core.Api": "2.42.0"
+        },
+        "runtime": {
+          "lib/net5.0/Grpc.Net.Common.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.42.0.0"
+          }
+        },
+        "compile": {
+          "lib/net5.0/Grpc.Net.Common.dll": {}
+        }
+      },
+      "Grpc.Tools/2.43.0": {},
       "IdentityModel/4.0.0": {
         "dependencies": {
           "Newtonsoft.Json": "11.0.2",
@@ -713,6 +823,13 @@
           "Microsoft.Extensions.Logging.Abstractions": "5.0.0"
         }
       },
+      "Microsoft.Extensions.Http/3.0.3": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0",
+          "Microsoft.Extensions.Logging": "5.0.0",
+          "Microsoft.Extensions.Options": "6.0.0"
+        }
+      },
       "Microsoft.Extensions.Identity.Core/5.0.14": {
         "dependencies": {
           "Microsoft.AspNetCore.Cryptography.KeyDerivation": "5.0.14",
@@ -1035,6 +1152,7 @@
           "lib/netstandard2.0/System.IdentityModel.Tokens.Jwt.dll": {}
         }
       },
+      "System.Memory/4.5.3": {},
       "System.Runtime.CompilerServices.Unsafe/6.0.0": {
         "runtime": {
           "lib/netcoreapp3.1/System.Runtime.CompilerServices.Unsafe.dll": {
@@ -1668,7 +1786,7 @@
         },
         "compileOnly": true
       },
-      "Microsoft.Extensions.Http/5.0.0.0": {
+      "Microsoft.Extensions.Http.Reference/5.0.0.0": {
         "compile": {
           "Microsoft.Extensions.Http.dll": {}
         },
@@ -2136,7 +2254,7 @@
         },
         "compileOnly": true
       },
-      "System.Memory/5.0.0.0": {
+      "System.Memory.Reference/5.0.0.0": {
         "compile": {
           "System.Memory.dll": {}
         },
@@ -2733,6 +2851,69 @@
       "path": "aspnetcore.yandex.objectstorage/0.1.8.4",
       "hashPath": "aspnetcore.yandex.objectstorage.0.1.8.4.nupkg.sha512"
     },
+    "Google.Protobuf/3.19.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-fd07/ykL4O4FhqrZIELm5lmiyOHfdPg9+o+hWr6tcfRdS7tHXnImg/2wtogLzlW2eEmr0J7j6ZrZvaWOLiJbxQ==",
+      "path": "google.protobuf/3.19.4",
+      "hashPath": "google.protobuf.3.19.4.nupkg.sha512"
+    },
+    "Grpc.AspNetCore/2.42.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-h+axjft08i+SXCTcsUj6+N3ukvbLemJAWmkG7TJPXrctuPbB0vqx3SfCmNw2o2QlDqSI3JJrPAgoZSa1WHUzKA==",
+      "path": "grpc.aspnetcore/2.42.0",
+      "hashPath": "grpc.aspnetcore.2.42.0.nupkg.sha512"
+    },
+    "Grpc.AspNetCore.Server/2.42.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-/C0kQoKDIuEq8CdN4rmz42MO9ToKC+EWs22LywK3+T+nFdgPyTltenPrHj9RFzaiMp9N63TBO7Nd6IQqpLcAzQ==",
+      "path": "grpc.aspnetcore.server/2.42.0",
+      "hashPath": "grpc.aspnetcore.server.2.42.0.nupkg.sha512"
+    },
+    "Grpc.AspNetCore.Server.ClientFactory/2.42.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kqYqDTGbT/lvjaDg6kpAMUOapd6Z3P5pDmiswLAv6DJnOw8ph72HACgMKAh8qcXWMNikiQnnAlwsZffjmRPk5w==",
+      "path": "grpc.aspnetcore.server.clientfactory/2.42.0",
+      "hashPath": "grpc.aspnetcore.server.clientfactory.2.42.0.nupkg.sha512"
+    },
+    "Grpc.Core.Api/2.42.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-12ciAZrp8orzYFZcruvzshhMEbbD4CAFOe9an1Fa4/c5ZrCtqUjWVPa1Dpk/1Pnv5E1KTeIHPuOtPTkpMLOCoQ==",
+      "path": "grpc.core.api/2.42.0",
+      "hashPath": "grpc.core.api.2.42.0.nupkg.sha512"
+    },
+    "Grpc.Net.Client/2.42.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-UrVBlzAiYh04bwOjBMUlh0THwieOhoVdmhpvY1LXCdlgRUAYicoDn9SHUZEnLP/xq3lsbhhkTEOeZcFpyOLE+w==",
+      "path": "grpc.net.client/2.42.0",
+      "hashPath": "grpc.net.client.2.42.0.nupkg.sha512"
+    },
+    "Grpc.Net.ClientFactory/2.42.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-I4iQBjuyfjoEe3NQVaQ3RslqIP9pQ2mKfo8GVkiKrYYc9v99waHH8Sezxd4SO7+gpM4G34UVXkWkBlQw5zoK/A==",
+      "path": "grpc.net.clientfactory/2.42.0",
+      "hashPath": "grpc.net.clientfactory.2.42.0.nupkg.sha512"
+    },
+    "Grpc.Net.Common/2.42.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-+nYAAvpc3yg/HS+uleYoNUBR0sf0EVpY5FAos5v8PILnTbGU552QfxAaToY/wCMYExkde/zIJM/l+JvHMezYSg==",
+      "path": "grpc.net.common/2.42.0",
+      "hashPath": "grpc.net.common.2.42.0.nupkg.sha512"
+    },
+    "Grpc.Tools/2.43.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-JRcG4VqrDE2P+QxKpTk+9BU2ZjHxTZ2oecd5auWa3ViWCCVZY/MZuGcLXj8DjSBS8sDpk6vQXrsjw8nIyoRMNw==",
+      "path": "grpc.tools/2.43.0",
+      "hashPath": "grpc.tools.2.43.0.nupkg.sha512"
+    },
     "IdentityModel/4.0.0": {
       "type": "package",
       "serviceable": true,
@@ -2992,6 +3173,13 @@
       "path": "microsoft.extensions.hosting.abstractions/2.2.0",
       "hashPath": "microsoft.extensions.hosting.abstractions.2.2.0.nupkg.sha512"
     },
+    "Microsoft.Extensions.Http/3.0.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-dcyB8szIcSynjVZRuFgqkZpPgTc5zeRSj1HMXSmNqWbHYKiPYJl8ZQgBHz6wmZNSUUNGpCs5uxUg8DZHHDC1Ew==",
+      "path": "microsoft.extensions.http/3.0.3",
+      "hashPath": "microsoft.extensions.http.3.0.3.nupkg.sha512"
+    },
     "Microsoft.Extensions.Identity.Core/5.0.14": {
       "type": "package",
       "serviceable": true,
@@ -3222,6 +3410,13 @@
       "sha512": "sha512-xa8kptJ+uf9hzj366f3pLcs5HFZ6dQMDKzEGq/yZNF0s3mVfyIhuQwgDcTJlAU4AROne/6Z5+vITwrW3gVNKIA==",
       "path": "system.identitymodel.tokens.jwt/5.5.0",
       "hashPath": "system.identitymodel.tokens.jwt.5.5.0.nupkg.sha512"
+    },
+    "System.Memory/4.5.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-3oDzvc/zzetpTKWMShs1AADwZjQ/36HnsufHRPcOjyRAAMLDlu2iD33MBI2opxnezcVUtXyqDXXjoFMOU9c7SA==",
+      "path": "system.memory/4.5.3",
+      "hashPath": "system.memory.4.5.3.nupkg.sha512"
     },
     "System.Runtime.CompilerServices.Unsafe/6.0.0": {
       "type": "package",
@@ -3759,7 +3954,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.Extensions.Http/5.0.0.0": {
+    "Microsoft.Extensions.Http.Reference/5.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""
@@ -4149,7 +4344,7 @@
       "serviceable": false,
       "sha512": ""
     },
-    "System.Memory/5.0.0.0": {
+    "System.Memory.Reference/5.0.0.0": {
       "type": "referenceassembly",
       "serviceable": false,
       "sha512": ""

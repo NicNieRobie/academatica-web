@@ -12,6 +12,7 @@ namespace Academatica.Api.Common.Data
         public DbSet<Tier> Tiers { get; set; }
         public DbSet<Topic> Topics { get; set; }
         public DbSet<Class> Classes { get; set; }
+        public DbSet<Problem> Problems { get; set; }
 
         public DbSet<Achievement> Achievements { get; set; }
         public DbSet<LeaderboardEntry> Leaderboard { get; set; }

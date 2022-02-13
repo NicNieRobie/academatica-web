@@ -66,3 +66,10 @@ C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.A
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Course\obj\Debug\net5.0\ref\Academatica.Api.Course.dll
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Course\obj\Debug\net5.0\Academatica.Api.Course.pdb
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Course\obj\Debug\net5.0\Academatica.Api.Course.genruntimeconfig.cache
+C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Course\bin\Debug\net5.0\Google.Protobuf.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Course\bin\Debug\net5.0\Grpc.AspNetCore.Server.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Course\bin\Debug\net5.0\Grpc.AspNetCore.Server.ClientFactory.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Course\bin\Debug\net5.0\Grpc.Core.Api.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Course\bin\Debug\net5.0\Grpc.Net.Client.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Course\bin\Debug\net5.0\Grpc.Net.ClientFactory.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Course\bin\Debug\net5.0\Grpc.Net.Common.dll

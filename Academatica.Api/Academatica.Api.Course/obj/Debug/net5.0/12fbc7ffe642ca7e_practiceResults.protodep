@@ -1,0 +1,2 @@
+obj\Debug\net5.0\Protos/PracticeResults.cs \
+obj\Debug\net5.0\Protos/PracticeResultsGrpc.cs: Protos/practiceResults.proto

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Academatica.Api.Common.Models
 {
-    class Problem
+    public class Problem
     {
         [Required]
         public Guid Id { get; set; }

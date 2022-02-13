@@ -3,7 +3,10 @@ using Academatica.Api.Common.Data;
 using Academatica.Api.Common.Models;
 using Academatica.Api.Common.Services;
 using Academatica.Api.Users.Services;
+using Academatica.Api.Users.Services.Grpc;
 using AspNetCore.Yandex.ObjectStorage.Extensions;
+using Hangfire;
+using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -89,8 +92,14 @@ namespace Academatica.Api.Users
                 options.Configuration = Configuration.GetConnectionString("Redis");
             });
 
+            services.AddHangfire(x => x.UsePostgreSqlStorage(connectionString));
+            services.AddHangfireServer();
+
+            services.AddGrpc();
+            services.AddTransient<IAchievementsManager, AchievementsManager>();
             services.AddTransient<IConfirmationCodeManager, ConfirmationCodeManager>();
             services.AddTransient<IUserEmailService, UserEmailService>();
+            services.AddTransient<IUserStatsManager, UserStatsManager>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Academatica.Api.Users", Version = "v1" });
@@ -116,10 +125,17 @@ namespace Academatica.Api.Users
 
             app.UseAuthorization();
 
+            app.UseHangfireDashboard();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapGrpcService<GrpcAchievementsService>();
             });
+
+            RecurringJob.AddOrUpdate<IUserStatsManager>("buoysupdatejob", x => x.UpdateUsersBuoys(), @"*/3 * * * *");
+            RecurringJob.AddOrUpdate<IUserStatsManager>("streakupdatejob", x => x.UpdateUsersDayStreaks(), @"0 0 * * *");
+            RecurringJob.AddOrUpdate<IUserStatsManager>("weekexpupdatejob", x => x.UpdateUsersExpThisWeek(), @"0 0 * * 0");
         }
     }
 }

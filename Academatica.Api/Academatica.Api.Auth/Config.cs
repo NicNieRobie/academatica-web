@@ -64,9 +64,11 @@ namespace Academatica.Api.Auth
                 {
                     ClientId = _configurationManager.ClientId,
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPassword,
+                    AccessTokenType = AccessTokenType.Jwt,
                     RequireClientSecret = false,
                     AllowOfflineAccess = true,
                     RefreshTokenUsage = TokenUsage.OneTimeOnly,
+                    AccessTokenLifetime = 300,
                     AllowedScopes =
                     {
                         _configurationManager.ApiName,

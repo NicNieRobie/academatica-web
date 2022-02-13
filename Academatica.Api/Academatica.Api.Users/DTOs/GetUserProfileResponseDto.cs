@@ -63,5 +63,13 @@ namespace Academatica.Api.Users.DTOs
                 return userLevelExpCap;
             }
         }
+
+        public bool MaxLevelReached
+        {
+            get
+            {
+                return Level == "calculator";
+            }
+        }
     }
 }

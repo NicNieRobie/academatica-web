@@ -5,6 +5,7 @@ using Academatica.Api.Users.Extensions;
 using Academatica.Api.Users.Services;
 using AspNetCore.Yandex.ObjectStorage;
 using AspNetCore.Yandex.ObjectStorage.Models;
+using Hangfire;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -32,19 +33,22 @@ namespace Academatica.Api.Users.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IConfirmationCodeManager _confirmationCodeManager;
         private readonly IUserEmailService _userEmailService;
+        private readonly IAchievementsManager _achievementsManager;
 
         public UsersController(
             YandexStorageService yandexStorageService,
             AcadematicaDbContext academaticaDbContext,
             UserManager<User> userManager,
             IConfirmationCodeManager confirmationCodeManager,
-            IUserEmailService userEmailService)
+            IUserEmailService userEmailService,
+            IAchievementsManager achievementsManager)
         {
             _yandexStorageService = yandexStorageService;
             _academaticaDbContext = academaticaDbContext;
             _userManager = userManager;
             _confirmationCodeManager = confirmationCodeManager;
             _userEmailService = userEmailService;
+            _achievementsManager = achievementsManager;
         }
 
         [HttpPatch]
@@ -418,7 +422,7 @@ namespace Academatica.Api.Users.Controllers
 
         [HttpPatch]
         [Route("{id}/buoys")]
-        public IActionResult DecreaseUserBuoys(Guid id)
+        public async Task<IActionResult> DecreaseUserBuoys(Guid id)
         {
             var userStats = _academaticaDbContext.UserStats.Where(x => x.UserId == id).First();
             if (userStats == null)
@@ -428,11 +432,13 @@ namespace Academatica.Api.Users.Controllers
 
             userStats.BuoysLeft -= userStats.BuoysLeft == 0 ? 0u : 1u;
 
+            await _academaticaDbContext.SaveChangesAsync();
+
             return Ok();
         }
 
         [HttpGet]
-        [Route("{email}")]
+        [Route("id/{email}")]
         public async Task<IActionResult> FindUserByEmail(string email)
         {
             if (email == null)
@@ -682,6 +688,36 @@ namespace Academatica.Api.Users.Controllers
                                     .Select(e => e.ErrorMessage));
                 return BadRequest(message);
             }
+        }
+
+        [HttpGet]
+        [Route("{id}/achievements")]
+        public IActionResult GetUserAchievements(Guid id)
+        {
+            var userId = User.FindFirst("sub")?.Value;
+
+            if (userId != id.ToString())
+            {
+                return Forbid();
+            }
+
+            var user = _academaticaDbContext.Users.Where(x => x.Id == id).First();
+
+            if (user == null)
+            {
+                return NotFound("Invalid user ID.");
+            }
+
+            return Ok(new GetUserAchievementsResponseDto()
+            {
+                Achievements = _achievementsManager.GetUserAchievements(id).Select(x => new AchievementDto()
+                {
+                    Name = x.Name,
+                    Description = x.Description,
+                    ImageUrl = x.ImageUrl,
+                    AchievedAmount = x.AchievedAmount
+                })
+            });
         }
     }
 }

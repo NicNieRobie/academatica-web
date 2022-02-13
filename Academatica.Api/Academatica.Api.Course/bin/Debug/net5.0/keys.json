@@ -10,5 +10,6 @@
   "AuthConfiguration": {
     "Authority": "https://localhost:5001",
     "ApiResourceName": "Academatica.Api"
-  }
+  },
+  "GrpcAchievementsService": "https://localhost:5005"
 }
