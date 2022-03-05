@@ -8,6 +8,9 @@ using Academatica.Api.Common.Models;
 using Academatica.Api.Course.DTOs;
 using Academatica.Api.Course.Services;
 using Academatica.Api.Course.Services.Grpc;
+using Academatica.Api.Course.Services.RabbitMQ;
+using Academatica.Api.Users.DTOs;
+using Academatica.Api.Users.Services.RabbitMQ;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -21,13 +24,16 @@ namespace Academatica.Api.Course.Controllers
     {
         private readonly AcadematicaDbContext _academaticaDbContext;
         private readonly IPracticeAchievementsDataClient _practiceAchievementsDataClient;
+        private readonly IMessageBusClient _messageBusClient;
 
         public CourseController(
             AcadematicaDbContext academaticaDbContext,
-            IPracticeAchievementsDataClient practiceAchievementsDataClient)
+            IPracticeAchievementsDataClient practiceAchievementsDataClient,
+            IMessageBusClient messageBusClient)
         {
             _academaticaDbContext = academaticaDbContext;
             _practiceAchievementsDataClient = practiceAchievementsDataClient;
+            _messageBusClient = messageBusClient;
         }
 
         [HttpGet]
@@ -566,6 +572,13 @@ namespace Academatica.Api.Course.Controllers
             {
                 statsEntry.UserExp += statsEntry.UserExp + finishedClass.ExpReward <= 15000 ? finishedClass.ExpReward : 0;
                 statsEntry.UserExpThisWeek += finishedClass.ExpReward;
+                ExpChangePublishDto expChangePublishDto = new ExpChangePublishDto()
+                {
+                    UserId = user.Id,
+                    ExpThisWeek = statsEntry.UserExpThisWeek,
+                    Event = "EXP_CHANGE"
+                };
+                _messageBusClient.PublishExpChange(expChangePublishDto);
             }
 
             await _academaticaDbContext.SaveChangesAsync();
@@ -606,6 +619,14 @@ namespace Academatica.Api.Course.Controllers
                 {
                     statsEntry.UserExp += statsEntry.UserExp + 50 <= 15000 ? 50u : 0;
                     statsEntry.UserExpThisWeek += 50u;
+                    ExpChangePublishDto expChangePublishDto = new ExpChangePublishDto()
+                    {
+                        UserId = user.Id,
+                        ExpThisWeek = statsEntry.UserExpThisWeek,
+                        Event = "EXP_CHANGE"
+                    };
+                    _messageBusClient.PublishExpChange(expChangePublishDto);
+
 
                     if (statsEntry.BuoysLeft < 5 && !finishPracticeDto.IsCustomPractice)
                     {

@@ -1,5 +1,7 @@
 ﻿using Academatica.Api.Common.Data;
 using Academatica.Api.Common.Models;
+using Academatica.Api.Users.DTOs;
+using Academatica.Api.Users.Services.RabbitMQ;
 using Hangfire;
 using System;
 using System.Collections.Generic;
@@ -11,10 +13,12 @@ namespace Academatica.Api.Users.Services
     public class UserStatsManager : IUserStatsManager
     {
         private readonly AcadematicaDbContext _academaticaDbContext;
+        private readonly IMessageBusClient _messageBusClient;
 
-        public UserStatsManager(AcadematicaDbContext academaticaDbContext)
+        public UserStatsManager(AcadematicaDbContext academaticaDbContext, IMessageBusClient messageBusClient)
         {
             _academaticaDbContext = academaticaDbContext;
+            _messageBusClient = messageBusClient;
         }
 
         public async Task UpdateUsersBuoys()
@@ -63,6 +67,13 @@ namespace Academatica.Api.Users.Services
             {
                 entry.UserExpThisWeek = 0;
             }
+
+            WeeklyUpdatePublishDto updatePublishDto = new WeeklyUpdatePublishDto()
+            {
+                Event = "WEEKLY_UPDATE"
+            };
+
+            _messageBusClient.PublishWeeklyUpdate(updatePublishDto);
 
             await _academaticaDbContext.SaveChangesAsync();
         }

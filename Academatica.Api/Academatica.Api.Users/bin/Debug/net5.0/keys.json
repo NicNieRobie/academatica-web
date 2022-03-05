@@ -11,6 +11,10 @@
     "Authority": "https://localhost:5001",
     "ApiResourceName": "Academatica.Api"
   },
+  "RabbitMQ": {
+    "Host": "localhost",
+    "Port": "5672"
+  },
   "MailConfig": {
     "Passcode": "jwazzawswzqlfuuk"
   }

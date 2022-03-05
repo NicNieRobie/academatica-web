@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: users-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: usersservice
+  template:
+    metadata:
+      labels:
+        app: usersservice
+    spec:
+      containers:
+        - name: usersservice
+          image: nicnierobie/academatica-users-svc:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: users-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: usersservice
+  ports:
+  - name: usersservice
+    protocol: TCP
+    port: 80
+    targetPort: 80
+  - name: usersgrpc
+    protocol: TCP
+    port: 666
+    targetPort: 666

@@ -14,4 +14,18 @@ spec:
     spec:
       containers:
         - name: authservice
-          image: nicnierobie/authsvc:latest
+          image: nicnierobie/academatica-auth-svc:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: auth-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: authservice
+  ports:
+  - name: authservice
+    protocol: TCP
+    port: 80
+    targetPort: 80 

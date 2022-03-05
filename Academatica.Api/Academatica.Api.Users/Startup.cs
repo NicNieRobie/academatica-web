@@ -1,29 +1,21 @@
 using Academatica.Api.Common.Configuration;
 using Academatica.Api.Common.Data;
 using Academatica.Api.Common.Models;
-using Academatica.Api.Common.Services;
 using Academatica.Api.Users.Services;
 using Academatica.Api.Users.Services.Grpc;
+using Academatica.Api.Users.Services.RabbitMQ;
 using AspNetCore.Yandex.ObjectStorage.Extensions;
 using Hangfire;
 using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Academatica.Api.Users
 {
@@ -92,14 +84,21 @@ namespace Academatica.Api.Users
                 options.Configuration = Configuration.GetConnectionString("Redis");
             });
 
-            services.AddHangfire(x => x.UsePostgreSqlStorage(connectionString));
-            services.AddHangfireServer();
+            services.AddHangfire(x =>
+            {
+                x.UsePostgreSqlStorage(connectionString, new PostgreSqlStorageOptions()
+                {
+                    SchemaName = "UserSvcHangfire"
+                });
+            });
+            services.AddHangfireServer(x => x.WorkerCount = 2);
 
             services.AddGrpc();
             services.AddTransient<IAchievementsManager, AchievementsManager>();
             services.AddTransient<IConfirmationCodeManager, ConfirmationCodeManager>();
             services.AddTransient<IUserEmailService, UserEmailService>();
             services.AddTransient<IUserStatsManager, UserStatsManager>();
+            services.AddSingleton<IMessageBusClient, MessageBusClient>();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Academatica.Api.Users", Version = "v1" });
@@ -133,7 +132,7 @@ namespace Academatica.Api.Users
                 endpoints.MapGrpcService<GrpcAchievementsService>();
             });
 
-            RecurringJob.AddOrUpdate<IUserStatsManager>("buoysupdatejob", x => x.UpdateUsersBuoys(), @"*/3 * * * *");
+            RecurringJob.AddOrUpdate<IUserStatsManager>("buoysupdatejob", x => x.UpdateUsersBuoys(), @"0 * * * *");
             RecurringJob.AddOrUpdate<IUserStatsManager>("streakupdatejob", x => x.UpdateUsersDayStreaks(), @"0 0 * * *");
             RecurringJob.AddOrUpdate<IUserStatsManager>("weekexpupdatejob", x => x.UpdateUsersExpThisWeek(), @"0 0 * * 0");
         }

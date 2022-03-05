@@ -7,7 +7,8 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
-COPY ["Academatica.Api.Course/Academatica.Api.Course.csproj", "Academatica.Api.Course/"]
+COPY ["../Academatica.Api.Course/Academatica.Api.Course.csproj", "Academatica.Api.Course/"]
+COPY ["../Academatica.Api.Common/Academatica.Api.Common.csproj", "Academatica.Api.Common/"]
 RUN dotnet restore "Academatica.Api.Course/Academatica.Api.Course.csproj"
 COPY . .
 WORKDIR "/src/Academatica.Api.Course"

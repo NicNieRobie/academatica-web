@@ -1,20 +1,12 @@
 using System;
-using System.IO;
-using System.Text.Encodings.Web;
 using System.Threading.Tasks;
-using Academatica.Api.Common.Models;
 using Academatica.Api.Users.Extensions;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.Extensions.Caching.Distributed;
-using MimeKit;
 
 namespace Academatica.Api.Users.Services {
 
     public class ConfirmationCodeManager: IConfirmationCodeManager {
         private readonly IDistributedCache _codeCache;
-        private readonly IEmailSender _emailService;
-        private readonly IWebHostEnvironment _env;
 
         public ConfirmationCodeManager(IDistributedCache codeCache) {
             _codeCache = codeCache;
