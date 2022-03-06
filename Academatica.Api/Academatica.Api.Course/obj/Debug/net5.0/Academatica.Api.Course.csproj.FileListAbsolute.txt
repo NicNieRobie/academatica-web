@@ -74,3 +74,4 @@ C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.A
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Course\bin\Debug\net5.0\Grpc.Net.ClientFactory.dll
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Course\bin\Debug\net5.0\Grpc.Net.Common.dll
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Course\bin\Debug\net5.0\RabbitMQ.Client.dll
+C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Course\bin\Debug\net5.0\Academatica.Api.Course.xml

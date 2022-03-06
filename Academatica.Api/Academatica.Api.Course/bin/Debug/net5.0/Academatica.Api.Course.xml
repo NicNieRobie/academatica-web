@@ -1,0 +1,160 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Academatica.Api.Course</name>
+    </assembly>
+    <members>
+        <member name="T:Academatica.Api.Course.Controllers.CourseController">
+            <summary>
+            Controller responsible for handling requests related to the Academatica course.
+            </summary>
+        </member>
+        <member name="M:Academatica.Api.Course.Controllers.CourseController.GetUpcomingLessons">
+            <summary>
+            Endpoint used to get upcoming lessons for the authenticated user.
+            </summary>
+            <returns>Upcoming classes.</returns>
+        </member>
+        <member name="M:Academatica.Api.Course.Controllers.CourseController.GetRecommendedPracticeTopic">
+            <summary>
+            Endpoind used to get recommended practice topic for the authenticated user.
+            </summary>
+            <returns>Recommended practice topic.</returns>
+        </member>
+        <member name="M:Academatica.Api.Course.Controllers.CourseController.GetCompletedTopics">
+            <summary>
+            Endpoind used to get completed topics for the authenticated user.
+            </summary>
+            <returns>Completed topics.</returns>
+        </member>
+        <member name="M:Academatica.Api.Course.Controllers.CourseController.GetClass(System.String)">
+            <summary>
+            Endpoind used to get class information for given class ID and authenticated user.
+            </summary>
+            <param name="id">Class ID.</param>
+            <returns>Class information.</returns>
+        </member>
+        <member name="M:Academatica.Api.Course.Controllers.CourseController.GetUserActivity">
+            <summary>
+            Endpoint used to get user activity for the authenticated user.
+            </summary>
+            <returns>User activity data.</returns>
+        </member>
+        <member name="M:Academatica.Api.Course.Controllers.CourseController.GetProblemsForClass(System.String)">
+            <summary>
+            Endpoint used to get random problems for given class ID.
+            </summary>
+            <param name="id">Class ID.</param>
+            <returns>Problem list.</returns>
+        </member>
+        <member name="M:Academatica.Api.Course.Controllers.CourseController.GetCustomPracticeProblems(Academatica.Api.Course.DTOs.GetCustomPracticeProblemsRequestDto)">
+            <summary>
+            Endpoint used to get problems for custom practice with given parameters.
+            </summary>
+            <param name="problemsRequestDto">Custom practice problem request parameters.</param>
+            <returns>Custom practice problem list.</returns>
+        </member>
+        <member name="M:Academatica.Api.Course.Controllers.CourseController.GetRandomPracticeProblems">
+            <summary>
+            Endpoint used to get problems for completed topics practice.
+            </summary>
+            <returns>Problems list.</returns>
+        </member>
+        <member name="M:Academatica.Api.Course.Controllers.CourseController.GetTopicPracticeProblems(System.String)">
+            <summary>
+            Endpoint used to get problems for a topic practice.
+            </summary>
+            <returns>Problems list.</returns>
+        </member>
+        <member name="M:Academatica.Api.Course.Controllers.CourseController.FinishClassForUser(System.String,Academatica.Api.Course.DTOs.FinishClassForUserRequestDto)">
+            <summary>
+            Endpoint used to finish the class with given ID (or practice of a class with given ID) for authenticated user.
+            </summary>
+            <param name="classId">Class ID.</param>
+            <param name="finishClassDto">Class finish params - amount of mistakes.</param>
+            <returns>Action result with received exp and achievements.</returns>
+        </member>
+        <member name="M:Academatica.Api.Course.Controllers.CourseController.FinishPracticeForUser(Academatica.Api.Course.DTOs.FinishPracticeForUserRequestDto)">
+            <summary>
+            Endpoint used to finish the practice for authenticated user.
+            </summary>
+            <param name="finishPracticeDto">Practice finish params - amount of mistakes.</param>
+            <returns>Action result with received exp and achievements.</returns>
+        </member>
+        <member name="M:Academatica.Api.Course.Controllers.CourseController.GetTiersForUser">
+            <summary>
+            Endpoint used to get tiers info for authenticated user.
+            </summary>
+            <returns>Tier list.</returns>
+        </member>
+        <member name="M:Academatica.Api.Course.Controllers.CourseController.GetTopicsForUser(System.String)">
+            <summary>
+            Endpoint used to get topic info for authenticated user in the given tier.
+            </summary>
+            <param name="id">Tier ID.</param>
+            <returns>Topic list.</returns>
+        </member>
+        <member name="M:Academatica.Api.Course.Controllers.CourseController.GetClassesForUser(System.String,System.String)">
+            <summary>
+            Endpoint used to get classes info for authenticated user in the given tier and given topic.
+            </summary>
+            <param name="tierId">Tier ID.</param>
+            <param name="topicId">Topic ID.</param>
+            <returns>Topic list.</returns>
+        </member>
+        <member name="T:Academatica.Api.PracticeAchievementsReflection">
+            <summary>Holder for reflection information generated from Protos/practiceAchievements.proto</summary>
+        </member>
+        <member name="P:Academatica.Api.PracticeAchievementsReflection.Descriptor">
+            <summary>File descriptor for Protos/practiceAchievements.proto</summary>
+        </member>
+        <member name="F:Academatica.Api.GetPracticeAchievementsRequest.UserIdFieldNumber">
+            <summary>Field number for the "userId" field.</summary>
+        </member>
+        <member name="F:Academatica.Api.GetPracticeAchievementsRequest.ClassIdFieldNumber">
+            <summary>Field number for the "classId" field.</summary>
+        </member>
+        <member name="F:Academatica.Api.GetPracticeAchievementsRequest.MistakesMadeFieldNumber">
+            <summary>Field number for the "mistakesMade" field.</summary>
+        </member>
+        <member name="F:Academatica.Api.GrpcAchievementModel.IdFieldNumber">
+            <summary>Field number for the "id" field.</summary>
+        </member>
+        <member name="F:Academatica.Api.GrpcAchievementModel.NameFieldNumber">
+            <summary>Field number for the "name" field.</summary>
+        </member>
+        <member name="F:Academatica.Api.GrpcAchievementModel.DescriptionFieldNumber">
+            <summary>Field number for the "description" field.</summary>
+        </member>
+        <member name="F:Academatica.Api.GrpcAchievementModel.ImageUrlFieldNumber">
+            <summary>Field number for the "imageUrl" field.</summary>
+        </member>
+        <member name="F:Academatica.Api.PracticeAchievementsResponse.AchievementsFieldNumber">
+            <summary>Field number for the "achievements" field.</summary>
+        </member>
+        <member name="P:Academatica.Api.GrpcAchievements.Descriptor">
+            <summary>Service descriptor</summary>
+        </member>
+        <member name="T:Academatica.Api.GrpcAchievements.GrpcAchievementsClient">
+            <summary>Client for GrpcAchievements</summary>
+        </member>
+        <member name="M:Academatica.Api.GrpcAchievements.GrpcAchievementsClient.#ctor(Grpc.Core.ChannelBase)">
+            <summary>Creates a new client for GrpcAchievements</summary>
+            <param name="channel">The channel to use to make remote calls.</param>
+        </member>
+        <member name="M:Academatica.Api.GrpcAchievements.GrpcAchievementsClient.#ctor(Grpc.Core.CallInvoker)">
+            <summary>Creates a new client for GrpcAchievements that uses a custom <c>CallInvoker</c>.</summary>
+            <param name="callInvoker">The callInvoker to use to make remote calls.</param>
+        </member>
+        <member name="M:Academatica.Api.GrpcAchievements.GrpcAchievementsClient.#ctor">
+            <summary>Protected parameterless constructor to allow creation of test doubles.</summary>
+        </member>
+        <member name="M:Academatica.Api.GrpcAchievements.GrpcAchievementsClient.#ctor(Grpc.Core.ClientBase.ClientBaseConfiguration)">
+            <summary>Protected constructor to allow creation of configured clients.</summary>
+            <param name="configuration">The client configuration.</param>
+        </member>
+        <member name="M:Academatica.Api.GrpcAchievements.GrpcAchievementsClient.NewInstance(Grpc.Core.ClientBase.ClientBaseConfiguration)">
+            <summary>Creates a new instance of client from given <c>ClientBaseConfiguration</c>.</summary>
+        </member>
+    </members>
+</doc>

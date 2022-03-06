@@ -10,17 +10,31 @@ spec:
     - host: acme.com
       http:
         paths:
-          - path: /api/platforms
+          - path: /connect
             pathType: Prefix
             backend:
               service:
-                name: platforms-clusterip-srv
+                name: auth-clusterip-srv
                 port:
                   number: 80
-          - path: /api/c/platforms
+          - path: /api/course
             pathType: Prefix
             backend:
               service:
-                name: commands-clusterip-srv
+                name: course-clusterip-srv
+                port:
+                  number: 80
+          - path: /api/users
+            pathType: Prefix
+            backend:
+              service:
+                name: users-clusterip-srv
+                port:
+                  number: 80
+          - path: /api/leaderboard
+            pathType: Prefix
+            backend:
+              service:
+                name: leaderboard-clusterip-srv
                 port:
                   number: 80

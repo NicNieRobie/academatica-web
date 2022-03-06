@@ -168,4 +168,4 @@ C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.A
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\bin\Debug\net5.0\keys.json
-C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\obj\Debug\net5.0\Academatica.Api.Auth.csproj.CopyComplete
+C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\bin\Debug\net5.0\Academatica.Api.Auth.xml

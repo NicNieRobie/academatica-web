@@ -8,6 +8,7 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY ["Academatica.Api.Leaderboards/Academatica.Api.Leaderboards.csproj", "Academatica.Api.Leaderboards/"]
+COPY ["Academatica.Api.Common/Academatica.Api.Common.csproj", "Academatica.Api.Common/"]
 RUN dotnet restore "Academatica.Api.Leaderboards/Academatica.Api.Leaderboards.csproj"
 COPY . .
 WORKDIR "/src/Academatica.Api.Leaderboards"

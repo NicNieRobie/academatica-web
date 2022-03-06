@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.OpenApi.Models;
+using System.IO;
 
 namespace Academatica.Api.Users
 {
@@ -101,6 +102,8 @@ namespace Academatica.Api.Users
             services.AddSingleton<IMessageBusClient, MessageBusClient>();
             services.AddSwaggerGen(c =>
             {
+                var filePath = Path.Combine(System.AppContext.BaseDirectory, "Academatica.Api.Users.xml");
+                c.IncludeXmlComments(filePath);
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Academatica.Api.Users", Version = "v1" });
             });
         }

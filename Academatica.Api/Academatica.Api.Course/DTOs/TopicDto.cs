@@ -19,6 +19,6 @@ namespace Academatica.Api.Course.DTOs
         [Required]
         public bool IsAlgebraTopic { get; set; }
         [Required]
-        public uint MaxProblemCount { get; set; }
+        public int CompletionRate { get; set; }
     }
 }

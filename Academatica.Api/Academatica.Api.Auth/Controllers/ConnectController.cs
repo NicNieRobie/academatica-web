@@ -22,6 +22,9 @@ using System.Text.Encodings.Web;
 
 namespace Academatica.Api.Auth.Controllers
 {
+    /// <summary>
+    /// Controller responsible for handling authentication requests for API connection.
+    /// </summary>
     [Route("connect")]
     public class ConnectController : Controller
     {
@@ -30,11 +33,13 @@ namespace Academatica.Api.Auth.Controllers
         private readonly IEmailSender _emailSender;
         private readonly IWebHostEnvironment _env;
         private readonly RoleManager<AcadematicaRole> _roleManager;
+        private readonly YandexStorageService _yandexStorageService;
 
         public ConnectController(
             UserManager<User> userManager,
             AcadematicaDbContext academaticaDbContext,
             RoleManager<AcadematicaRole> roleManager,
+            YandexStorageService yandexStorageService,
             IEmailSender emailSender,
             IWebHostEnvironment env)
         {
@@ -43,11 +48,16 @@ namespace Academatica.Api.Auth.Controllers
             _emailSender = emailSender;
             _env = env;
             _roleManager = roleManager;
+            _yandexStorageService = yandexStorageService;
         }
 
+        /// <summary>
+        /// User registration endpoint.
+        /// </summary>
+        /// <param name="registrationRequestDto">User registartion data.</param>
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register([FromBody] RegistrationRequestDto registrationRequestDto)
+        public async Task<IActionResult> Register([FromForm] RegistrationRequestDto registrationRequestDto)
         {
             if (ModelState.IsValid)
             {
@@ -122,6 +132,27 @@ namespace Academatica.Api.Auth.Controllers
 
                     await _emailSender.SendEmailAsync(newUser.Email, "Подтверждение адреса от учётной записи Academatica", messageBody);
 
+                    if (registrationRequestDto.ProfilePicture != null)
+                    {
+                        long length = registrationRequestDto.ProfilePicture.Length;
+                        if (length < 0)
+                        {
+                            return BadRequest("Invalid file format.");
+                        }
+
+                        using var fileStream = registrationRequestDto.ProfilePicture.OpenReadStream();
+                        byte[] bytes = new byte[length];
+                        fileStream.Read(bytes, 0, (int)registrationRequestDto.ProfilePicture.Length);
+
+                        S3PutResponse response = await _yandexStorageService.PutObjectAsync(bytes, $"Users/{newUser.Id}/pic.jpeg");
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            newUser.ProfilePicUrl = response.Result;
+                            await _academaticaDbContext.SaveChangesAsync();
+                        }
+                    }
+
                     return Ok();
                 }
 
@@ -131,6 +162,11 @@ namespace Academatica.Api.Auth.Controllers
             return BadRequest("Invalid request payload");
         }
 
+        /// <summary>
+        /// User email post-registration confirmation endpoint.
+        /// </summary>
+        /// <param name="userId">User ID.</param>
+        /// <param name="code">Confirmation code (generated automatically).</param>
         [HttpGet]
         [Route("confirm-mail")]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)

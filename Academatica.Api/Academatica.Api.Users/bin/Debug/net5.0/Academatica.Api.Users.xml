@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Academatica.Api.Users</name>
+    </assembly>
+    <members>
+        <member name="M:Academatica.Api.Users.Controllers.UsersController.SetUserProfileImage(System.Guid,Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            Endpoint used to set a user profile image.
+            </summary>
+            <param name="id">User ID.</param>
+            <param name="picture">New user profile picture.</param>
+        </member>
+        <member name="M:Academatica.Api.Users.Controllers.UsersController.DeleteUser(System.Guid)">
+            <summary>
+            Endpoint used by admin to delete a user.
+            </summary>
+            <param name="id">User ID.</param>
+        </member>
+        <member name="M:Academatica.Api.Users.Controllers.UsersController.SetUserUsername(System.Guid,Academatica.Api.Users.DTOs.UserChangeUsernameRequestDto)">
+            <summary>
+            Endpoint used to change the user's username.
+            </summary>
+            <param name="id">User ID.</param>
+            <param name="changeUsernameRequestDTO">Body - new username.</param>
+        </member>
+        <member name="M:Academatica.Api.Users.Controllers.UsersController.SetUserEmail(System.Guid,Academatica.Api.Users.DTOs.UserChangeEmailRequestDto)">
+            <summary>
+            Endpoint used to change user email address.
+            </summary>
+            <param name="id">User ID.</param>
+            <param name="changeEmailRequestDTO">New email address and the confirmation code.</param>
+        </member>
+        <member name="M:Academatica.Api.Users.Controllers.UsersController.SendUserEmailConfirmationCode(System.Guid)">
+            <summary>
+            Endpoint used to send an email change confirmation code to user's email address.
+            </summary>
+            <param name="id">User ID.</param>
+        </member>
+        <member name="M:Academatica.Api.Users.Controllers.UsersController.CheckUserEmailConfirmationCode(System.Guid,System.String)">
+            <summary>
+            Endpoint used to check if specified code is equal to an email change confirmation code sent to user's email address.
+            </summary>
+            <param name="id">User ID.</param>
+            <param name="code">Code to check.</param>
+        </member>
+        <member name="M:Academatica.Api.Users.Controllers.UsersController.ConfirmUserEmailChange(System.Guid,System.String)">
+            <summary>
+            Endpoint used to confirm user email address change.
+            </summary>
+            <param name="id">User ID.</param>
+            <param name="code">Email change code (generated automatically).</param>
+        </member>
+        <member name="M:Academatica.Api.Users.Controllers.UsersController.RollbackUserEmailChange(System.Guid,System.String,System.String)">
+            <summary>
+            Endpoint used to roll the email address change back.
+            </summary>
+            <param name="id">User ID.</param>
+            <param name="code">Email change code (generated automatically).</param>
+            <param name="oldEmail">Previous email.</param>
+        </member>
+        <member name="M:Academatica.Api.Users.Controllers.UsersController.GetUserProfile(System.Guid)">
+            <summary>
+            Endpoint used to get user profile information (username, profile pic URL, first name, last name, 
+            experience points, exp points this week, level, exp until the next level).
+            </summary>
+            <param name="id">User ID.</param>
+        </member>
+        <member name="M:Academatica.Api.Users.Controllers.UsersController.GetUserState(System.Guid)">
+            <summary>
+            Endpoint used to get current user state (the amount of buoys left and the duration of a day streak).
+            </summary>
+            <param name="id">User ID.</param>
+        </member>
+        <member name="M:Academatica.Api.Users.Controllers.UsersController.GetUserBuoys(System.Guid)">
+            <summary>
+            Endpoint used to get the amount of user's lifebuoys.
+            </summary>
+            <param name="id">User ID.</param>
+        </member>
+        <member name="M:Academatica.Api.Users.Controllers.UsersController.DecreaseUserBuoys(System.Guid)">
+            <summary>
+            Endpoint used to decrease the amount of lifebuoys user has.
+            </summary>
+            <param name="id">User ID.</param>
+        </member>
+        <member name="M:Academatica.Api.Users.Controllers.UsersController.FindUserByEmail(System.String)">
+            <summary>
+            Endpoint used to get user's ID from user's email if possible.
+            </summary>
+            <param name="email">User email.</param>
+        </member>
+        <member name="M:Academatica.Api.Users.Controllers.UsersController.SendUserPasswordConfirmationCode(System.Guid)">
+            <summary>
+            Endpoint used to send a password change confirmation code to user's email address.
+            </summary>
+            <param name="id">User ID.</param>
+        </member>
+        <member name="M:Academatica.Api.Users.Controllers.UsersController.CheckUserPasswordConfirmationCode(System.Guid,System.String)">
+            <summary>
+            Endpoint used to check if specified code is equal to a password change confirmation code sent to user's email address.
+            </summary>
+            <param name="id">User ID.</param>
+            <param name="code">Code to check.</param>
+        </member>
+        <member name="M:Academatica.Api.Users.Controllers.UsersController.RestoreUserPassword(System.Guid,Academatica.Api.Users.DTOs.UserRestorePasswordRequestDto)">
+            <summary>
+            Endpoint used to perform pasword reset for specified user with a confirmation code.
+            </summary>
+            <param name="id">User ID.</param>
+            <param name="restorePasswordRequestDto">New password, new password confirmation and confirmation code.</param>
+        </member>
+        <member name="M:Academatica.Api.Users.Controllers.UsersController.SetUserPassword(System.Guid,Academatica.Api.Users.DTOs.UserChangePasswordRequestDto)">
+            <summary>
+            Endpoint used to change the user's password given his current password.
+            </summary>
+            <param name="id">User ID.</param>
+            <param name="changePasswordRequestDto">Old password, new password, new password confirmation.</param>
+        </member>
+        <member name="M:Academatica.Api.Users.Controllers.UsersController.GetUserAchievements(System.Guid)">
+            <summary>
+            Endpoint used to get a list of user's achievements.
+            </summary>
+            <param name="id">User ID.</param>
+        </member>
+        <member name="T:Academatica.Api.PracticeAchievementsReflection">
+            <summary>Holder for reflection information generated from Protos/practiceAchievements.proto</summary>
+        </member>
+        <member name="P:Academatica.Api.PracticeAchievementsReflection.Descriptor">
+            <summary>File descriptor for Protos/practiceAchievements.proto</summary>
+        </member>
+        <member name="F:Academatica.Api.GetPracticeAchievementsRequest.UserIdFieldNumber">
+            <summary>Field number for the "userId" field.</summary>
+        </member>
+        <member name="F:Academatica.Api.GetPracticeAchievementsRequest.ClassIdFieldNumber">
+            <summary>Field number for the "classId" field.</summary>
+        </member>
+        <member name="F:Academatica.Api.GetPracticeAchievementsRequest.MistakesMadeFieldNumber">
+            <summary>Field number for the "mistakesMade" field.</summary>
+        </member>
+        <member name="F:Academatica.Api.GrpcAchievementModel.IdFieldNumber">
+            <summary>Field number for the "id" field.</summary>
+        </member>
+        <member name="F:Academatica.Api.GrpcAchievementModel.NameFieldNumber">
+            <summary>Field number for the "name" field.</summary>
+        </member>
+        <member name="F:Academatica.Api.GrpcAchievementModel.DescriptionFieldNumber">
+            <summary>Field number for the "description" field.</summary>
+        </member>
+        <member name="F:Academatica.Api.GrpcAchievementModel.ImageUrlFieldNumber">
+            <summary>Field number for the "imageUrl" field.</summary>
+        </member>
+        <member name="F:Academatica.Api.PracticeAchievementsResponse.AchievementsFieldNumber">
+            <summary>Field number for the "achievements" field.</summary>
+        </member>
+        <member name="P:Academatica.Api.GrpcAchievements.Descriptor">
+            <summary>Service descriptor</summary>
+        </member>
+        <member name="T:Academatica.Api.GrpcAchievements.GrpcAchievementsBase">
+            <summary>Base class for server-side implementations of GrpcAchievements</summary>
+        </member>
+        <member name="M:Academatica.Api.GrpcAchievements.BindService(Academatica.Api.GrpcAchievements.GrpcAchievementsBase)">
+            <summary>Creates service definition that can be registered with a server</summary>
+            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+        </member>
+        <member name="M:Academatica.Api.GrpcAchievements.BindService(Grpc.Core.ServiceBinderBase,Academatica.Api.GrpcAchievements.GrpcAchievementsBase)">
+            <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
+            Note: this method is part of an experimental API that can change or be removed without any prior notice.</summary>
+            <param name="serviceBinder">Service methods will be bound by calling <c>AddMethod</c> on this object.</param>
+            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
+        </member>
+    </members>
+</doc>

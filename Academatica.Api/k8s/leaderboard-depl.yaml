@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: leaderboard-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: leaderboardservice
+  template:
+    metadata:
+      labels:
+        app: leaderboardservice
+    spec:
+      containers:
+        - name: leaderboardservice
+          image: nicnierobie/academatica-leaderboard-svc:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: leaderboard-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: leaderboardservice
+  ports:
+  - name: leaderboardservice
+    protocol: TCP
+    port: 80
+    targetPort: 80
