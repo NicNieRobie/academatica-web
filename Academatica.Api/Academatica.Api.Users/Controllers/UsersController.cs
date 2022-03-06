@@ -258,7 +258,7 @@ namespace Academatica.Api.Users.Controllers
         }
 
         /// <summary>
-        /// Endpoint used to send an email change confirmation code to user's email address.
+        /// Endpoint used to send an email change confirmation code to the user's email address.
         /// </summary>
         /// <param name="id">User ID.</param>
         [HttpPost]
@@ -286,7 +286,7 @@ namespace Academatica.Api.Users.Controllers
         }
 
         /// <summary>
-        /// Endpoint used to check if specified code is equal to an email change confirmation code sent to user's email address.
+        /// Endpoint used to check if specified code is equal to an email change confirmation code sent to the user's email address.
         /// </summary>
         /// <param name="id">User ID.</param>
         /// <param name="code">Code to check.</param>
