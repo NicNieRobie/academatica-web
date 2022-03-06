@@ -1,24 +1,16 @@
 ﻿using Academatica.Api.Common.Data;
 using Academatica.Api.Common.Models;
 using Academatica.Api.Users.DTOs;
-using Academatica.Api.Users.Extensions;
 using Academatica.Api.Users.Services;
 using AspNetCore.Yandex.ObjectStorage;
 using AspNetCore.Yandex.ObjectStorage.Models;
-using Hangfire;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Academatica.Api.Users.Controllers
@@ -51,9 +43,14 @@ namespace Academatica.Api.Users.Controllers
             _achievementsManager = achievementsManager;
         }
 
+        /// <summary>
+        /// Endpoint used to set a user profile image.
+        /// </summary>
+        /// <param name="id">User ID.</param>
+        /// <param name="picture">New user profile picture.</param>
         [HttpPatch]
         [Route("{id}/image")]
-        public async Task<IActionResult> SetUserProfileImage(Guid id, [FromForm] IFormFile formFile)
+        public async Task<IActionResult> SetUserProfileImage(Guid id, [FromForm] IFormFile picture)
         {
             var userId = User.FindFirst("sub")?.Value;
 
@@ -69,15 +66,15 @@ namespace Academatica.Api.Users.Controllers
                 return BadRequest("Invalid user ID.");
             }
 
-            long length = formFile.Length;
+            long length = picture.Length;
             if (length < 0)
             {
                 return BadRequest("Invalid file format.");
             }
 
-            using var fileStream = formFile.OpenReadStream();
+            using var fileStream = picture.OpenReadStream();
             byte[] bytes = new byte[length];
-            fileStream.Read(bytes, 0, (int)formFile.Length);
+            fileStream.Read(bytes, 0, (int)picture.Length);
 
             S3PutResponse response = await _yandexStorageService.PutObjectAsync(bytes, $"Users/{id}/pic.jpeg");
 
@@ -85,13 +82,17 @@ namespace Academatica.Api.Users.Controllers
             {
                 user.ProfilePicUrl = response.Result;
                 await _academaticaDbContext.SaveChangesAsync();
-                return Ok(response.Result);
+                return Ok();
             } else
             {
                 return BadRequest("Could not upload the file.");
             }
         }
 
+        /// <summary>
+        /// Endpoint used by admin to delete a user.
+        /// </summary>
+        /// <param name="id">User ID.</param>
         [Authorize(Roles = "Admin")]
         [HttpDelete]
         [Route("{id}")]
@@ -110,6 +111,11 @@ namespace Academatica.Api.Users.Controllers
             return Ok($"User {id} deleted");
         }
 
+        /// <summary>
+        /// Endpoint used to change the user's username.
+        /// </summary>
+        /// <param name="id">User ID.</param>
+        /// <param name="changeUsernameRequestDTO">Body - new username.</param>
         [HttpPatch]
         [Route("{id}/username")]
         public async Task<IActionResult> SetUserUsername(Guid id, [FromBody] UserChangeUsernameRequestDto changeUsernameRequestDTO)
@@ -149,6 +155,11 @@ namespace Academatica.Api.Users.Controllers
             }
         }
 
+        /// <summary>
+        /// Endpoint used to change user email address.
+        /// </summary>
+        /// <param name="id">User ID.</param>
+        /// <param name="changeEmailRequestDTO">New email address and the confirmation code.</param>
         [HttpPatch]
         [Route("{id}/email")]
         public async Task<IActionResult> SetUserEmail(Guid id, [FromBody] UserChangeEmailRequestDto changeEmailRequestDTO)
@@ -246,6 +257,10 @@ namespace Academatica.Api.Users.Controllers
             }
         }
 
+        /// <summary>
+        /// Endpoint used to send an email change confirmation code to user's email address.
+        /// </summary>
+        /// <param name="id">User ID.</param>
         [HttpPost]
         [Route("{id}/email/confirmation-code")]
         public async Task<IActionResult> SendUserEmailConfirmationCode(Guid id)
@@ -270,6 +285,11 @@ namespace Academatica.Api.Users.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Endpoint used to check if specified code is equal to an email change confirmation code sent to user's email address.
+        /// </summary>
+        /// <param name="id">User ID.</param>
+        /// <param name="code">Code to check.</param>
         [HttpGet]
         [Route("{id}/email/confirmation-code")]
         public async Task<IActionResult> CheckUserEmailConfirmationCode(Guid id, [FromQuery] string code)
@@ -310,6 +330,11 @@ namespace Academatica.Api.Users.Controllers
             }
         }
 
+        /// <summary>
+        /// Endpoint used to confirm user email address change.
+        /// </summary>
+        /// <param name="id">User ID.</param>
+        /// <param name="code">Email change code (generated automatically).</param>
         [AllowAnonymous]
         [HttpGet]
         [Route("{id}/email/confirm")]
@@ -335,6 +360,12 @@ namespace Academatica.Api.Users.Controllers
             return Redirect("https://localhost:5011/email-not-confirmed");
         }
 
+        /// <summary>
+        /// Endpoint used to roll the email address change back.
+        /// </summary>
+        /// <param name="id">User ID.</param>
+        /// <param name="code">Email change code (generated automatically).</param>
+        /// <param name="oldEmail">Previous email.</param>
         [AllowAnonymous]
         [HttpGet]
         [Route("{id}/email/rollback")]
@@ -360,6 +391,11 @@ namespace Academatica.Api.Users.Controllers
             return Redirect("https://localhost:5011/error");
         }
 
+        /// <summary>
+        /// Endpoint used to get user profile information (username, profile pic URL, first name, last name, 
+        /// experience points, exp points this week, level, exp until the next level).
+        /// </summary>
+        /// <param name="id">User ID.</param>
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetUserProfile(Guid id)
@@ -387,6 +423,10 @@ namespace Academatica.Api.Users.Controllers
             });
         }
 
+        /// <summary>
+        /// Endpoint used to get current user state (the amount of buoys left and the duration of a day streak).
+        /// </summary>
+        /// <param name="id">User ID.</param>
         [HttpGet]
         [Route("{id}/state")]
         public IActionResult GetUserState(Guid id)
@@ -404,6 +444,10 @@ namespace Academatica.Api.Users.Controllers
             });
         }
 
+        /// <summary>
+        /// Endpoint used to get the amount of user's lifebuoys.
+        /// </summary>
+        /// <param name="id">User ID.</param>
         [HttpGet]
         [Route("{id}/buoys")]
         public IActionResult GetUserBuoys(Guid id)
@@ -420,6 +464,10 @@ namespace Academatica.Api.Users.Controllers
             });
         }
 
+        /// <summary>
+        /// Endpoint used to decrease the amount of lifebuoys user has.
+        /// </summary>
+        /// <param name="id">User ID.</param>
         [HttpPatch]
         [Route("{id}/buoys")]
         public async Task<IActionResult> DecreaseUserBuoys(Guid id)
@@ -437,6 +485,10 @@ namespace Academatica.Api.Users.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Endpoint used to get user's ID from user's email if possible.
+        /// </summary>
+        /// <param name="email">User email.</param>
         [HttpGet]
         [Route("id/{email}")]
         public async Task<IActionResult> FindUserByEmail(string email)
@@ -464,6 +516,10 @@ namespace Academatica.Api.Users.Controllers
             });
         }
 
+        /// <summary>
+        /// Endpoint used to send a password change confirmation code to user's email address.
+        /// </summary>
+        /// <param name="id">User ID.</param>
         [HttpPost]
         [Route("{id}/password/confirmation-code")]
         public async Task<IActionResult> SendUserPasswordConfirmationCode(Guid id)
@@ -488,6 +544,11 @@ namespace Academatica.Api.Users.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Endpoint used to check if specified code is equal to a password change confirmation code sent to user's email address.
+        /// </summary>
+        /// <param name="id">User ID.</param>
+        /// <param name="code">Code to check.</param>
         [HttpGet]
         [Route("{id}/password/confirmation-code")]
         public async Task<IActionResult> CheckUserPasswordConfirmationCode(Guid id, [FromQuery] string code)
@@ -529,6 +590,11 @@ namespace Academatica.Api.Users.Controllers
             }
         }
 
+        /// <summary>
+        /// Endpoint used to perform pasword reset for specified user with a confirmation code.
+        /// </summary>
+        /// <param name="id">User ID.</param>
+        /// <param name="restorePasswordRequestDto">New password, new password confirmation and confirmation code.</param>
         [HttpPatch]
         [Route("{id}/password/restore")]
         public async Task<IActionResult> RestoreUserPassword(Guid id, [FromBody] UserRestorePasswordRequestDto restorePasswordRequestDto)
@@ -618,6 +684,11 @@ namespace Academatica.Api.Users.Controllers
             }
         }
 
+        /// <summary>
+        /// Endpoint used to change the user's password given his current password.
+        /// </summary>
+        /// <param name="id">User ID.</param>
+        /// <param name="changePasswordRequestDto">Old password, new password, new password confirmation.</param>
         [HttpPatch]
         [Route("{id}/password/")]
         public async Task<IActionResult> SetUserPassword(Guid id, [FromBody] UserChangePasswordRequestDto changePasswordRequestDto)
@@ -690,6 +761,10 @@ namespace Academatica.Api.Users.Controllers
             }
         }
 
+        /// <summary>
+        /// Endpoint used to get a list of user's achievements.
+        /// </summary>
+        /// <param name="id">User ID.</param>
         [HttpGet]
         [Route("{id}/achievements")]
         public IActionResult GetUserAchievements(Guid id)

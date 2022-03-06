@@ -8,15 +8,15 @@ using Academatica.Api.Common.Models;
 using Academatica.Api.Course.DTOs;
 using Academatica.Api.Course.Services;
 using Academatica.Api.Course.Services.Grpc;
-using Academatica.Api.Course.Services.RabbitMQ;
 using Academatica.Api.Users.DTOs;
 using Academatica.Api.Users.Services.RabbitMQ;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-
 namespace Academatica.Api.Course.Controllers
 {
+    /// <summary>
+    /// Controller responsible for handling requests related to the Academatica course.
+    /// </summary>
     [ApiController]
     [Route("api/course")]
     [Authorize(AuthenticationSchemes = "Bearer")]
@@ -36,6 +36,10 @@ namespace Academatica.Api.Course.Controllers
             _messageBusClient = messageBusClient;
         }
 
+        /// <summary>
+        /// Endpoint used to get upcoming lessons for the authenticated user.
+        /// </summary>
+        /// <returns>Upcoming classes.</returns>
         [HttpGet]
         [Route("classes/upcoming")]
         public IActionResult GetUpcomingLessons()
@@ -97,6 +101,10 @@ namespace Academatica.Api.Course.Controllers
             });
         }
 
+        /// <summary>
+        /// Endpoind used to get recommended practice topic for the authenticated user.
+        /// </summary>
+        /// <returns>Recommended practice topic.</returns>
         [HttpGet]
         [Route("practice/recommended")]
         public IActionResult GetRecommendedPracticeTopic()
@@ -148,8 +156,7 @@ namespace Academatica.Api.Course.Controllers
                         Id = topic.Id,
                         ImageUrl = topic.ImageUrl,
                         IsAlgebraTopic = topic.IsAlgebraTopic,
-                        Name = topic.Name,
-                        MaxProblemCount = (uint)_academaticaDbContext.Problems.Where(x => x.TopicId == topic.Id).Count()
+                        Name = topic.Name
                     }
                 });
             }
@@ -173,12 +180,15 @@ namespace Academatica.Api.Course.Controllers
                     Id = recommendedTopic.Id,
                     ImageUrl = recommendedTopic.ImageUrl,
                     IsAlgebraTopic = recommendedTopic.IsAlgebraTopic,
-                    Name = recommendedTopic.Name,
-                    MaxProblemCount = (uint)_academaticaDbContext.Problems.Where(x => x.TopicId == recommendedTopic.Id).Count()
+                    Name = recommendedTopic.Name
                 }
             });
         }
 
+        /// <summary>
+        /// Endpoind used to get completed topics for the authenticated user.
+        /// </summary>
+        /// <returns>Completed topics.</returns>
         [HttpGet]
         [Route("topics/completed")]
         public IActionResult GetCompletedTopics()
@@ -205,9 +215,14 @@ namespace Academatica.Api.Course.Controllers
             return Ok(completedTopics);
         }
 
+        /// <summary>
+        /// Endpoind used to get class information for given class ID and authenticated user.
+        /// </summary>
+        /// <param name="id">Class ID.</param>
+        /// <returns>Class information.</returns>
         [HttpGet]
         [Route("classes/{id}")]
-        public IActionResult GetCompletedTopics(string id)
+        public IActionResult GetClass(string id)
         {
             var userId = User.FindFirst("sub")?.Value;
 
@@ -274,6 +289,10 @@ namespace Academatica.Api.Course.Controllers
             });
         }
 
+        /// <summary>
+        /// Endpoint used to get user activity for the authenticated user.
+        /// </summary>
+        /// <returns>User activity data.</returns>
         [HttpGet]
         [Route("activity")]
         public IActionResult GetUserActivity()
@@ -307,6 +326,11 @@ namespace Academatica.Api.Course.Controllers
             });
         }
 
+        /// <summary>
+        /// Endpoint used to get random problems for given class ID.
+        /// </summary>
+        /// <param name="id">Class ID.</param>
+        /// <returns>Problem list.</returns>
         [HttpGet]
         [Route("classes/{id}/problems")]
         public IActionResult GetProblemsForClass(string id)
@@ -352,6 +376,11 @@ namespace Academatica.Api.Course.Controllers
             });
         }
 
+        /// <summary>
+        /// Endpoint used to get problems for custom practice with given parameters.
+        /// </summary>
+        /// <param name="problemsRequestDto">Custom practice problem request parameters.</param>
+        /// <returns>Custom practice problem list.</returns>
         [HttpPost]
         [Route("practice/custom/problems")]
         public IActionResult GetCustomPracticeProblems(GetCustomPracticeProblemsRequestDto problemsRequestDto)
@@ -420,8 +449,12 @@ namespace Academatica.Api.Course.Controllers
             }
         }
 
+        /// <summary>
+        /// Endpoint used to get problems for completed topics practice.
+        /// </summary>
+        /// <returns>Problems list.</returns>
         [HttpGet]
-        [Route("practice/random/problems")]
+        [Route("practice/completed/problems")]
         public IActionResult GetRandomPracticeProblems()
         {
             var userId = User.FindFirst("sub")?.Value;
@@ -464,6 +497,62 @@ namespace Academatica.Api.Course.Controllers
             });
         }
 
+        /// <summary>
+        /// Endpoint used to get problems for a topic practice.
+        /// </summary>
+        /// <returns>Problems list.</returns>
+        [HttpGet]
+        [Route("practice/topic/problems")]
+        public IActionResult GetTopicPracticeProblems([FromQuery] string topicId)
+        {
+            var userId = User.FindFirst("sub")?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest("User ID was null.");
+            }
+
+            var user = _academaticaDbContext.Users.Where(x => x.Id.ToString() == userId).FirstOrDefault();
+
+            if (user == null)
+            {
+                return NotFound("Invalid user ID.");
+            }
+
+            var topic = _academaticaDbContext.Topics.Where(x => x.Id == topicId).FirstOrDefault();
+
+            if (topic == null)
+            {
+                return NotFound("Invalid topic ID.");
+            }
+
+            var randomProblems = _academaticaDbContext.Problems.Where(x => x.TopicId == topicId).AsEnumerable().OrderBy(x => Guid.NewGuid()).Take(15);
+
+            return Ok(new GetTopicPracticeProblemsResponseDto()
+            {
+                Problems = randomProblems.Select(x => new ProblemDto()
+                {
+                    Id = x.Id,
+                    ClassId = x.ClassId,
+                    TopicId = x.TopicId,
+                    CorrectAnswers = x.CorrectAnswers,
+                    Description = x.Description,
+                    Difficulty = x.Difficulty,
+                    Expression = x.Expression,
+                    ImageUrl = x.ImageUrl,
+                    Options = x.Options,
+                    ProblemType = x.ProblemType,
+                    Task = x.Task
+                })
+            });
+        }
+
+        /// <summary>
+        /// Endpoint used to finish the class with given ID (or practice of a class with given ID) for authenticated user.
+        /// </summary>
+        /// <param name="classId">Class ID.</param>
+        /// <param name="finishClassDto">Class finish params - amount of mistakes.</param>
+        /// <returns>Action result with received exp and achievements.</returns>
         [HttpPost]
         [Route("classes/{classId}/finish")]
         public async Task<IActionResult> FinishClassForUser(string classId, [FromBody] FinishClassForUserRequestDto finishClassDto)
@@ -493,7 +582,30 @@ namespace Academatica.Api.Course.Controllers
 
             if (userCompletedClasses.Select(x => x.ClassId).Contains(finishedClass.Id))
             {
-                return BadRequest($"Class ID {classId} already finished.");
+                var stats = _academaticaDbContext.UserStats.Where(x => x.UserId == user.Id).FirstOrDefault();
+
+                if (stats != null)
+                {
+                    stats.UserExp += stats.UserExp + finishedClass.ExpReward <= 15000 ? finishedClass.ExpReward : 0;
+                    stats.UserExpThisWeek += finishedClass.ExpReward;
+                    ExpChangePublishDto expChangePublishDto = new ExpChangePublishDto()
+                    {
+                        UserId = user.Id,
+                        ExpThisWeek = stats.UserExpThisWeek,
+                        Event = "EXP_CHANGE"
+                    };
+                    _messageBusClient.PublishExpChange(expChangePublishDto);
+                }
+
+                await _academaticaDbContext.SaveChangesAsync();
+
+                var achievements = _practiceAchievementsDataClient.GetPracticeAchievements(user.Id, null, finishClassDto.MistakeCount);
+
+                return Ok(new FinishClassResponseDto()
+                {
+                    Exp = (int)finishedClass.ExpReward,
+                    Achievements = achievements
+                });
             }
 
             await _academaticaDbContext.UserClasses.AddAsync(new UserClass()
@@ -592,6 +704,11 @@ namespace Academatica.Api.Course.Controllers
             });
         }
 
+        /// <summary>
+        /// Endpoint used to finish the practice for authenticated user.
+        /// </summary>
+        /// <param name="finishPracticeDto">Practice finish params - amount of mistakes.</param>
+        /// <returns>Action result with received exp and achievements.</returns>
         [HttpPost]
         [Route("practice/finish")]
         public async Task<IActionResult> FinishPracticeForUser([FromBody] FinishPracticeForUserRequestDto finishPracticeDto)
@@ -678,6 +795,221 @@ namespace Academatica.Api.Course.Controllers
                                     .Select(e => e.ErrorMessage));
                 return BadRequest(message);
             }
+        }
+
+        /// <summary>
+        /// Endpoint used to get tiers info for authenticated user.
+        /// </summary>
+        /// <returns>Tier list.</returns>
+        [HttpGet]
+        [Route("tiers")]
+        public IActionResult GetTiersForUser()
+        {
+            var userId = User.FindFirst("sub")?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest("User ID was null.");
+            }
+
+            var user = _academaticaDbContext.Users.Where(x => x.Id.ToString() == userId).FirstOrDefault();
+
+            if (user == null)
+            {
+                return NotFound("Invalid user ID.");
+            }
+
+            List<GetTierForUserResponseDto> tiers = new List<GetTierForUserResponseDto>();
+
+            var tiersList = _academaticaDbContext.Tiers.AsEnumerable().OrderBy(x => x.Id, new TierIdComparer());
+
+            for (int i = 0; i < tiersList.Count(); ++i)
+            {
+                var tier = tiersList.ElementAt(i);
+
+                var tierTopicsIds = _academaticaDbContext.Topics.Where(x => x.TierId == tier.Id).Select(x => x.Id).ToList();
+                var completedTierTopicsIds = _academaticaDbContext.UserTopic.Where(x => tierTopicsIds.Contains(x.TopicId)).Select(x => x.TopicId).ToList();
+
+                var tierIsComplete = _academaticaDbContext.UserTier.Where(x => x.UserId.ToString() == userId)
+                    .Select(x => x.TierId).Contains(tier.Id);
+                var tierIsUnlocked = false;
+
+                if (i == 0)
+                {
+                    tierIsUnlocked = true;
+                }
+                else
+                {
+                    tierIsUnlocked = _academaticaDbContext.UserTier.Where(x => x.UserId.ToString() == userId)
+                        .Select(x => x.TierId).Contains(tiersList.ElementAt(i - 1).Id);
+                }
+
+                tiers.Add(new GetTierForUserResponseDto()
+                {
+                    Id = tier.Id,
+                    Name = tier.Name,
+                    Description = tier.Description,
+                    CompletionRate = completedTierTopicsIds.Count / tierTopicsIds.Count,
+                    IsComplete = tierIsComplete,
+                    IsUnlocked = tierIsUnlocked
+                });
+            }
+
+            return Ok(new GetTiersForUserResponseDto()
+            {
+                Tiers = tiers
+            });
+        }
+
+        /// <summary>
+        /// Endpoint used to get topic info for authenticated user in the given tier.
+        /// </summary>
+        /// <param name="id">Tier ID.</param>
+        /// <returns>Topic list.</returns>
+        [HttpGet]
+        [Route("tiers/{id}")]
+        public IActionResult GetTopicsForUser(string id)
+        {
+            var userId = User.FindFirst("sub")?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest("User ID was null.");
+            }
+
+            var user = _academaticaDbContext.Users.Where(x => x.Id.ToString() == userId).FirstOrDefault();
+
+            if (user == null)
+            {
+                return NotFound("Invalid user ID.");
+            }
+
+            var tier = _academaticaDbContext.Tiers.Where(x => x.Id == id).FirstOrDefault();
+
+            if (tier == null)
+            {
+                return NotFound("Invalid tier ID");
+            }
+
+            List<GetTopicForUserResponseDto> topics = new List<GetTopicForUserResponseDto>();
+
+            var topicsList = _academaticaDbContext.Topics.Where(x => x.TierId == id).AsEnumerable().OrderBy(x => x.Id, new TopicIdComparer());
+
+            for (int i = 0; i < topicsList.Count(); ++i)
+            {
+                var topicClassesIds = _academaticaDbContext.Classes.Where(x => x.TopicId == topicsList.ElementAt(i).Id).Select(x => x.Id).ToList();
+                var completedTopicClassesIds = _academaticaDbContext.UserClasses.Where(x => topicClassesIds.Contains(x.ClassId)).Select(x => x.ClassId).ToList();
+
+                var topicIsComplete = _academaticaDbContext.UserTopic.Where(x => x.UserId.ToString() == userId)
+                    .Select(x => x.TopicId).Contains(topicsList.ElementAt(i).Id);
+                var topicIsUnlocked = false;
+
+                if (i == 0 || (topicsList.ElementAt(i).IsAlgebraTopic != topicsList.ElementAt(i - 1).IsAlgebraTopic))
+                {
+                    topicIsUnlocked = true;
+                } else
+                {
+                    topicIsUnlocked = _academaticaDbContext.UserTopic.Where(x => x.UserId.ToString() == userId)
+                        .Select(x => x.TopicId).Contains(topicsList.ElementAt(i - 1).Id);
+                }
+
+                topics.Add(new GetTopicForUserResponseDto()
+                {
+                    Id = topicsList.ElementAt(i).Id,
+                    Name = topicsList.ElementAt(i).Name,
+                    Description = topicsList.ElementAt(i).Description,
+                    ImageUrl = topicsList.ElementAt(i).ImageUrl,
+                    IsAlgebraTopic = topicsList.ElementAt(i).IsAlgebraTopic,
+                    CompletionRate = completedTopicClassesIds.Count / topicClassesIds.Count,
+                    IsComplete = topicIsComplete,
+                    IsUnlocked = topicIsUnlocked
+                });
+            }
+
+            return Ok(new GetTopicsForUserResponseDto()
+            {
+                Topics = topics
+            });
+        }
+
+        /// <summary>
+        /// Endpoint used to get classes info for authenticated user in the given tier and given topic.
+        /// </summary>
+        /// <param name="tierId">Tier ID.</param>
+        /// <param name="topicId">Topic ID.</param>
+        /// <returns>Topic list.</returns>
+        [HttpGet]
+        [Route("tiers/{tierId}/{topicId}")]
+        public IActionResult GetClassesForUser(string tierId, string topicId)
+        {
+            var userId = User.FindFirst("sub")?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return BadRequest("User ID was null.");
+            }
+
+            var user = _academaticaDbContext.Users.Where(x => x.Id.ToString() == userId).FirstOrDefault();
+
+            if (user == null)
+            {
+                return NotFound("Invalid user ID.");
+            }
+
+            var tier = _academaticaDbContext.Tiers.Where(x => x.Id == tierId).FirstOrDefault();
+
+            if (tier == null)
+            {
+                return NotFound("Invalid tier ID");
+            }
+
+            var topic = _academaticaDbContext.Topics.Where(x => x.Id == topicId).FirstOrDefault();
+
+            if (topic == null)
+            {
+                return NotFound("Invalid topic ID");
+            }
+
+            List<GetClassForUserResponseDto> classes = new List<GetClassForUserResponseDto>();
+
+            var classesList = _academaticaDbContext.Classes.Where(x => x.TopicId == topicId).AsEnumerable().OrderBy(x => x.Id, new ClassIdComparer());
+
+            for (int i = 0; i < classesList.Count(); ++i)
+            {
+                var currentClass = classesList.ElementAt(i);
+
+                var classIsComplete = _academaticaDbContext.UserClasses.Where(x => x.UserId.ToString() == userId)
+                    .Select(x => x.ClassId).Contains(currentClass.Id);
+                var classIsUnlocked = false;
+
+                if (i == 0 || classesList.ElementAt(i - 1).TopicId != currentClass.TopicId)
+                {
+                    classIsUnlocked = true;
+                }
+                else
+                {
+                    classIsUnlocked = _academaticaDbContext.UserClasses.Where(x => x.UserId.ToString() == userId)
+                        .Select(x => x.ClassId).Contains(classesList.ElementAt(i - 1).Id);
+                }
+
+                classes.Add(new GetClassForUserResponseDto()
+                {
+                    Id = currentClass.Id,
+                    Name = currentClass.Name,
+                    Description = currentClass.Description,
+                    IsComplete = classIsComplete,
+                    ImageUrl = currentClass.ImageUrl,
+                    ProblemNum = currentClass.ProblemNum,
+                    TheoryUrl = currentClass.TheoryUrl,
+                    TopicName = topic.Name,
+                    IsUnlocked = classIsUnlocked
+                });
+            }
+
+            return Ok(new GetClassesForUserResponseDto()
+            {
+                Classes = classes
+            });
         }
     }
 }

@@ -6,6 +6,10 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Auth\Academatica.Api.Auth.xml</DocumentationFile>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="AspNetCore.Yandex.ObjectStorage" Version="0.1.8.4" />
     <PackageReference Include="IdentityServer4" Version="4.1.2" />

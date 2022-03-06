@@ -16,6 +16,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -68,6 +69,8 @@ namespace Academatica.Api.Course
             services.AddSingleton<IMessageBusClient, MessageBusClient>();
             services.AddSwaggerGen(c =>
             {
+                var filePath = Path.Combine(System.AppContext.BaseDirectory, "Academatica.Api.Course.xml");
+                c.IncludeXmlComments(filePath);
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Academatica.Api.Course", Version = "v1" });
             });
         }

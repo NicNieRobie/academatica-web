@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using StackExchange.Redis;
+using System.IO;
 
 namespace Academatica.Api.Leaderboards
 {
@@ -77,6 +78,8 @@ namespace Academatica.Api.Leaderboards
 
             services.AddSwaggerGen(c =>
             {
+                var filePath = Path.Combine(System.AppContext.BaseDirectory, "Academatica.Api.Leaderboards.xml");
+                c.IncludeXmlComments(filePath);
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Academatica.Api.Leaderboards", Version = "v1" });
             });
         }

@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace Academatica.Api.Leaderboards.Controllers
 {
+    /// <summary>
+    /// Controller responsible for handling requests related to the Academatica leaderboards system.
+    /// </summary>
     [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/leaderboard")]
     [ApiController]
@@ -25,6 +28,11 @@ namespace Academatica.Api.Leaderboards.Controllers
             _academaticaDbContext = academaticaDbContext;
         }
 
+        /// <summary>
+        /// Endpoint used to receive information about the user's standing in the leaderboard.
+        /// </summary>
+        /// <param name="id">User ID.</param>
+        /// <returns>User league and position.</returns>
         [HttpGet]
         [Route("{id}")]
         public async Task<IActionResult> GetUserLeaderboardStats([FromRoute] Guid id)
@@ -35,12 +43,17 @@ namespace Academatica.Api.Leaderboards.Controllers
             GetUserLeaderboardStatsReponseDto leaderboardStats = new GetUserLeaderboardStatsReponseDto()
             {
                 League = league,
-                Rank = position
+                Rank = position + 1
             };
 
             return Ok(leaderboardStats);
         }
 
+        /// <summary>
+        /// Endpoint used to receive a specified page of the golden league leaderboard.
+        /// </summary>
+        /// <param name="page">Page number.</param>
+        /// <returns>Leaderboard segment.</returns>
         [HttpGet]
         [Route("gold")]
         public async Task<IActionResult> GetGoldenLeagueList([FromQuery] int page)
@@ -88,6 +101,12 @@ namespace Academatica.Api.Leaderboards.Controllers
             });
         }
 
+        /// <summary>
+        /// Endpoint used to receive a specified page of the silver league leaderboard.
+        /// </summary>
+        /// <param name="page">Page number.</param>
+        /// <returns>Leaderboard segment.</returns>
+        [HttpGet]
         [HttpGet]
         [Route("silver")]
         public async Task<IActionResult> GetSilverLeagueList([FromQuery] int page)
@@ -135,6 +154,11 @@ namespace Academatica.Api.Leaderboards.Controllers
             });
         }
 
+        /// <summary>
+        /// Endpoint used to receive a specified page of the bronze league leaderboard.
+        /// </summary>
+        /// <param name="page">Page number.</param>
+        /// <returns>Leaderboard segment.</returns>
         [HttpGet]
         [Route("bronze")]
         public async Task<IActionResult> GetBronzeLeagueList([FromQuery] int page)

@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System.IO;
 using System.Reflection;
 
 namespace Academatica.Api.Auth
@@ -37,6 +38,13 @@ namespace Academatica.Api.Auth
             services.AddTransient<Config>();
             services.AddTransient<IEmailSender, EmailService>();
             services.AddCors();
+
+            services.AddYandexObjectStorage(options =>
+            {
+                options.BucketName = Configuration["ObjStorageConfig:BucketName"];
+                options.AccessKey = Configuration["ObjStorageConfig:AccessKey"];
+                options.SecretKey = Configuration["ObjStorageConfig:SecretKey"];
+            });
 
             string connectionString = Configuration.GetConnectionString("AuthDbConnection");
 
@@ -85,7 +93,9 @@ namespace Academatica.Api.Auth
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Academatica.Api.Auth", Version = "v0.2" });
+                var filePath = Path.Combine(System.AppContext.BaseDirectory, "Academatica.Api.Auth.xml");
+                c.IncludeXmlComments(filePath);
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Academatica.Api.Auth", Version = "v1" });
             });
         }
 
@@ -96,7 +106,7 @@ namespace Academatica.Api.Auth
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Academatica.Api.Auth v0.2"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Academatica.Api.Auth v1"));
             }
 
             app.UseStaticFiles();
