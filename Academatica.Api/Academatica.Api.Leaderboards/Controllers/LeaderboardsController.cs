@@ -89,7 +89,9 @@ namespace Academatica.Api.Leaderboards.Controllers
                     LastName = user.LastName,
                     ExpThisWeek = Convert.ToUInt64(entry.Score),
                     Rank = await _leaderboardService.GetUserPosition(user.Id.ToString()) + 1,
-                    Username = user.UserName
+                    Username = user.UserName,
+                    ProfilePic = user.ProfilePicUrl,
+                    UserId = user.Id
                 };
 
                 leaderboard.Add(leaderboardEntryDto);
@@ -142,7 +144,9 @@ namespace Academatica.Api.Leaderboards.Controllers
                     LastName = user.LastName,
                     ExpThisWeek = Convert.ToUInt64(entry.Score),
                     Rank = await _leaderboardService.GetUserPosition(user.Id.ToString()) + 1,
-                    Username = user.UserName
+                    Username = user.UserName,
+                    ProfilePic = user.ProfilePicUrl,
+                    UserId = user.Id
                 };
 
                 leaderboard.Add(leaderboardEntryDto);
@@ -194,7 +198,9 @@ namespace Academatica.Api.Leaderboards.Controllers
                     LastName = user.LastName,
                     ExpThisWeek = Convert.ToUInt64(entry.Score),
                     Rank = await _leaderboardService.GetUserPosition(user.Id.ToString()) + 1,
-                    Username = user.UserName
+                    Username = user.UserName,
+                    ProfilePic = user.ProfilePicUrl,
+                    UserId = user.Id
                 };
 
                 leaderboard.Add(leaderboardEntryDto);

@@ -76,7 +76,8 @@ namespace Academatica.Api.Leaderboards
                 EndPoints = {
                     { Configuration.GetConnectionString("Redis"), 6379 }
                 },
-                Password = "redis"
+                Password = "redis",
+                AbortOnConnectFail = false
             };
 
             StreamWriter sw = new StreamWriter(Console.OpenStandardOutput());
