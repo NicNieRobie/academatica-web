@@ -19,8 +19,10 @@
   </PropertyGroup>
   <ImportGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <Import Project="$(NuGetPackageRoot)microsoft.visualstudio.azure.containers.tools.targets\1.11.1\build\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.props" Condition="Exists('$(NuGetPackageRoot)microsoft.visualstudio.azure.containers.tools.targets\1.11.1\build\Microsoft.VisualStudio.Azure.Containers.Tools.Targets.props')" />
+    <Import Project="$(NuGetPackageRoot)microsoft.visualstudio.azure.kubernetes.tools.targets\1.1.0\build\Microsoft.VisualStudio.Azure.Kubernetes.Tools.Targets.props" Condition="Exists('$(NuGetPackageRoot)microsoft.visualstudio.azure.kubernetes.tools.targets\1.1.0\build\Microsoft.VisualStudio.Azure.Kubernetes.Tools.Targets.props')" />
   </ImportGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <PkgMicrosoft_VisualStudio_Azure_Containers_Tools_Targets Condition=" '$(PkgMicrosoft_VisualStudio_Azure_Containers_Tools_Targets)' == '' ">C:\Users\Vlad\.nuget\packages\microsoft.visualstudio.azure.containers.tools.targets\1.11.1</PkgMicrosoft_VisualStudio_Azure_Containers_Tools_Targets>
+    <PkgMicrosoft_VisualStudio_Azure_Kubernetes_Tools_Targets Condition=" '$(PkgMicrosoft_VisualStudio_Azure_Kubernetes_Tools_Targets)' == '' ">C:\Users\Vlad\.nuget\packages\microsoft.visualstudio.azure.kubernetes.tools.targets\1.1.0</PkgMicrosoft_VisualStudio_Azure_Kubernetes_Tools_Targets>
   </PropertyGroup>
 </Project>

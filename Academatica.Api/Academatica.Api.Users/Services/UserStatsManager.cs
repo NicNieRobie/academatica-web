@@ -38,8 +38,8 @@ namespace Academatica.Api.Users.Services
 
         public async Task UpdateUsersDayStreaks()
         {
-            var statsEntry = _academaticaDbContext.UserStats;
-            var userClasses = _academaticaDbContext.UserClasses;
+            var statsEntry = _academaticaDbContext.UserStats.AsEnumerable();
+            var userClasses = _academaticaDbContext.UserClasses.AsEnumerable();
 
             foreach (var entry in statsEntry)
             {
@@ -61,7 +61,7 @@ namespace Academatica.Api.Users.Services
 
         public async Task UpdateUsersExpThisWeek()
         {
-            var statsEntry = _academaticaDbContext.UserStats;
+            var statsEntry = _academaticaDbContext.UserStats.AsEnumerable();
 
             foreach (var entry in statsEntry)
             {

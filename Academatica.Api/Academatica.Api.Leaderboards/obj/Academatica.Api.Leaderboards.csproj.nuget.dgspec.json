@@ -152,13 +152,13 @@
               "target": "Package",
               "version": "[5.0.14, )"
             },
-            "Microsoft.Extensions.Caching.StackExchangeRedis": {
-              "target": "Package",
-              "version": "[6.0.2, )"
-            },
             "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
               "target": "Package",
               "version": "[1.11.1, )"
+            },
+            "Microsoft.VisualStudio.Azure.Kubernetes.Tools.Targets": {
+              "target": "Package",
+              "version": "[1.1.0, )"
             },
             "Npgsql": {
               "target": "Package",
@@ -174,11 +174,7 @@
             },
             "StackExchange.Redis": {
               "target": "Package",
-              "version": "[2.2.88, )"
-            },
-            "StackExchange.Redis.Extensions.AspNetCore": {
-              "target": "Package",
-              "version": "[8.0.4, )"
+              "version": "[2.5.43, )"
             },
             "StackExchange.Redis.Extensions.Core": {
               "target": "Package",

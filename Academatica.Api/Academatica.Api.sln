@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Academatica.Web", "Academat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Academatica.Api.Course", "Academatica.Api.Course\Academatica.Api.Course.csproj", "{59EB0A96-4810-4F90-B472-5EB81748F93C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Academatica.Api.Leaderboards", "Academatica.Api.Leaderboards\Academatica.Api.Leaderboards.csproj", "{7BE402DF-A20C-47C3-99F1-94678A7147DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Academatica.Api.Leaderboards", "Academatica.Api.Leaderboards\Academatica.Api.Leaderboards.csproj", "{7BE402DF-A20C-47C3-99F1-94678A7147DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

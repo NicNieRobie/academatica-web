@@ -1,0 +1,19 @@
+FROM mcr.microsoft.com/dotnet/sdk:5.0
+ARG BUILD_CONFIGURATION=Debug
+ENV ASPNETCORE_ENVIRONMENT=Development
+ENV ASPNETCORE_URLS=http://+:80
+ENV DOTNET_USE_POLLING_FILE_WATCHER=true
+EXPOSE 80
+
+WORKDIR /src
+COPY ["Academatica.Api.Common/Academatica.Api.Common.csproj", "Academatica.Api.Common/"]
+COPY ["Academatica.Api.Course/Academatica.Api.Course.csproj", "Academatica.Api.Course/"]
+
+RUN dotnet restore "Academatica.Api.Course/Academatica.Api.Course.csproj"
+COPY . .
+WORKDIR "/src/Academatica.Api.Course"
+RUN dotnet build --no-restore "Academatica.Api.Course.csproj" -c $BUILD_CONFIGURATION
+
+RUN echo "exec dotnet run --no-build --no-launch-profile -c $BUILD_CONFIGURATION --" > /entrypoint.sh
+
+ENTRYPOINT ["/bin/bash", "/entrypoint.sh"]

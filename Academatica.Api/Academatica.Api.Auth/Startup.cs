@@ -79,6 +79,7 @@ namespace Academatica.Api.Auth
                 options.Events.RaiseInformationEvents = true;
                 options.Events.RaiseSuccessEvents = true;
                 options.Events.RaiseFailureEvents = true;
+                options.IssuerUri = Configuration["Url"];
             }).AddAspNetIdentity<User>().AddConfigurationStore(options =>
             {
                 options.ConfigureDbContext = b => b.UseNpgsql(connectionString, psql => psql.MigrationsAssembly(migrationsAssembly));

@@ -11,8 +11,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Logging;
 using Microsoft.OpenApi.Models;
 using StackExchange.Redis;
+using System;
 using System.IO;
 
 namespace Academatica.Api.Leaderboards
@@ -29,6 +31,7 @@ namespace Academatica.Api.Leaderboards
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            IdentityModelEventSource.ShowPII = true;
             services.AddAuthorization(options => options.AddPolicy("User", policy => policy.RequireClaim("role", "User")))
                    .AddAuthorization(options => options.AddPolicy("Admin", policy => policy.RequireClaim("role", "Admin")));
             services.AddCors();
@@ -68,7 +71,17 @@ namespace Academatica.Api.Leaderboards
                 };
             }).AddEntityFrameworkStores<AcadematicaDbContext>().AddDefaultTokenProviders();
 
-            var redis = ConnectionMultiplexer.Connect(Configuration.GetConnectionString("Redis"));
+            var configurationOptions = new ConfigurationOptions
+            {
+                EndPoints = {
+                    { Configuration.GetConnectionString("Redis"), 6379 }
+                },
+                Password = "redis"
+            };
+
+            StreamWriter sw = new StreamWriter(Console.OpenStandardOutput());
+            sw.AutoFlush = true;
+            var redis = ConnectionMultiplexer.Connect(configurationOptions, sw);
 
             services.AddSingleton<IConnectionMultiplexer>(redis);
             services.AddTransient<ILeaderboardService, LeaderboardService>();

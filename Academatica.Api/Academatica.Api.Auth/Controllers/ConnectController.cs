@@ -8,17 +8,16 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using MimeKit;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Security.Principal;
 using AspNetCore.Yandex.ObjectStorage;
 using AspNetCore.Yandex.ObjectStorage.Models;
 using System.Security.Claims;
 using IdentityModel;
 using Academatica.Api.Auth.AuthManagement;
 using System.Text.Encodings.Web;
+using Microsoft.Extensions.Configuration;
 
 namespace Academatica.Api.Auth.Controllers
 {
@@ -34,6 +33,7 @@ namespace Academatica.Api.Auth.Controllers
         private readonly IWebHostEnvironment _env;
         private readonly RoleManager<AcadematicaRole> _roleManager;
         private readonly YandexStorageService _yandexStorageService;
+        private readonly IConfiguration _configuration;
 
         public ConnectController(
             UserManager<User> userManager,
@@ -41,7 +41,8 @@ namespace Academatica.Api.Auth.Controllers
             RoleManager<AcadematicaRole> roleManager,
             YandexStorageService yandexStorageService,
             IEmailSender emailSender,
-            IWebHostEnvironment env)
+            IWebHostEnvironment env,
+            IConfiguration configuration)
         {
             _userManager = userManager;
             _academaticaDbContext = academaticaDbContext;
@@ -49,6 +50,7 @@ namespace Academatica.Api.Auth.Controllers
             _env = env;
             _roleManager = roleManager;
             _yandexStorageService = yandexStorageService;
+            _configuration = configuration;
         }
 
         /// <summary>
@@ -171,23 +173,25 @@ namespace Academatica.Api.Auth.Controllers
         [Route("confirm-mail")]
         public async Task<IActionResult> ConfirmEmail(string userId, string code)
         {
+            var website = _configuration["Website"];
+
             if (userId == null || code == null)
             {
-                return Redirect("https://localhost:5011/email-not-confirmed");
+                return Redirect(website + "/email-not-confirmed");
             }
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
-                return Redirect("https://localhost:5011/email-not-confirmed");
+                return Redirect(website + "/email-not-confirmed");
             }
             var result = await _userManager.ConfirmEmailAsync(user, code);
 
             if (result.Succeeded)
             {
-                return Redirect("https://localhost:5011/email-confirmed");
+                return Redirect(website + "/email-confirmed");
             }
 
-            return Redirect("https://localhost:5011/email-not-confirmed");
+            return Redirect(website + "/email-not-confirmed");
         }
     }
 }

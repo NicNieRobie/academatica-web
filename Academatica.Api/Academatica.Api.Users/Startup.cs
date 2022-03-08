@@ -32,6 +32,7 @@ namespace Academatica.Api.Users
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            IdentityModelEventSource.ShowPII = true;
             services.AddAuthorization(options => options.AddPolicy("User", policy => policy.RequireClaim("role", "User")))
                     .AddAuthorization(options => options.AddPolicy("Admin", policy => policy.RequireClaim("role", "Admin")));
             services.AddCors();

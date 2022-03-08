@@ -170,6 +170,10 @@
               "target": "Package",
               "version": "[1.11.1, )"
             },
+            "Microsoft.VisualStudio.Azure.Kubernetes.Tools.Targets": {
+              "target": "Package",
+              "version": "[1.1.0, )"
+            },
             "Npgsql": {
               "target": "Package",
               "version": "[5.0.12, )"

@@ -33,7 +33,9 @@ namespace Academatica.Api.Leaderboards.Services.RabbitMQ
             var factory = new ConnectionFactory() 
             { 
                 HostName = _configuration["RabbitMQ:Host"], 
-                Port = int.Parse(_configuration["RabbitMQ:Port"])
+                Port = int.Parse(_configuration["RabbitMQ:Port"]),
+                UserName = "rabbitmq",
+                Password = "rabbitmq"
             };
 
             _connection = factory.CreateConnection();
