@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,7 @@ namespace Academatica.Api.Users.Controllers
         private readonly IConfirmationCodeManager _confirmationCodeManager;
         private readonly IUserEmailService _userEmailService;
         private readonly IAchievementsManager _achievementsManager;
+        private readonly IConfiguration _configuration;
 
         public UsersController(
             YandexStorageService yandexStorageService,
@@ -33,7 +35,8 @@ namespace Academatica.Api.Users.Controllers
             UserManager<User> userManager,
             IConfirmationCodeManager confirmationCodeManager,
             IUserEmailService userEmailService,
-            IAchievementsManager achievementsManager)
+            IAchievementsManager achievementsManager,
+            IConfiguration configuration)
         {
             _yandexStorageService = yandexStorageService;
             _academaticaDbContext = academaticaDbContext;
@@ -41,6 +44,7 @@ namespace Academatica.Api.Users.Controllers
             _confirmationCodeManager = confirmationCodeManager;
             _userEmailService = userEmailService;
             _achievementsManager = achievementsManager;
+            _configuration = configuration;
         }
 
         /// <summary>
@@ -340,24 +344,26 @@ namespace Academatica.Api.Users.Controllers
         [Route("{id}/email/confirm")]
         public async Task<IActionResult> ConfirmUserEmailChange(Guid id, string code)
         {
+            var website = _configuration["Website"];
+
             if (code == null)
             {
-                return Redirect("https://localhost:5011/email-not-confirmed");
+                return Redirect(website + "/email-not-confirmed");
             }
             var user = await _userManager.FindByIdAsync(id.ToString());
             if (user == null)
             {
-                return Redirect("https://localhost:5011/email-not-confirmed");
+                return Redirect(website + "/email-not-confirmed");
             }
 
             var result = await _userManager.ConfirmEmailAsync(user, code);
 
             if (result.Succeeded)
             {
-                return Redirect("https://localhost:5011/email-confirmed");
+                return Redirect(website + "/email-confirmed");
             }
 
-            return Redirect("https://localhost:5011/email-not-confirmed");
+            return Redirect(website + "/email-not-confirmed");
         }
 
         /// <summary>
@@ -371,24 +377,26 @@ namespace Academatica.Api.Users.Controllers
         [Route("{id}/email/rollback")]
         public async Task<IActionResult> RollbackUserEmailChange(Guid id, string code, string oldEmail)
         {
+            var website = _configuration["Website"];
+
             if (code == null)
             {
-                return Redirect("https://localhost:5011/error");
+                return Redirect(website + "/error");
             }
             var user = await _userManager.FindByIdAsync(id.ToString());
             if (user == null)
             {
-                return Redirect("https://localhost:5011/error");
+                return Redirect(website + "/error");
             }
 
             var result = await _userManager.ChangeEmailAsync(user, oldEmail, code);
 
             if (result.Succeeded)
             {
-                return Redirect("https://localhost:5011/email-reverted");
+                return Redirect(website + "/email-reverted");
             }
 
-            return Redirect("https://localhost:5011/error");
+            return Redirect(website + "/error");
         }
 
         /// <summary>

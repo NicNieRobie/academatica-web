@@ -15,8 +15,10 @@ namespace Academatica.Api.Leaderboards
             Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((hostContext, config) =>
                 {
-                    config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                        .AddJsonFile("keys.json", optional: true, reloadOnChange: true);
+                    if (hostContext.HostingEnvironment.IsDevelopment())
+                    {
+                        config.AddJsonFile("keys.json", optional: true, reloadOnChange: true);
+                    }
                 })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {

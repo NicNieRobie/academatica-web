@@ -7,7 +7,7 @@
     "ApiResourceName": "Academatica.Api"
   },
   "RabbitMQ": {
-    "Host": "localhost",
+    "Host": "rabbitmq.default.svc",
     "Port": "5672"
   }
 }

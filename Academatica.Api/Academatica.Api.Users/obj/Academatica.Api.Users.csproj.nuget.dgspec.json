@@ -178,6 +178,10 @@
               "target": "Package",
               "version": "[1.11.1, )"
             },
+            "Microsoft.VisualStudio.Azure.Kubernetes.Tools.Targets": {
+              "target": "Package",
+              "version": "[1.1.0, )"
+            },
             "MimeKit": {
               "target": "Package",
               "version": "[3.1.1, )"
