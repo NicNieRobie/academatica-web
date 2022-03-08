@@ -12,5 +12,7 @@ namespace Academatica.Api.Leaderboards.DTOs
         public string LastName { get; set; }
         public string Username { get; set; }
         public ulong ExpThisWeek { get; set; }
+        public string ProfilePic { get; set; }
+        public Guid UserId { get; set; }
     }
 }

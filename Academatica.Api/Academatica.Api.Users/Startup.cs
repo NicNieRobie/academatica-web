@@ -84,6 +84,7 @@ namespace Academatica.Api.Users
             {
                 options.InstanceName = "UsersSvc_";
                 options.Configuration = Configuration.GetConnectionString("Redis");
+                options.ConfigurationOptions.AbortOnConnectFail = false;
             });
 
             services.AddHangfire(x =>

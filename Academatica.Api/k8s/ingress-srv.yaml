@@ -39,17 +39,17 @@ spec:
                 name: academaticaapicourse
                 port:
                   number: 80
-          - path: /api/users
-            pathType: Prefix
-            backend:
-              service:
-                name: academaticaapiusers
-                port:
-                  number: 80
           - path: /api/leaderboard
             pathType: Prefix
             backend:
               service:
                 name: academaticaapileaderboards
+                port:
+                  number: 80
+          - path: /api/users
+            pathType: Prefix
+            backend:
+              service:
+                name: academaticaapiusers
                 port:
                   number: 80
