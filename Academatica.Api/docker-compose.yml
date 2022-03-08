@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  academatica.api.course:
+    image: ${DOCKER_REGISTRY-}academaticaapicourse
+    build:
+      context: .
+      dockerfile: Academatica.Api.Course/Dockerfile
