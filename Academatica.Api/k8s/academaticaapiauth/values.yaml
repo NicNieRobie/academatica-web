@@ -5,7 +5,7 @@ fullnameOverride: academaticaapiauth
 replicaCount: 1
 image:
   repository: docker.io/nicnierobie/academatica-auth-svc
-  tag: latest
+  tag: load-debug
   pullPolicy: IfNotPresent
 imagePullSecrets: []
   # Optionally specify an array of imagePullSecrets.

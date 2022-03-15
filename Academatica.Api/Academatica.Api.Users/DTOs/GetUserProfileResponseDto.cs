@@ -21,13 +21,40 @@ namespace Academatica.Api.Users.DTOs
 
     public class GetUserProfileResponseDto
     {
+        public string Email { get; set; }
         public string ProfilePicUrl { get; set; }
         public string Username { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public ulong Exp { get; set; }
         public ulong ExpThisWeek { get; set; }
-        public string Level
+        public int Level
+        {
+            get
+            {
+                ulong userLevelExpCap = 0;
+
+                foreach (var cap in LevelExpMapping.LevelExpCaps.Keys)
+                {
+                    if (Exp < cap)
+                    {
+                        userLevelExpCap = cap;
+                        break;
+                    }
+                }
+
+                int levelNum = 0;
+                for (int i = 0; i < LevelExpMapping.LevelExpCaps.Keys.Count(); ++i) {
+                    if (LevelExpMapping.LevelExpCaps.Keys.ElementAt(i) == userLevelExpCap) {
+                        levelNum = i + 1;
+                    }
+                }
+
+                return levelNum;
+            }
+        }
+
+        public string LevelName
         {
             get
             {
@@ -68,7 +95,7 @@ namespace Academatica.Api.Users.DTOs
         {
             get
             {
-                return Level == "calculator";
+                return LevelName == "calculator";
             }
         }
     }

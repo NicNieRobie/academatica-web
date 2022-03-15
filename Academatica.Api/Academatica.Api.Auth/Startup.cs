@@ -1,5 +1,6 @@
 using Academatica.Api.Auth.AuthManagement;
 using Academatica.Api.Auth.Data;
+using Academatica.Api.Auth.Services;
 using Academatica.Api.Common.Configuration;
 using Academatica.Api.Common.Data;
 using Academatica.Api.Common.Models;
@@ -14,19 +15,23 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System;
 using System.IO;
 using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Academatica.Api.Auth
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            Environment = env;
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Environment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -73,6 +78,10 @@ namespace Academatica.Api.Auth
                 };
             }).AddEntityFrameworkStores<AcadematicaDbContext>().AddDefaultTokenProviders();
 
+            var path = Path.Combine(Environment.WebRootPath, "IdentityCert.pfx");
+            Console.WriteLine(path);
+            var cert = new X509Certificate2(path, "pass");
+
             services.AddIdentityServer(options =>
             {
                 options.Events.RaiseErrorEvents = true;
@@ -89,7 +98,7 @@ namespace Academatica.Api.Auth
 
                 options.EnableTokenCleanup = true;
                 options.TokenCleanupInterval = 15;
-            }).AddDeveloperSigningCredential().AddResourceOwnerValidator<ResourceOwnerPasswordValidator<User>>(); ;
+            }).AddSigningCredential(cert).AddResourceOwnerValidator<ResourceOwnerPasswordValidator<User>>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

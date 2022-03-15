@@ -66,25 +66,14 @@ namespace Academatica.Api.Users
                     options.ApiName = settings.ApiResourceName;
                 });
 
-            services.AddIdentity<User, AcadematicaRole>(options =>
-            {
-                options.SignIn.RequireConfirmedAccount = true;
-                options.SignIn.RequireConfirmedEmail = true;
-                options.Password = new PasswordOptions
-                {
-                    RequireDigit = true,
-                    RequiredLength = 6,
-                    RequireLowercase = true,
-                    RequireUppercase = true,
-                    RequireNonAlphanumeric = false
-                };
-            }).AddEntityFrameworkStores<AcadematicaDbContext>().AddDefaultTokenProviders();
+            services.AddIdentity<User, AcadematicaRole>().AddEntityFrameworkStores<AcadematicaDbContext>().AddDefaultTokenProviders();
 
+            string redisConnectionString = Configuration.GetConnectionString("Redis");
+            System.Console.WriteLine("----------------> REDIS: " + redisConnectionString);
             services.AddStackExchangeRedisCache(options =>
             {
+                options.Configuration = redisConnectionString;
                 options.InstanceName = "UsersSvc_";
-                options.Configuration = Configuration.GetConnectionString("Redis");
-                options.ConfigurationOptions.AbortOnConnectFail = false;
             });
 
             services.AddHangfire(x =>
@@ -118,7 +107,6 @@ namespace Academatica.Api.Users
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Academatica.Api.Users v1"));
-                IdentityModelEventSource.ShowPII = true;
             }
 
             app.UseHttpsRedirection();

@@ -67,7 +67,7 @@ namespace Academatica.Api.Course.Controllers
                 .ToList()
                 .OrderBy(x => x.Id, new ClassIdComparer());
 
-            List<Class> upcomingClasses = new List<Class>();
+            List<UpcomingClassDto> upcomingClasses = new List<UpcomingClassDto>();
 
             foreach (var alClass in algebraClasses)
             {
@@ -77,7 +77,32 @@ namespace Academatica.Api.Course.Controllers
 
                 if (!isFinished)
                 {
-                    upcomingClasses.Add(alClass);
+                    Topic classTopic = _academaticaDbContext.Topics.Where(x => x.Id == alClass.TopicId).FirstOrDefault();
+
+                    if (classTopic == null)
+                    {
+                        continue;
+                    }
+
+                    int topicClassCount = _academaticaDbContext.Classes.Where(x => x.TopicId == classTopic.Id).Count();
+                    string topicName = classTopic.Name;
+                    int classNumber = int.Parse(alClass.Id.Split('-').LastOrDefault());
+
+                    upcomingClasses.Add(new UpcomingClassDto() { 
+                        Id = alClass.Id,
+                        TopicId = alClass.TopicId,
+                        TierId = alClass.TierId,
+                        Name = alClass.Name,
+                        Description = alClass.Description,
+                        ExpReward = alClass.ExpReward,
+                        ImageUrl = alClass.ImageUrl,
+                        ClassNumber = classNumber,
+                        IsAlgebraClass = alClass.IsAlgebraClass,
+                        ProblemNum = alClass.ProblemNum,
+                        TheoryUrl = alClass.TheoryUrl,
+                        TopicClassCount = topicClassCount,
+                        TopicName = topicName
+                    });
                     break;
                 }
             }
@@ -90,7 +115,33 @@ namespace Academatica.Api.Course.Controllers
 
                 if (!isFinished)
                 {
-                    upcomingClasses.Add(geomClass);
+                    Topic classTopic = _academaticaDbContext.Topics.Where(x => x.Id == geomClass.TopicId).FirstOrDefault();
+
+                    if (classTopic == null)
+                    {
+                        continue;
+                    }
+
+                    int topicClassCount = _academaticaDbContext.Classes.Where(x => x.TopicId == classTopic.Id).Count();
+                    string topicName = classTopic.Name;
+                    int classNumber = int.Parse(geomClass.Id.Split('-').LastOrDefault());
+
+                    upcomingClasses.Add(new UpcomingClassDto()
+                    {
+                        Id = geomClass.Id,
+                        TopicId = geomClass.TopicId,
+                        TierId = geomClass.TierId,
+                        Name = geomClass.Name,
+                        Description = geomClass.Description,
+                        ExpReward = geomClass.ExpReward,
+                        ImageUrl = geomClass.ImageUrl,
+                        ClassNumber = classNumber,
+                        IsAlgebraClass = geomClass.IsAlgebraClass,
+                        ProblemNum = geomClass.ProblemNum,
+                        TheoryUrl = geomClass.TheoryUrl,
+                        TopicClassCount = topicClassCount,
+                        TopicName = topicName
+                    });
                     break;
                 }
             }
@@ -212,7 +263,10 @@ namespace Academatica.Api.Course.Controllers
                 t => t.Id,
                 (ut, t) => t).AsEnumerable();
 
-            return Ok(completedTopics);
+            return Ok(new GetCompletedTopicsResponseDto()
+            {
+                Topics = completedTopics
+            });
         }
 
         /// <summary>
@@ -476,7 +530,7 @@ namespace Academatica.Api.Course.Controllers
                 ut => ut.TopicId,
                 (t, ut) => t.Id).AsEnumerable();
 
-            var randomProblems = _academaticaDbContext.Problems.Where(x => completedTopicsIds.Contains(x.TopicId)).AsEnumerable().OrderBy(x => Guid.NewGuid()).Take(15);
+            var randomProblems = _academaticaDbContext.Problems.Where(x => completedTopicsIds.Contains(x.TopicId)).AsEnumerable().OrderBy(x => Guid.NewGuid()).Take(10);
 
             return Ok(new GetRandomPracticeProblemsResponseDto()
             {
@@ -526,7 +580,7 @@ namespace Academatica.Api.Course.Controllers
                 return NotFound("Invalid topic ID.");
             }
 
-            var randomProblems = _academaticaDbContext.Problems.Where(x => x.TopicId == topicId).AsEnumerable().OrderBy(x => Guid.NewGuid()).Take(15);
+            var randomProblems = _academaticaDbContext.Problems.Where(x => x.TopicId == topicId).AsEnumerable().OrderBy(x => Guid.NewGuid()).Take(10);
 
             return Ok(new GetTopicPracticeProblemsResponseDto()
             {
@@ -828,7 +882,7 @@ namespace Academatica.Api.Course.Controllers
                 var tier = tiersList.ElementAt(i);
 
                 var tierTopicsIds = _academaticaDbContext.Topics.Where(x => x.TierId == tier.Id).Select(x => x.Id).ToList();
-                var completedTierTopicsIds = _academaticaDbContext.UserTopic.Where(x => tierTopicsIds.Contains(x.TopicId)).Select(x => x.TopicId).ToList();
+                var completedTierTopicsIds = _academaticaDbContext.UserTopic.Where(x => tierTopicsIds.Contains(x.TopicId) && x.UserId == user.Id).Select(x => x.TopicId).ToList();
 
                 var tierIsComplete = _academaticaDbContext.UserTier.Where(x => x.UserId.ToString() == userId)
                     .Select(x => x.TierId).Contains(tier.Id);
@@ -849,7 +903,7 @@ namespace Academatica.Api.Course.Controllers
                     Id = tier.Id,
                     Name = tier.Name,
                     Description = tier.Description,
-                    CompletionRate = completedTierTopicsIds.Count / tierTopicsIds.Count,
+                    CompletionRate = (int)((double)completedTierTopicsIds.Count / tierTopicsIds.Count * 100),
                     IsComplete = tierIsComplete,
                     IsUnlocked = tierIsUnlocked
                 });
@@ -895,22 +949,59 @@ namespace Academatica.Api.Course.Controllers
 
             var topicsList = _academaticaDbContext.Topics.Where(x => x.TierId == id).AsEnumerable().OrderBy(x => x.Id, new TopicIdComparer());
 
+            var algebraTopicsIds = _academaticaDbContext.Topics.Where(x => x.IsAlgebraTopic).AsEnumerable().OrderBy(x => x.Id, new TopicIdComparer()).Select(x => x.Id).ToList();
+            var geometryTopicsIds = _academaticaDbContext.Topics.Where(x => !x.IsAlgebraTopic).AsEnumerable().OrderBy(x => x.Id, new TopicIdComparer()).Select(x => x.Id).ToList();
+
+            foreach (var entry in algebraTopicsIds)
+            {
+                Console.WriteLine(entry);
+            }
+            Console.WriteLine();
+            foreach (var entry in geometryTopicsIds)
+            {
+                Console.WriteLine(entry);
+            }
+
             for (int i = 0; i < topicsList.Count(); ++i)
             {
                 var topicClassesIds = _academaticaDbContext.Classes.Where(x => x.TopicId == topicsList.ElementAt(i).Id).Select(x => x.Id).ToList();
-                var completedTopicClassesIds = _academaticaDbContext.UserClasses.Where(x => topicClassesIds.Contains(x.ClassId)).Select(x => x.ClassId).ToList();
+                var completedTopicClassesIds = _academaticaDbContext.UserClasses.Where(x => topicClassesIds.Contains(x.ClassId) && x.UserId == user.Id)
+                    .Select(x => x.ClassId).ToList();
 
                 var topicIsComplete = _academaticaDbContext.UserTopic.Where(x => x.UserId.ToString() == userId)
                     .Select(x => x.TopicId).Contains(topicsList.ElementAt(i).Id);
                 var topicIsUnlocked = false;
 
-                if (i == 0 || (topicsList.ElementAt(i).IsAlgebraTopic != topicsList.ElementAt(i - 1).IsAlgebraTopic))
+                var isAlgebraTopic = topicsList.ElementAt(i).IsAlgebraTopic;
+                var elementId = 0;
+
+                if (isAlgebraTopic)
                 {
-                    topicIsUnlocked = true;
-                } else
+                    elementId = algebraTopicsIds.IndexOf(topicsList.ElementAt(i).Id);
+
+                    if (elementId == 0)
+                    {
+                        topicIsUnlocked = true;
+                    }
+                    else
+                    {
+                        topicIsUnlocked = _academaticaDbContext.UserTopic.Where(x => x.UserId.ToString() == userId)
+                            .Select(x => x.TopicId).Contains(algebraTopicsIds[elementId - 1]);
+                    }
+                }
+                else
                 {
-                    topicIsUnlocked = _academaticaDbContext.UserTopic.Where(x => x.UserId.ToString() == userId)
-                        .Select(x => x.TopicId).Contains(topicsList.ElementAt(i - 1).Id);
+                    elementId = geometryTopicsIds.IndexOf(topicsList.ElementAt(i).Id);
+
+                    if (elementId == 0)
+                    {
+                        topicIsUnlocked = true;
+                    }
+                    else
+                    {
+                        topicIsUnlocked = _academaticaDbContext.UserTopic.Where(x => x.UserId.ToString() == userId)
+                            .Select(x => x.TopicId).Contains(geometryTopicsIds[elementId - 1]);
+                    }
                 }
 
                 topics.Add(new GetTopicForUserResponseDto()
@@ -920,9 +1011,10 @@ namespace Academatica.Api.Course.Controllers
                     Description = topicsList.ElementAt(i).Description,
                     ImageUrl = topicsList.ElementAt(i).ImageUrl,
                     IsAlgebraTopic = topicsList.ElementAt(i).IsAlgebraTopic,
-                    CompletionRate = completedTopicClassesIds.Count / topicClassesIds.Count,
+                    CompletionRate = topicClassesIds.Count == 0 ? 0 : (int)(((double)completedTopicClassesIds.Count) / topicClassesIds.Count * 100),
                     IsComplete = topicIsComplete,
-                    IsUnlocked = topicIsUnlocked
+                    IsUnlocked = topicIsUnlocked,
+                    ClassCount = topicClassesIds.Count
                 });
             }
 
@@ -935,12 +1027,11 @@ namespace Academatica.Api.Course.Controllers
         /// <summary>
         /// Endpoint used to get classes info for authenticated user in the given tier and given topic.
         /// </summary>
-        /// <param name="tierId">Tier ID.</param>
         /// <param name="topicId">Topic ID.</param>
         /// <returns>Topic list.</returns>
         [HttpGet]
-        [Route("tiers/{tierId}/{topicId}")]
-        public IActionResult GetClassesForUser(string tierId, string topicId)
+        [Route("topics/{topicId}")]
+        public IActionResult GetClassesForUser(string topicId)
         {
             var userId = User.FindFirst("sub")?.Value;
 
@@ -954,13 +1045,6 @@ namespace Academatica.Api.Course.Controllers
             if (user == null)
             {
                 return NotFound("Invalid user ID.");
-            }
-
-            var tier = _academaticaDbContext.Tiers.Where(x => x.Id == tierId).FirstOrDefault();
-
-            if (tier == null)
-            {
-                return NotFound("Invalid tier ID");
             }
 
             var topic = _academaticaDbContext.Topics.Where(x => x.Id == topicId).FirstOrDefault();

@@ -6,9 +6,14 @@ metadata:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/use-regex: 'true'
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt"
 spec:
+  tls:
+    - hosts:
+      - news-platform.ru
+      secretName: letsencrypt
   rules:
-    - host: acme.com
+    - host: news-platform.ru
       http:
         paths:
           - path: /

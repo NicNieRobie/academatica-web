@@ -9,5 +9,6 @@ namespace Academatica.Api.Course.DTOs
     {
         public bool IsComplete { get; set; }
         public bool IsUnlocked { get; set; }
+        public int ClassCount { get; set; }
     }
 }

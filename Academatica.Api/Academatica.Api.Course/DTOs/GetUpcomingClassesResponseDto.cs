@@ -6,6 +6,6 @@ namespace Academatica.Api.Course.DTOs
 {
     public class GetUpcomingClassesResponseDto
     {
-        public IEnumerable<Class> UpcomingClasses { get; set; }
+        public IEnumerable<UpcomingClassDto> UpcomingClasses { get; set; }
     }
 }

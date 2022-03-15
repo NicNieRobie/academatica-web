@@ -160,6 +160,90 @@ namespace Academatica.Api.Users.Controllers
         }
 
         /// <summary>
+        /// Endpoint used to change the user's first name.
+        /// </summary>
+        /// <param name="id">User ID.</param>
+        /// <param name="changeFirstNameRequestDTO">Body - new first name.</param>
+        [HttpPatch]
+        [Route("{id}/firstname")]
+        public async Task<IActionResult> SetUserFirstName(Guid id, [FromBody] UserChangeFirstNameRequestDto changeFirstNameRequestDTO)
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = User.FindFirst("sub")?.Value;
+
+                if (userId != id.ToString())
+                {
+                    return Forbid();
+                }
+
+                var user = _academaticaDbContext.Users.Where(x => x.Id == id).First();
+
+                if (user == null)
+                {
+                    return NotFound("Invalid user ID.");
+                }
+
+                var firstName = changeFirstNameRequestDTO.FirstName;
+
+                user.FirstName = firstName;
+
+                await _academaticaDbContext.SaveChangesAsync();
+
+                return Ok();
+            }
+            else
+            {
+                var message = string.Join(" | ", ModelState.Values
+                                    .SelectMany(v => v.Errors)
+                                    .Select(e => e.ErrorMessage));
+                return BadRequest(message);
+            }
+        }
+
+        /// <summary>
+        /// Endpoint used to change the user's first name.
+        /// </summary>
+        /// <param name="id">User ID.</param>
+        /// <param name="changeLastNameRequestDTO">Body - new last name.</param>
+        [HttpPatch]
+        [Route("{id}/lastname")]
+        public async Task<IActionResult> SetUserLastName(Guid id, [FromBody] UserChangeLastNameRequestDto changeLastNameRequestDTO)
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = User.FindFirst("sub")?.Value;
+
+                if (userId != id.ToString())
+                {
+                    return Forbid();
+                }
+
+                var user = _academaticaDbContext.Users.Where(x => x.Id == id).First();
+
+                if (user == null)
+                {
+                    return NotFound("Invalid user ID.");
+                }
+
+                var lastName = changeLastNameRequestDTO.LastName;
+
+                user.LastName = lastName;
+
+                await _academaticaDbContext.SaveChangesAsync();
+
+                return Ok();
+            }
+            else
+            {
+                var message = string.Join(" | ", ModelState.Values
+                                    .SelectMany(v => v.Errors)
+                                    .Select(e => e.ErrorMessage));
+                return BadRequest(message);
+            }
+        }
+
+        /// <summary>
         /// Endpoint used to change user email address.
         /// </summary>
         /// <param name="id">User ID.</param>
@@ -422,6 +506,7 @@ namespace Academatica.Api.Users.Controllers
 
             return Ok(new GetUserProfileResponseDto()
             {
+                Email = user.Email,
                 Username = user.UserName,
                 ProfilePicUrl = user.ProfilePicUrl,
                 FirstName = user.FirstName,
@@ -777,13 +862,6 @@ namespace Academatica.Api.Users.Controllers
         [Route("{id}/achievements")]
         public IActionResult GetUserAchievements(Guid id)
         {
-            var userId = User.FindFirst("sub")?.Value;
-
-            if (userId != id.ToString())
-            {
-                return Forbid();
-            }
-
             var user = _academaticaDbContext.Users.Where(x => x.Id == id).First();
 
             if (user == null)

@@ -67,7 +67,7 @@ namespace Academatica.Api.Auth
                     AccessTokenType = AccessTokenType.Jwt,
                     RequireClientSecret = false,
                     AllowOfflineAccess = true,
-                    RefreshTokenUsage = TokenUsage.OneTimeOnly,
+                    RefreshTokenUsage = TokenUsage.ReUse,
                     AccessTokenLifetime = 300,
                     AllowedScopes =
                     {
