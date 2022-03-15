@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace SmartMath.Api.Common.Models
+namespace Academatica.Api.Common.Models
 {
     public class StatsEntry
     {
@@ -14,10 +14,11 @@ namespace SmartMath.Api.Common.Models
         [Required]
         public ulong UserExp { get; set; }
         [Required]
+        public ulong UserExpThisWeek { get; set; }
+        [Required]
         public uint BuoysLeft { get; set; }
         [Required]
         public ulong DaysStreak { get; set; }
-        public DateTime? LastClassFinishedAt { get; set; }
 
         public User User { get; set; }
     }

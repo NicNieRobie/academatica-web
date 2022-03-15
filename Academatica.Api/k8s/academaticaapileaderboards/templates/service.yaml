@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "academaticaapileaderboards.fullname" . }}
+  labels:
+    app: {{ template "academaticaapileaderboards.name" . }}
+    chart: {{ template "academaticaapileaderboards.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: {{ template "academaticaapileaderboards.name" . }}
+    release: {{ .Release.Name }}

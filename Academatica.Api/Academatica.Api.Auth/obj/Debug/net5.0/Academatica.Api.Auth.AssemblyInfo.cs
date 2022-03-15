@@ -11,6 +11,7 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap4")]
 [assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("055f7b50-ebed-4099-8266-0ef823f135a2")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("Academatica.Api.Auth")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]

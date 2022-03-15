@@ -1,0 +1,2 @@
+obj\Debug\net5.0\Protos/Achievements.cs \
+obj\Debug\net5.0\Protos/AchievementsGrpc.cs: Protos/achievements.proto

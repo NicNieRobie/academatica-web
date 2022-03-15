@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Academatica.Api.Leaderboards</name>
+    </assembly>
+    <members>
+        <member name="T:Academatica.Api.Leaderboards.Controllers.LeaderboardsController">
+            <summary>
+            Controller responsible for handling requests related to the Academatica leaderboards system.
+            </summary>
+        </member>
+        <member name="M:Academatica.Api.Leaderboards.Controllers.LeaderboardsController.GetUserLeaderboardStats(System.Guid)">
+            <summary>
+            Endpoint used to receive information about the user's standing in the leaderboard.
+            </summary>
+            <param name="id">User ID.</param>
+            <returns>User league and position.</returns>
+        </member>
+        <member name="M:Academatica.Api.Leaderboards.Controllers.LeaderboardsController.GetGoldenLeagueList(System.Int32)">
+            <summary>
+            Endpoint used to receive a specified page of the golden league leaderboard.
+            </summary>
+            <param name="page">Page number.</param>
+            <returns>Leaderboard segment.</returns>
+        </member>
+        <member name="M:Academatica.Api.Leaderboards.Controllers.LeaderboardsController.GetSilverLeagueList(System.Int32)">
+            <summary>
+            Endpoint used to receive a specified page of the silver league leaderboard.
+            </summary>
+            <param name="page">Page number.</param>
+            <returns>Leaderboard segment.</returns>
+        </member>
+        <member name="M:Academatica.Api.Leaderboards.Controllers.LeaderboardsController.GetBronzeLeagueList(System.Int32)">
+            <summary>
+            Endpoint used to receive a specified page of the bronze league leaderboard.
+            </summary>
+            <param name="page">Page number.</param>
+            <returns>Leaderboard segment.</returns>
+        </member>
+    </members>
+</doc>

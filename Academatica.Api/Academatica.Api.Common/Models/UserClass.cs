@@ -1,14 +1,14 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SmartMath.Api.Common.Models
+namespace Academatica.Api.Common.Models
 {
     public class UserClass
     {
         [Required]
         public Guid UserId { get; set; }
         [Required]
-        public Guid ClassId { get; set; }
+        public string ClassId { get; set; }
         [Required]
         public DateTime CompletedAt { get; set; }
 

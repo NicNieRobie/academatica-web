@@ -1,0 +1,19 @@
+﻿################################################################################
+# Данный GITIGNORE-файл был автоматически создан Microsoft(R) Visual Studio.
+################################################################################
+
+/Academatica.Api/Academatica.Api.Auth/keys.json
+/Academatica.Api/Academatica.Api.Users/keys.json
+/Academatica.Api/Academatica.Api.Course/keys.json
+bfg.jar
+/Academatica.Api/Academatica.Api.Leaderboards/keys.json
+/Academatica.Api/Academatica.Api.Auth/appsettings.Production.json
+/Academatica.Api/Academatica.Api.Course/appsettings.Production.json
+/Academatica.Api/Academatica.Api.Leaderboards/bin/Debug/net5.0/appsettings.Production.json
+/Academatica.Api/Academatica.Api.Users/appsettings.Production.json
+/Academatica.Api/Academatica.Api.Leaderboards/appsettings.Production.json
+Academatica.Api/k8s.zip
+/Academatica.Api/Academatica.Api.Auth/wwwroot/IdentityCert.pfx
+/Academatica.Api/k8s/academaticaapicourse.zip
+/Academatica.Api/k8s/academaticaapiauth.zip
+/Academatica.Api/k8s/academaticaapiusers.zip

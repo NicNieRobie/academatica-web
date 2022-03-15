@@ -2,7 +2,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SmartMath.Api.Common.Models
+namespace Academatica.Api.Common.Models
 {
     public class User : IdentityUser<Guid>
     {

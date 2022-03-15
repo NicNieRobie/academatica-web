@@ -1,5 +1,5 @@
-# Academatica
-School mathematics learning application for iOS, intended for use by school students of all ages.
+# Academatica Web Services
+Web services for Academatica - a school mathematics learning application for iOS, intended for use by school students of all ages.
 
 ## Main features (in progress)
 - Interactive math lessons, including theory and problems for solving
@@ -8,11 +8,8 @@ School mathematics learning application for iOS, intended for use by school stud
 - Leaderboards and leagues with rewards for progress
 
 ## Architecture and technology stack
-The front-end is built in Swift according to the Clean Architecture & MVVM guidelines.
-
-The back-end is build on ASP.NET Core for request handling endpoints implementation and utilizes PostgreSQL-managed database for data storage and management.
-The microservice architecture is used to separate independent implementation modules.
+Web services are built on ASP.NET Core for request handling endpoints implementation and utilize PostgreSQL and Redis databases for data storage and management.
+The microservice architecture is used to separate independent implementation modules, with communication between services implemented via gRPC and RabbitMQ.
 
 ## Developers
-- **RomKhan** - front-end iOS client development
-- **NicNieRobie** - back-end services development & database design
+- **NicNieRobie** - back-end services development & deployment, database design

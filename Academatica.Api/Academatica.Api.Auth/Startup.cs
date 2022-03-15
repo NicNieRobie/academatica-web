@@ -1,36 +1,111 @@
+using Academatica.Api.Auth.AuthManagement;
+using Academatica.Api.Auth.Data;
+using Academatica.Api.Auth.Services;
+using Academatica.Api.Common.Configuration;
+using Academatica.Api.Common.Data;
+using Academatica.Api.Common.Models;
+using Academatica.Api.Common.Services;
+using AspNetCore.Yandex.ObjectStorage.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
+using System.Reflection;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Academatica.Api.Auth
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            Environment = env;
         }
 
         public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Environment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers();
+
+            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
+            services.AddTransient<DbInitializer>();
+            services.AddTransient<Config>();
+            services.AddTransient<IEmailSender, EmailService>();
+            services.AddCors();
+
+            services.AddYandexObjectStorage(options =>
+            {
+                options.BucketName = Configuration["ObjStorageConfig:BucketName"];
+                options.AccessKey = Configuration["ObjStorageConfig:AccessKey"];
+                options.SecretKey = Configuration["ObjStorageConfig:SecretKey"];
+            });
+
+            string connectionString = Configuration.GetConnectionString("AuthDbConnection");
+
+            services.AddOptions();
+            services.Configure<Configuration.ConfigurationManager>(Configuration.GetSection("ConfigurationManager"));
+            services.Configure<MailConfig>(Configuration.GetSection("MailConfig"));
+
+            services.AddDbContext<AcadematicaDbContext>(options =>
+            {
+                options.UseNpgsql(connectionString, psql => {
+                    psql.MigrationsAssembly(migrationsAssembly);
+                });
+            });
+
+            services.AddIdentity<User, AcadematicaRole>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = true;
+                options.SignIn.RequireConfirmedEmail = true;
+                options.Password = new PasswordOptions
+                {
+                    RequireDigit = true,
+                    RequiredLength = 6,
+                    RequireLowercase = true,
+                    RequireUppercase = true,
+                    RequireNonAlphanumeric = false
+                };
+            }).AddEntityFrameworkStores<AcadematicaDbContext>().AddDefaultTokenProviders();
+
+            var path = Path.Combine(Environment.WebRootPath, "IdentityCert.pfx");
+            Console.WriteLine(path);
+            var cert = new X509Certificate2(path, "pass");
+
+            services.AddIdentityServer(options =>
+            {
+                options.Events.RaiseErrorEvents = true;
+                options.Events.RaiseInformationEvents = true;
+                options.Events.RaiseSuccessEvents = true;
+                options.Events.RaiseFailureEvents = true;
+                options.IssuerUri = Configuration["Url"];
+            }).AddAspNetIdentity<User>().AddConfigurationStore(options =>
+            {
+                options.ConfigureDbContext = b => b.UseNpgsql(connectionString, psql => psql.MigrationsAssembly(migrationsAssembly));
+            }).AddOperationalStore(options =>
+            {
+                options.ConfigureDbContext = b => b.UseNpgsql(connectionString, psql => psql.MigrationsAssembly(migrationsAssembly));
+
+                options.EnableTokenCleanup = true;
+                options.TokenCleanupInterval = 15;
+            }).AddSigningCredential(cert).AddResourceOwnerValidator<ResourceOwnerPasswordValidator<User>>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Academatica.Api.Auth", Version = "v0.1" });
+                var filePath = Path.Combine(System.AppContext.BaseDirectory, "Academatica.Api.Auth.xml");
+                c.IncludeXmlComments(filePath);
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Academatica.Api.Auth", Version = "v1" });
             });
         }
 
@@ -44,11 +119,13 @@ namespace Academatica.Api.Auth
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Academatica.Api.Auth v1"));
             }
 
+            app.UseStaticFiles();
+
             app.UseHttpsRedirection();
 
-            app.UseRouting();
+            app.UseIdentityServer();
 
-            app.UseAuthorization();
+            app.UseRouting();
 
             app.UseEndpoints(endpoints =>
             {
