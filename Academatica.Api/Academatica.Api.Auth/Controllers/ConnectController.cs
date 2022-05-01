@@ -153,6 +153,25 @@ namespace Academatica.Api.Auth.Controllers
                             newUser.ProfilePicUrl = response.Result;
                             await _academaticaDbContext.SaveChangesAsync();
                         }
+                    } else
+                    {
+                        var pathToImage = _env.WebRootPath
+                            + Path.DirectorySeparatorChar.ToString()
+                            + "resources"
+                            + Path.DirectorySeparatorChar.ToString()
+                            + "profile-picture.png";
+                        FileInfo fileInfo = new FileInfo(pathToImage);
+                        using var fileStream = new FileStream(pathToImage, FileMode.Open);
+                        byte[] bytes = new byte[fileInfo.Length];
+                        fileStream.Read(bytes, 0, (int)fileInfo.Length);
+
+                        S3PutResponse response = await _yandexStorageService.PutObjectAsync(bytes, $"Users/{newUser.Id}/pic.jpeg");
+
+                        if (response.IsSuccessStatusCode)
+                        {
+                            newUser.ProfilePicUrl = response.Result;
+                            await _academaticaDbContext.SaveChangesAsync();
+                        }
                     }
 
                     return Ok();

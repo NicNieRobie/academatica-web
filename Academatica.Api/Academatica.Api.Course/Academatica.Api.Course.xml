@@ -94,11 +94,10 @@
             <param name="id">Tier ID.</param>
             <returns>Topic list.</returns>
         </member>
-        <member name="M:Academatica.Api.Course.Controllers.CourseController.GetClassesForUser(System.String,System.String)">
+        <member name="M:Academatica.Api.Course.Controllers.CourseController.GetClassesForUser(System.String)">
             <summary>
             Endpoint used to get classes info for authenticated user in the given tier and given topic.
             </summary>
-            <param name="tierId">Tier ID.</param>
             <param name="topicId">Topic ID.</param>
             <returns>Topic list.</returns>
         </member>

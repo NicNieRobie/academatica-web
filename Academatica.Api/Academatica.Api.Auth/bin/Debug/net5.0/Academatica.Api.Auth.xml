@@ -80,5 +80,34 @@
             Profile picture.
             </summary>
         </member>
+        <member name="P:Academatica.Api.Auth.Services.RsaKeyService._file">
+            <summary>
+            This points to a JSON file in the format: 
+            {
+             "Modulus": "",
+             "Exponent": "",
+             "P": "",
+             "Q": "",
+             "DP": "",
+             "DQ": "",
+             "InverseQ": "",
+             "D": ""
+            }
+            </summary>
+        </member>
+        <member name="M:Academatica.Api.Auth.Services.RsaKeyService.GetKeyParameters">
+            <summary>
+            
+            Generate 
+            </summary>
+            <param name="file"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Academatica.Api.Auth.Services.RsaKeyService.RSAParametersWithPrivate">
+            <summary>
+            Util class to allow restoring RSA parameters from JSON as the normal
+            RSA parameters class won't restore private key info.
+            </summary>
+        </member>
     </members>
 </doc>

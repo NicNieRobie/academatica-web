@@ -39,7 +39,7 @@ namespace Academatica.Api.Users.Services
         public async Task UpdateUsersDayStreaks()
         {
             var statsEntry = _academaticaDbContext.UserStats.AsEnumerable();
-            var userClasses = _academaticaDbContext.UserClasses.AsEnumerable();
+            var userClasses = _academaticaDbContext.UserClasses.AsEnumerable().ToList();
 
             foreach (var entry in statsEntry)
             {
