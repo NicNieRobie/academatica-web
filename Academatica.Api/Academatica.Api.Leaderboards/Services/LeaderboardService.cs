@@ -89,6 +89,7 @@ namespace Academatica.Api.Leaderboards.Services
         public async Task Update(string userId, ulong weekExp)
         {
             string league = await GetUserLeague(userId);
+            Console.WriteLine("---> LEADERBOARD NEW ENTRY: " + userId + ", EXP: " + weekExp);
 
             switch (league)
             {

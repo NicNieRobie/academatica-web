@@ -5,7 +5,7 @@ fullnameOverride: academaticaapileaderboards
 replicaCount: 1
 image:
   repository: docker.io/nicnierobie/academatica-leaderboard-svc
-  tag: latest
+  tag: 2
   pullPolicy: IfNotPresent
 imagePullSecrets: []
   # Optionally specify an array of imagePullSecrets.
