@@ -1,6 +1,5 @@
 using Academatica.Api.Auth.AuthManagement;
 using Academatica.Api.Auth.Data;
-using Academatica.Api.Auth.Services;
 using Academatica.Api.Common.Configuration;
 using Academatica.Api.Common.Data;
 using Academatica.Api.Common.Models;
