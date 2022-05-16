@@ -1,4 +1,5 @@
-﻿using StackExchange.Redis;
+﻿using Academatica.Api.Common.Data;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,12 @@ namespace Academatica.Api.Leaderboards.Services
     public class LeaderboardService : ILeaderboardService
     {
         private readonly IDatabase _leaderboard;
+        private readonly AcadematicaDbContext _academaticaDbContext;
 
-        public LeaderboardService(IConnectionMultiplexer connectionMultiplexer)
+        public LeaderboardService(IConnectionMultiplexer connectionMultiplexer, AcadematicaDbContext academaticaDbContext)
         {
             _leaderboard = connectionMultiplexer.GetDatabase();
+            _academaticaDbContext = academaticaDbContext;
         }
 
         public async Task<string> GetUserLeague(string userId)
@@ -110,21 +113,42 @@ namespace Academatica.Api.Leaderboards.Services
             
             string league = await GetUserLeague(userId);
 
+            var userStats = _academaticaDbContext.UserStats.Where(x => x.UserId.ToString() == userId).FirstOrDefault();
+
             switch (league)
             {
                 case "gold":
                     await _leaderboard.SortedSetRemoveAsync("GOLD_LEAGUE", userId.ToString());
                     await UpdateBronzeLeague(userId, 0);
+
+                    if (userStats != null)
+                    {
+                        userStats.UserExp += 2000;
+                    }
+
                     break;
                 case "silver":
                     await _leaderboard.SortedSetRemoveAsync("SILVER_LEAGUE", userId.ToString());
                     await UpdateGoldLeague(userId, 0);
+
+                    if (userStats != null)
+                    {
+                        userStats.UserExp += 1000;
+                    }
+
                     break;
                 case "bronze":
                     await _leaderboard.SortedSetRemoveAsync("BRONZE_LEAGUE", userId.ToString());
                     await UpdateSilverLeague(userId, 0);
+
+                    if (userStats != null)
+                    {
+                        userStats.UserExp += 500;
+                    }
+
                     break;
             }
+            await _academaticaDbContext.SaveChangesAsync();
         }
 
         public async Task Demote(string userId)
@@ -175,21 +199,21 @@ namespace Academatica.Api.Leaderboards.Services
         {
             var count = await _leaderboard.SortedSetLengthAsync("GOLD_LEAGUE");
 
-            return count / 20 + count % 20 > 0 ? 1 : 0;
+            return count / 20 + (count % 20 > 0 ? 1 : 0);
         }
 
         public async Task<long> GetSilverLeagueCount()
         {
             var count = await _leaderboard.SortedSetLengthAsync("SILVER_LEAGUE");
 
-            return count / 20 + count % 20 > 0 ? 1 : 0;
+            return count / 20 + (count % 20 > 0 ? 1 : 0);
         }
 
         public async Task<long> GetBronzeLeagueCount()
         {
             var count = await _leaderboard.SortedSetLengthAsync("BRONZE_LEAGUE");
 
-            return count / 20 + count % 20 > 0 ? 1 : 0;
+            return count / 20 + (count % 20 > 0 ? 1 : 0);
         }
     }
 }

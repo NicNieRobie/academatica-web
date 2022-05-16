@@ -13,10 +13,10 @@ metadata:
 spec:
   tls:
     - hosts:
-      - news-platform.ru
+      - acme.com
       secretName: letsencrypt
   rules:
-    - host: news-platform.ru
+    - host: acme.com
       http:
         paths:
           - path: /

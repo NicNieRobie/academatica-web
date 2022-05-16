@@ -68,7 +68,19 @@ namespace Academatica.Api.Users
                     options.ApiName = settings.ApiResourceName;
                 });
 
-            services.AddIdentity<User, AcadematicaRole>().AddEntityFrameworkStores<AcadematicaDbContext>().AddDefaultTokenProviders();
+            services.AddIdentity<User, AcadematicaRole>(options =>
+            {
+                options.SignIn.RequireConfirmedAccount = true;
+                options.SignIn.RequireConfirmedEmail = true;
+                options.Password = new PasswordOptions
+                {
+                    RequireDigit = true,
+                    RequiredLength = 6,
+                    RequireLowercase = true,
+                    RequireUppercase = true,
+                    RequireNonAlphanumeric = false
+                };
+            }).AddEntityFrameworkStores<AcadematicaDbContext>().AddDefaultTokenProviders();
 
             string redisConnectionString = Configuration.GetConnectionString("Redis");
             System.Console.WriteLine("----------------> REDIS: " + redisConnectionString);

@@ -374,7 +374,7 @@ namespace Academatica.Api.Course.Controllers
                 activityMatrix.Add(day.AddDays(-1 * diff).Date, completedClasses);
             }
 
-            return Ok(new GetUserActivityResponseDbo()
+            return Ok(new GetUserActivityResponseDto()
             {
                 ActivityMatrix = activityMatrix
             });

@@ -74,15 +74,6 @@ namespace Academatica.Api.Leaderboards
             sw.AutoFlush = true;
             var redis = ConnectionMultiplexer.Connect(configurationOptions, sw);
 
-            services.AddHangfire(x =>
-            {
-                x.UsePostgreSqlStorage(connectionString, new PostgreSqlStorageOptions()
-                {
-                    SchemaName = "LeaderboardSvcHangfire"
-                });
-            });
-            services.AddHangfireServer(x => x.WorkerCount = 2);
-
             services.AddSingleton<IConnectionMultiplexer>(redis);
             services.AddTransient<ILeaderboardService, LeaderboardService>();
             services.AddTransient<ILeaderboardManager, LeaderboardManager>();
@@ -119,8 +110,6 @@ namespace Academatica.Api.Leaderboards
             {
                 endpoints.MapControllers();
             });
-
-            RecurringJob.AddOrUpdate<ILeaderboardManager>("leaderboardupdatejob", x => x.UpdateLeaderboards(), @"0 0 * * 0");
         }
     }
 }

@@ -40,7 +40,7 @@ namespace Academatica.Api.Leaderboards.Controllers
             string league = await _leaderboardService.GetUserLeague(id.ToString());
             long position = await _leaderboardService.GetUserPosition(id.ToString());
 
-            GetUserLeaderboardStatsReponseDto leaderboardStats = new GetUserLeaderboardStatsReponseDto()
+            GetUserLeaderboardStatsResponseDto leaderboardStats = new GetUserLeaderboardStatsResponseDto()
             {
                 League = league,
                 Rank = position + 1

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Academatica.Api.Leaderboards.DTOs
 {
-    public class GetUserLeaderboardStatsReponseDto
+    public class GetUserLeaderboardStatsResponseDto
     {
         public string League { get; set; }
         public long Rank { get; set; }

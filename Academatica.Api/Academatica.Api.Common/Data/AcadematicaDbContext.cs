@@ -15,7 +15,6 @@ namespace Academatica.Api.Common.Data
         public DbSet<Problem> Problems { get; set; }
 
         public DbSet<Achievement> Achievements { get; set; }
-        public DbSet<LeaderboardEntry> Leaderboard { get; set; }
         public DbSet<StatsEntry> UserStats { get; set; }
 
         public DbSet<UserAchievement> UserAchievements { get; set; }
@@ -27,9 +26,6 @@ namespace Academatica.Api.Common.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder
-                .Entity<LeaderboardEntry>().HasKey(u => u.UserId);
 
             modelBuilder
                 .Entity<UserAchievement>().HasKey(u => new { u.UserId, u.AchievementId });

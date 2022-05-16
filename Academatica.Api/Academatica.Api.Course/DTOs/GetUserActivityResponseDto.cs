@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace Academatica.Api.Course.DTOs
 {
-    public class GetCompletedTopicsCountDto
+    public class GetUserActivityResponseDto
     {
-        public int Amount { get; set; }
+        public Dictionary<DateTime, int> ActivityMatrix { get; set; }
     }
 }
