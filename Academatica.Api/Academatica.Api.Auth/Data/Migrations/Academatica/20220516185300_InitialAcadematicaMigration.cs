@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace Academatica.Api.Auth.Data.Migrations.AcadematicaDb
+namespace Academatica.Api.Auth.Data.Migrations.Academatica
 {
-    public partial class InitialAcadematicaDbMigration : Migration
+    public partial class InitialAcadematicaMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -67,37 +67,6 @@ namespace Academatica.Api.Auth.Data.Migrations.AcadematicaDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "Classes",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    ExpReward = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
-                    ImageUrl = table.Column<string>(type: "text", nullable: true),
-                    TheoryUrl = table.Column<string>(type: "text", nullable: false),
-                    ProblemNum = table.Column<long>(type: "bigint", nullable: false),
-                    IsAlgebraClass = table.Column<bool>(type: "boolean", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Classes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Leaderboard",
-                columns: table => new
-                {
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ExpThisWeek = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
-                    League = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Leaderboard", x => x.UserId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Tiers",
                 columns: table => new
                 {
@@ -108,21 +77,6 @@ namespace Academatica.Api.Auth.Data.Migrations.AcadematicaDb
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tiers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Topics",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "text", nullable: false),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false),
-                    ImageUrl = table.Column<string>(type: "text", nullable: true),
-                    IsAlgebraTopic = table.Column<bool>(type: "boolean", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Topics", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -279,26 +233,23 @@ namespace Academatica.Api.Auth.Data.Migrations.AcadematicaDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserClasses",
+                name: "Topics",
                 columns: table => new
                 {
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ClassId = table.Column<string>(type: "text", nullable: false),
-                    CompletedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                    Id = table.Column<string>(type: "text", nullable: false),
+                    TierId = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    ImageUrl = table.Column<string>(type: "text", nullable: true),
+                    IsAlgebraTopic = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserClasses", x => new { x.UserId, x.ClassId });
+                    table.PrimaryKey("PK_Topics", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserClasses_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserClasses_Classes_ClassId",
-                        column: x => x.ClassId,
-                        principalTable: "Classes",
+                        name: "FK_Topics_Tiers_TierId",
+                        column: x => x.TierId,
+                        principalTable: "Tiers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -329,32 +280,31 @@ namespace Academatica.Api.Auth.Data.Migrations.AcadematicaDb
                 });
 
             migrationBuilder.CreateTable(
-                name: "Problems",
+                name: "Classes",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ClassId = table.Column<string>(type: "text", nullable: false),
+                    Id = table.Column<string>(type: "text", nullable: false),
                     TopicId = table.Column<string>(type: "text", nullable: false),
+                    TierId = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
-                    Task = table.Column<string>(type: "text", nullable: false),
-                    ProblemType = table.Column<string>(type: "text", nullable: false),
-                    Options = table.Column<List<string>>(type: "text[]", nullable: false),
+                    ExpReward = table.Column<decimal>(type: "numeric(20,0)", nullable: false),
                     ImageUrl = table.Column<string>(type: "text", nullable: true),
-                    CorrectAnswers = table.Column<List<string>>(type: "text[]", nullable: false),
-                    Expression = table.Column<string>(type: "text", nullable: true),
-                    Difficulty = table.Column<int>(type: "integer", nullable: false)
+                    TheoryUrl = table.Column<string>(type: "text", nullable: false),
+                    ProblemNum = table.Column<long>(type: "bigint", nullable: false),
+                    IsAlgebraClass = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Problems", x => x.Id);
+                    table.PrimaryKey("PK_Classes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Problems_Classes_ClassId",
-                        column: x => x.ClassId,
-                        principalTable: "Classes",
+                        name: "FK_Classes_Tiers_TierId",
+                        column: x => x.TierId,
+                        principalTable: "Tiers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Problems_Topics_TopicId",
+                        name: "FK_Classes_Topics_TopicId",
                         column: x => x.TopicId,
                         principalTable: "Topics",
                         principalColumn: "Id",
@@ -411,6 +361,64 @@ namespace Academatica.Api.Auth.Data.Migrations.AcadematicaDb
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Problems",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ClassId = table.Column<string>(type: "text", nullable: false),
+                    TopicId = table.Column<string>(type: "text", nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: false),
+                    Task = table.Column<string>(type: "text", nullable: false),
+                    ProblemType = table.Column<string>(type: "text", nullable: false),
+                    Options = table.Column<List<string>>(type: "text[]", nullable: false),
+                    ImageUrl = table.Column<string>(type: "text", nullable: true),
+                    CorrectAnswers = table.Column<List<string>>(type: "text[]", nullable: false),
+                    Expression = table.Column<string>(type: "text", nullable: true),
+                    Difficulty = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Problems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Problems_Classes_ClassId",
+                        column: x => x.ClassId,
+                        principalTable: "Classes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Problems_Topics_TopicId",
+                        column: x => x.TopicId,
+                        principalTable: "Topics",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserClasses",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ClassId = table.Column<string>(type: "text", nullable: false),
+                    CompletedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserClasses", x => new { x.UserId, x.ClassId });
+                    table.ForeignKey(
+                        name: "FK_UserClasses_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserClasses_Classes_ClassId",
+                        column: x => x.ClassId,
+                        principalTable: "Classes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -449,6 +457,16 @@ namespace Academatica.Api.Auth.Data.Migrations.AcadematicaDb
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Classes_TierId",
+                table: "Classes",
+                column: "TierId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Classes_TopicId",
+                table: "Classes",
+                column: "TopicId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Problems_ClassId",
                 table: "Problems",
                 column: "ClassId");
@@ -457,6 +475,11 @@ namespace Academatica.Api.Auth.Data.Migrations.AcadematicaDb
                 name: "IX_Problems_TopicId",
                 table: "Problems",
                 column: "TopicId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Topics_TierId",
+                table: "Topics",
+                column: "TierId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserAchievements_AchievementId",
@@ -502,9 +525,6 @@ namespace Academatica.Api.Auth.Data.Migrations.AcadematicaDb
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Leaderboard");
-
-            migrationBuilder.DropTable(
                 name: "Problems");
 
             migrationBuilder.DropTable(
@@ -535,13 +555,13 @@ namespace Academatica.Api.Auth.Data.Migrations.AcadematicaDb
                 name: "Classes");
 
             migrationBuilder.DropTable(
-                name: "Tiers");
-
-            migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Topics");
+
+            migrationBuilder.DropTable(
+                name: "Tiers");
         }
     }
 }

@@ -4,17 +4,15 @@ using System.Collections.Generic;
 using Academatica.Api.Common.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace Academatica.Api.Auth.Data.Migrations.AcadematicaDb
+namespace Academatica.Api.Auth.Data.Migrations.Academatica
 {
     [DbContext(typeof(AcadematicaDbContext))]
-    [Migration("20220211184935_AdditionalCourseIds")]
-    partial class AdditionalCourseIds
+    partial class AcadematicaDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,24 +114,6 @@ namespace Academatica.Api.Auth.Data.Migrations.AcadematicaDb
                     b.HasIndex("TopicId");
 
                     b.ToTable("Classes");
-                });
-
-            modelBuilder.Entity("Academatica.Api.Common.Models.LeaderboardEntry", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<decimal>("ExpThisWeek")
-                        .HasColumnType("numeric(20,0)");
-
-                    b.Property<string>("League")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("Leaderboard");
                 });
 
             modelBuilder.Entity("Academatica.Api.Common.Models.Problem", b =>

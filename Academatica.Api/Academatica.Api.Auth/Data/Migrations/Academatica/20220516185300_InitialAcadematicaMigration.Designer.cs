@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace Academatica.Api.Auth.Data.Migrations.AcadematicaDb
+namespace Academatica.Api.Auth.Data.Migrations.Academatica
 {
     [DbContext(typeof(AcadematicaDbContext))]
-    [Migration("20220210204923_InitialAcadematicaDbMigration")]
-    partial class InitialAcadematicaDbMigration
+    [Migration("20220516185300_InitialAcadematicaMigration")]
+    partial class InitialAcadematicaMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -101,27 +101,21 @@ namespace Academatica.Api.Auth.Data.Migrations.AcadematicaDb
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("Classes");
-                });
-
-            modelBuilder.Entity("Academatica.Api.Common.Models.LeaderboardEntry", b =>
-                {
-                    b.Property<Guid>("UserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<decimal>("ExpThisWeek")
-                        .HasColumnType("numeric(20,0)");
-
-                    b.Property<string>("League")
+                    b.Property<string>("TierId")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("UserId");
+                    b.Property<string>("TopicId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
-                    b.ToTable("Leaderboard");
+                    b.HasKey("Id");
+
+                    b.HasIndex("TierId");
+
+                    b.HasIndex("TopicId");
+
+                    b.ToTable("Classes");
                 });
 
             modelBuilder.Entity("Academatica.Api.Common.Models.Problem", b =>
@@ -235,7 +229,13 @@ namespace Academatica.Api.Auth.Data.Migrations.AcadematicaDb
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("TierId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TierId");
 
                     b.ToTable("Topics");
                 });
@@ -515,6 +515,25 @@ namespace Academatica.Api.Auth.Data.Migrations.AcadematicaDb
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Academatica.Api.Common.Models.Class", b =>
+                {
+                    b.HasOne("Academatica.Api.Common.Models.Tier", "Tier")
+                        .WithMany()
+                        .HasForeignKey("TierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Academatica.Api.Common.Models.Topic", "Topic")
+                        .WithMany()
+                        .HasForeignKey("TopicId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tier");
+
+                    b.Navigation("Topic");
+                });
+
             modelBuilder.Entity("Academatica.Api.Common.Models.Problem", b =>
                 {
                     b.HasOne("Academatica.Api.Common.Models.Class", "Class")
@@ -543,6 +562,17 @@ namespace Academatica.Api.Auth.Data.Migrations.AcadematicaDb
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Academatica.Api.Common.Models.Topic", b =>
+                {
+                    b.HasOne("Academatica.Api.Common.Models.Tier", "Tier")
+                        .WithMany()
+                        .HasForeignKey("TierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Tier");
                 });
 
             modelBuilder.Entity("Academatica.Api.Common.Models.UserAchievement", b =>
