@@ -1,11 +1,11 @@
-# Default values for academaticaapiusers.
+# Default values for academaticaapicourse.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-fullnameOverride: academaticaapiusers
+fullnameOverride: academaticaapicourse
 replicaCount: 1
 image:
-  repository: academaticaapiusers
-  tag: stable
+  repository: docker.io/nicnierobie/academatica-course-svc
+  tag: 6
   pullPolicy: IfNotPresent
 imagePullSecrets: []
   # Optionally specify an array of imagePullSecrets.
