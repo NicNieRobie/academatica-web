@@ -653,12 +653,10 @@ namespace Academatica.Api.Course.Controllers
 
                 await _academaticaDbContext.SaveChangesAsync();
 
-                var achievements = _practiceAchievementsDataClient.GetPracticeAchievements(user.Id, null, finishClassDto.MistakeCount);
-
                 return Ok(new FinishClassResponseDto()
                 {
                     Exp = 50,
-                    Achievements = achievements
+                    Achievements = new List<AchievementDto>()
                 });
             }
 
