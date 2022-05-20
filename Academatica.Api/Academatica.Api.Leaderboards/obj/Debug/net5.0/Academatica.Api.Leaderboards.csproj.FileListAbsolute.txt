@@ -96,4 +96,3 @@ C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.A
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Leaderboards\bin\Debug\net5.0\Academatica.Api.Leaderboards.xml
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Leaderboards\bin\Debug\net5.0\appsettings.Production.json
 C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Leaderboards\bin\Debug\net5.0\System.IO.Pipelines.dll
-C:\Users\Vlad\Desktop\Academatica\Academatica repo\Academatica.Api\Academatica.Api.Leaderboards\obj\Debug\net5.0\Academatica.Api.Leaderboards.csproj.CopyComplete

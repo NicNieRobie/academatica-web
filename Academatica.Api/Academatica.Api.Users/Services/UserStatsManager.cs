@@ -38,12 +38,12 @@ namespace Academatica.Api.Users.Services
 
         public async Task UpdateUsersDayStreaks()
         {
+            var userClasses = _academaticaDbContext.UserClasses.AsEnumerable().ToList();
             var statsEntry = _academaticaDbContext.UserStats.AsEnumerable();
-            var userClasses = _academaticaDbContext.UserClasses.AsEnumerable();
 
             foreach (var entry in statsEntry)
             {
-                var didFinishClassesYesterday = _academaticaDbContext.UserClasses
+                var didFinishClassesYesterday = userClasses
                     .Where(x => x.UserId == entry.UserId && x.CompletedAt.Date == DateTime.Today.AddDays(-1).Date)
                     .Count() > 0;
 

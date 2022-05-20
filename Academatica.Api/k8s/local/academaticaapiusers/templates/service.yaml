@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "academaticaapiusers.fullname" . }}
+  labels:
+    app: {{ template "academaticaapiusers.name" . }}
+    chart: {{ template "academaticaapiusers.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: ClusterIP
+  ports:
+    - name: {{ template "academaticaapiusers.fullname" . }}-tcp
+      port: {{ .Values.servicetcp.port }}
+      protocol: TCP
+      targetPort: {{ .Values.servicetcp.targetPort }}
+    - name: {{ template "academaticaapiusers.fullname" . }}-grpc
+      port: {{ .Values.servicegrpc.port }}
+      protocol: TCP
+      targetPort: {{ .Values.servicegrpc.targetPort }}
+  selector:
+    app: {{ template "academaticaapiusers.name" . }}
+    release: {{ .Release.Name }}

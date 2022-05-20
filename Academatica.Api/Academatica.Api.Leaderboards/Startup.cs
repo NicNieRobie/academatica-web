@@ -4,6 +4,8 @@ using Academatica.Api.Common.Models;
 using Academatica.Api.Leaderboards.EventProcessing;
 using Academatica.Api.Leaderboards.Services;
 using Academatica.Api.Leaderboards.Services.RabbitMQ;
+using Hangfire;
+using Hangfire.PostgreSql;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;

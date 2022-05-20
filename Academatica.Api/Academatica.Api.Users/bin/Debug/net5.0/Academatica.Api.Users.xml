@@ -24,6 +24,20 @@
             <param name="id">User ID.</param>
             <param name="changeUsernameRequestDTO">Body - new username.</param>
         </member>
+        <member name="M:Academatica.Api.Users.Controllers.UsersController.SetUserFirstName(System.Guid,Academatica.Api.Users.DTOs.UserChangeFirstNameRequestDto)">
+            <summary>
+            Endpoint used to change the user's first name.
+            </summary>
+            <param name="id">User ID.</param>
+            <param name="changeFirstNameRequestDTO">Body - new first name.</param>
+        </member>
+        <member name="M:Academatica.Api.Users.Controllers.UsersController.SetUserLastName(System.Guid,Academatica.Api.Users.DTOs.UserChangeLastNameRequestDto)">
+            <summary>
+            Endpoint used to change the user's first name.
+            </summary>
+            <param name="id">User ID.</param>
+            <param name="changeLastNameRequestDTO">Body - new last name.</param>
+        </member>
         <member name="M:Academatica.Api.Users.Controllers.UsersController.SetUserEmail(System.Guid,Academatica.Api.Users.DTOs.UserChangeEmailRequestDto)">
             <summary>
             Endpoint used to change user email address.

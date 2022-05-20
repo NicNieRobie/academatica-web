@@ -374,7 +374,7 @@ namespace Academatica.Api.Course.Controllers
                 activityMatrix.Add(day.AddDays(-1 * diff).Date, completedClasses);
             }
 
-            return Ok(new GetUserActivityResponseDbo()
+            return Ok(new GetUserActivityResponseDto()
             {
                 ActivityMatrix = activityMatrix
             });
@@ -640,8 +640,8 @@ namespace Academatica.Api.Course.Controllers
 
                 if (stats != null)
                 {
-                    stats.UserExp += stats.UserExp + finishedClass.ExpReward <= 15000 ? finishedClass.ExpReward : 0;
-                    stats.UserExpThisWeek += finishedClass.ExpReward;
+                    stats.UserExp += stats.UserExp + 50 <= 15000 ? (ulong)50 : 0;
+                    stats.UserExpThisWeek += 50;
                     ExpChangePublishDto expChangePublishDto = new ExpChangePublishDto()
                     {
                         UserId = user.Id,
@@ -653,12 +653,10 @@ namespace Academatica.Api.Course.Controllers
 
                 await _academaticaDbContext.SaveChangesAsync();
 
-                var achievements = _practiceAchievementsDataClient.GetPracticeAchievements(user.Id, null, finishClassDto.MistakeCount);
-
                 return Ok(new FinishClassResponseDto()
                 {
-                    Exp = (int)finishedClass.ExpReward,
-                    Achievements = achievements
+                    Exp = 50,
+                    Achievements = new List<AchievementDto>()
                 });
             }
 
@@ -696,7 +694,7 @@ namespace Academatica.Api.Course.Controllers
             }
 
             var topicClassesIds = _academaticaDbContext.Classes.Where(x => x.TopicId == finishedClass.TopicId).Select(x => x.Id).ToList();
-            var completedTopicClassesIds = _academaticaDbContext.UserClasses.Where(x => topicClassesIds.Contains(x.ClassId)).Select(x => x.ClassId).ToList();
+            var completedTopicClassesIds = _academaticaDbContext.UserClasses.Where(x => topicClassesIds.Contains(x.ClassId) && x.UserId.ToString() == userId).Select(x => x.ClassId).ToList();
             completedTopicClassesIds.Add(classId);
 
             if (Enumerable.SequenceEqual(topicClassesIds, completedTopicClassesIds))

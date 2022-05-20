@@ -32,7 +32,7 @@ namespace Academatica.Api.Course.Services.RabbitMQ
                 _channel = _connection.CreateModel();
 
                 _channel.ExchangeDeclare(exchange: "trigger", type: ExchangeType.Fanout);
-
+                Console.WriteLine("--> Connected to the Message Bus.");
             }
             catch (Exception ex)
             {
