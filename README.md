@@ -1,7 +1,7 @@
 # Academatica Web Services
 Web services for Academatica - a school mathematics learning application for iOS, intended for use by school students of all ages.
 
-## Main features (in progress)
+## Main features
 - Interactive math lessons, including theory and problems for solving
 - Custom practice mode with topics chosen by user
 - Progress tracking and achievement system
